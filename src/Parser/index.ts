@@ -112,13 +112,13 @@ export class Parser {
     };
     nodeTree.nodes.forEach((n) => {
       if (n.data?.type === TypeDefinition.ObjectTypeDefinition) {
-        if (operations.Query && operations.Query === n.name) {
+        if (operations.Query ? operations.Query === n.name : n.name === 'Query') {
           n.type.operations = [OperationType.query];
         }
-        if (operations.Mutation && operations.Mutation === n.name) {
+        if (operations.Mutation ? operations.Mutation === n.name : n.name === 'Mutation') {
           n.type.operations = [OperationType.mutation];
         }
-        if (operations.Subscription && operations.Subscription === n.name) {
+        if (operations.Subscription ? operations.Subscription === n.name : n.name === 'Subscription') {
           n.type.operations = [OperationType.subscription];
         }
       }
