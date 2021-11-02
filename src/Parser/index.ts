@@ -67,9 +67,9 @@ export class Parser {
     try {
       parsedSchema = parse(compiledSchema);
     } catch (error) {
-      /* tslint:disable */
-      console.error(error);
-      /* tslint:enable */
+      if (compiledSchema.trim()) {
+        console.error(error);
+      }
     }
     if (!parsedSchema) {
       throw new Error('Cannot parse the schema');
