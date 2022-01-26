@@ -7,7 +7,7 @@ import { TemplateUtils } from './TemplateUtils';
 export class FieldTemplate {
   static resolve(f: ParserField, prefix = 0): string {
     let argsString = '';
-    if (f.args && f.args.length) {
+    if (f.args.length) {
       argsString = `(\n${f.args
         .map((a) => TemplateUtils.resolverForConnection(a, prefix + 1))
         .map((a) => `${a}`)

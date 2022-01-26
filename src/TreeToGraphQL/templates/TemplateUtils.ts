@@ -29,43 +29,18 @@ const dedent = new RegExp('\n([\t ]*)', 'gm');
  * @class TemplateUtils
  */
 export class TemplateUtils {
-  /**
-   * Check if type is ListType from graphql and array in zeus
-   *
-   * @static
-   * @param f field to check
-   * @param type type of field to resolve
-   * @returns {string} the real type
-   * @memberof TemplateUtils
-   */
-  static isArray = (f: ParserField, type: string): string =>
-    f.type.options && f.type.options.find((o) => o === Options.array) ? `[${type}]` : type;
-  /**
-   * Check if type is NonNullType from graphql and required in zeus
-   *
-   * @static
-   * @param f field to check
-   * @param type type of field to resolve
-   * @returns {string} the real type
-   * @memberof TemplateUtils
-   */
-  static isRequired = (f: ParserField, type: string): string =>
-    f.type.options && f.type.options.find((o) => o === Options.required) ? `${type}!` : type;
-  /**
-   * Check if type is NonNullType and ListType from graphql and required and arrayRequired in zeus
-   *
-   * @static
-   * @param f field to check
-   * @param type type of field to resolve
-   * @returns {string} the real type
-   * @memberof TemplateUtils
-   */
-  static isArrayRequired = (f: ParserField, type: string): string =>
-    f.type.options &&
-    f.type.options.find((o) => o === Options.arrayRequired) &&
-    f.type.options.find((o) => o === Options.array)
-      ? `${type}!`
-      : type;
+  static resolveFieldType = (f: ParserField['type']['fieldType'], fn: (x: string) => string = (x) => x): string => {
+    if (f.type === Options.name && f.name) {
+      return fn(f.name);
+    }
+    if (f.type === Options.array && f.nest) {
+      return TemplateUtils.resolveFieldType(f.nest, (x) => `[${fn(x)}]`);
+    }
+    if (f.type === Options.required && f.nest) {
+      return TemplateUtils.resolveFieldType(f.nest, (x) => `${fn(x)}!`);
+    }
+    throw new Error('Invalid field type:' + JSON.stringify(f));
+  };
   /**
    *
    *
@@ -73,8 +48,7 @@ export class TemplateUtils {
    * @static
    * @memberof TemplateUtils
    */
-  static resolveType = (f: ParserField): string =>
-    TemplateUtils.isArrayRequired(f, TemplateUtils.isArray(f, TemplateUtils.isRequired(f, f.type.name)));
+  static resolveType = (f: ParserField): string => TemplateUtils.resolveFieldType(f.type.fieldType);
   /**
    * Return description in GraphQL format
    *

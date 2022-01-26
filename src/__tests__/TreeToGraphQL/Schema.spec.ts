@@ -5,6 +5,7 @@ import {
   TypeDefinition,
   TypeDefinitionDisplayStrings,
   TypeSystemDefinition,
+  Options,
 } from '../../Models';
 import { TreeToGraphQL } from '../../TreeToGraphQL';
 import { trimGraphQL } from '../TestUtils';
@@ -16,7 +17,10 @@ describe('Schema base operations in TreeToGraphQL', () => {
         {
           name: 'Query',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
             operations: [OperationType.query],
           },
           data: {
@@ -28,12 +32,16 @@ describe('Schema base operations in TreeToGraphQL', () => {
             {
               name: 'status',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [],
             },
           ],
@@ -50,7 +58,10 @@ describe('Schema base operations in TreeToGraphQL', () => {
         {
           name: 'Query',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
             operations: [OperationType.query],
           },
           data: {

@@ -5,8 +5,9 @@ import {
   TypeDefinition,
   TypeDefinitionDisplayStrings,
   TypeSystemDefinition,
+  Options,
 } from '../../Models';
-import { Parser, ParserUtils } from '../../Parser';
+import { Parser } from '../../Parser';
 
 describe('Comment tests on parser', () => {
   it('Creates comment node from graphql', () => {
@@ -22,12 +23,14 @@ describe('Comment tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          description: '',
           interfaces: [],
           directives: [],
           args: [
@@ -35,9 +38,13 @@ describe('Comment tests on parser', () => {
               name: 'name',
               args: [],
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               directives: [],
+              interfaces: [],
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
@@ -47,16 +54,22 @@ describe('Comment tests on parser', () => {
         {
           name: Helpers.Comment,
           type: {
-            name: Helpers.Comment,
+            fieldType: {
+              name: Helpers.Comment,
+              type: Options.name,
+            },
           },
           data: {
             type: Helpers.Comment,
           },
           description: 'hello world',
+          directives: [],
+          interfaces: [],
+          args: [],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
   it('Doesnt create a comment node from markdown in description', () => {
     const schema = `
@@ -74,7 +87,10 @@ type Person{
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -87,9 +103,13 @@ type Person{
               name: 'name',
               args: [],
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               directives: [],
+              interfaces: [],
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
@@ -99,15 +119,21 @@ type Person{
         {
           name: Helpers.Comment,
           type: {
-            name: Helpers.Comment,
+            fieldType: {
+              name: Helpers.Comment,
+              type: Options.name,
+            },
           },
           data: {
             type: Helpers.Comment,
           },
           description: 'hello world',
+          directives: [],
+          interfaces: [],
+          args: [],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
 });

@@ -5,6 +5,7 @@ import {
   TypeDefinitionDisplayStrings,
   TypeExtension,
   TypeSystemDefinition,
+  Options,
 } from '../../Models';
 import { TreeToGraphQL } from '../../TreeToGraphQL';
 
@@ -15,7 +16,10 @@ describe('Extend tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -28,9 +32,13 @@ describe('Extend tests on TreeToGraphQL', () => {
               name: 'name',
               args: [],
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               directives: [],
+              interfaces: [],
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
@@ -40,7 +48,10 @@ describe('Extend tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: 'type',
+            fieldType: {
+              name: 'type',
+              type: Options.name,
+            },
           },
           data: {
             type: TypeExtension.ObjectTypeExtension,
@@ -52,8 +63,12 @@ describe('Extend tests on TreeToGraphQL', () => {
             {
               name: 'age',
               args: [],
+              interfaces: [],
               type: {
-                name: ScalarTypes.Int,
+                fieldType: {
+                  name: ScalarTypes.Int,
+                  type: Options.name,
+                },
               },
               directives: [],
               data: {

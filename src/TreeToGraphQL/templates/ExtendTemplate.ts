@@ -1,4 +1,4 @@
-import { ParserField } from '@/Models';
+import { Options, ParserField } from '@/Models';
 import { TemplateUtils } from './TemplateUtils';
 
 /**
@@ -6,24 +6,22 @@ import { TemplateUtils } from './TemplateUtils';
  */
 export class ExtendTemplate {
   static resolve(f: ParserField): string {
-    if (f.args) {
-      const extendedTypes = f.args
-        .filter(
-          (e) =>
-            (e.args && e.args.length) || (e.directives && e.directives.length) || (e.interfaces && e.interfaces.length),
-        )
-        .map((e) =>
-          TemplateUtils.resolverForConnection({
-            ...e,
-            type: {
-              ...e.type,
+    const extendedTypes = f.args
+      .filter((e) => e.args.length || e.directives.length || e.interfaces.length)
+      .map((e) =>
+        TemplateUtils.resolverForConnection({
+          ...e,
+          type: {
+            ...e.type,
+            fieldType: {
               name: e.data.type!,
+              type: Options.name,
             },
-          }),
-        )
-        .join('\n');
-      return extendedTypes;
-    }
+          },
+        }),
+      )
+      .join('\n');
+    return extendedTypes;
     return '';
   }
 }

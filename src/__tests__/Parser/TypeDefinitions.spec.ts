@@ -1,5 +1,5 @@
-import { ParserTree, TypeDefinition, TypeDefinitionDisplayStrings } from '../../Models';
-import { Parser, ParserUtils } from '../../Parser';
+import { ParserTree, TypeDefinition, TypeDefinitionDisplayStrings, Options } from '../../Models';
+import { Parser } from '../../Parser';
 
 describe('TypeDefintion declarations tests on parser', () => {
   test('ObjectTypeDefinition - type keyword', () => {
@@ -10,7 +10,10 @@ describe('TypeDefintion declarations tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -21,7 +24,7 @@ describe('TypeDefintion declarations tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
   test('InterfaceTypeDefinition - interface keyword', () => {
     const schema = 'interface Person';
@@ -31,17 +34,21 @@ describe('TypeDefintion declarations tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.interface,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.interface,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
           directives: [],
           args: [],
+          interfaces: [],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
   test('InputObjectTypeDefinition - input keyword', () => {
     const schema = 'input Person';
@@ -51,17 +58,21 @@ describe('TypeDefintion declarations tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
           args: [],
+          interfaces: [],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
   test('EnumTypeDefinition - enum keyword', () => {
     const schema = 'enum Person';
@@ -71,17 +82,21 @@ describe('TypeDefintion declarations tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.enum,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.enum,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
           directives: [],
           args: [],
+          interfaces: [],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
   test('UnionTypeDefinition - union keyword', () => {
     const schema = 'union Person';
@@ -91,17 +106,21 @@ describe('TypeDefintion declarations tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.union,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.union,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.UnionTypeDefinition,
           },
           directives: [],
           args: [],
+          interfaces: [],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
   test('ScalarTypeDefinition - scalar keyword', () => {
     const schema = 'scalar Person';
@@ -111,15 +130,20 @@ describe('TypeDefintion declarations tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.scalar,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.scalar,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
           },
           directives: [],
+          interfaces: [],
+          args: [],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
 });

@@ -6,6 +6,7 @@ import {
   TypeDefinitionDisplayStrings,
   Value,
   ValueDefinition,
+  Options,
 } from '../../Models';
 import { TreeToGraphQL } from '../../TreeToGraphQL';
 
@@ -15,8 +16,12 @@ describe('Input Values tests on TreeToGraphQL', () => {
       nodes: [
         {
           name: 'Person',
+          interfaces: [],
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
@@ -24,9 +29,13 @@ describe('Input Values tests on TreeToGraphQL', () => {
           directives: [],
           args: [
             {
+              interfaces: [],
               name: 'id',
               type: {
-                name: ScalarTypes.ID,
+                fieldType: {
+                  name: ScalarTypes.ID,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
@@ -35,9 +44,13 @@ describe('Input Values tests on TreeToGraphQL', () => {
               args: [],
             },
             {
+              interfaces: [],
               name: 'name',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
@@ -46,9 +59,13 @@ describe('Input Values tests on TreeToGraphQL', () => {
               args: [],
             },
             {
+              interfaces: [],
               name: 'age',
               type: {
-                name: ScalarTypes.Int,
+                fieldType: {
+                  name: ScalarTypes.Int,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
@@ -58,8 +75,12 @@ describe('Input Values tests on TreeToGraphQL', () => {
             },
             {
               name: 'weight',
+              interfaces: [],
               type: {
-                name: ScalarTypes.Float,
+                fieldType: {
+                  name: ScalarTypes.Float,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
@@ -69,8 +90,12 @@ describe('Input Values tests on TreeToGraphQL', () => {
             },
             {
               name: 'verified',
+              interfaces: [],
               type: {
-                name: ScalarTypes.Boolean,
+                fieldType: {
+                  name: ScalarTypes.Boolean,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
@@ -94,8 +119,12 @@ describe('Input Values tests on TreeToGraphQL', () => {
       nodes: [
         {
           name: 'Car',
+          interfaces: [],
           type: {
-            name: TypeDefinitionDisplayStrings.enum,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.enum,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.EnumTypeDefinition,
@@ -106,17 +135,25 @@ describe('Input Values tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
+          interfaces: [],
           directives: [],
           args: [
             {
               name: 'car',
+              interfaces: [],
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
@@ -138,17 +175,25 @@ describe('Input Values tests on TreeToGraphQL', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
+          interfaces: [],
           directives: [],
           args: [
             {
               name: 'year',
+              interfaces: [],
               type: {
-                name: ScalarTypes.Int,
+                fieldType: {
+                  name: ScalarTypes.Int,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
@@ -161,17 +206,25 @@ describe('Input Values tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
+          interfaces: [],
           directives: [],
           args: [
             {
+              interfaces: [],
               name: 'car',
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
@@ -192,8 +245,13 @@ describe('Input Values tests on TreeToGraphQL', () => {
       nodes: [
         {
           name: 'Car',
+          args: [],
+          interfaces: [],
           type: {
-            name: TypeDefinitionDisplayStrings.scalar,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.scalar,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
@@ -203,17 +261,25 @@ describe('Input Values tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'car',
+              interfaces: [],
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
@@ -235,8 +301,12 @@ describe('Input Values tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
+          interfaces: [],
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
@@ -244,8 +314,12 @@ describe('Input Values tests on TreeToGraphQL', () => {
           args: [
             {
               name: 'id',
+              interfaces: [],
               type: {
-                name: ScalarTypes.ID,
+                fieldType: {
+                  name: ScalarTypes.ID,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
@@ -254,8 +328,14 @@ describe('Input Values tests on TreeToGraphQL', () => {
               args: [
                 {
                   name: 'abcdef',
+                  args: [],
+                  directives: [],
+                  interfaces: [],
                   type: {
-                    name: Value.StringValue,
+                    fieldType: {
+                      name: Value.StringValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.StringValue,
@@ -266,17 +346,27 @@ describe('Input Values tests on TreeToGraphQL', () => {
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [
                 {
                   name: 'Artur',
+                  args: [],
+                  directives: [],
+                  interfaces: [],
                   type: {
-                    name: Value.StringValue,
+                    fieldType: {
+                      name: Value.StringValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.StringValue,
@@ -287,8 +377,12 @@ describe('Input Values tests on TreeToGraphQL', () => {
             {
               name: 'age',
               type: {
-                name: ScalarTypes.Int,
+                fieldType: {
+                  name: ScalarTypes.Int,
+                  type: Options.name,
+                },
               },
+              interfaces: [],
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
@@ -296,8 +390,14 @@ describe('Input Values tests on TreeToGraphQL', () => {
               args: [
                 {
                   name: '28',
+                  args: [],
+                  directives: [],
+                  interfaces: [],
                   type: {
-                    name: Value.IntValue,
+                    fieldType: {
+                      name: Value.IntValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.IntValue,
@@ -308,8 +408,12 @@ describe('Input Values tests on TreeToGraphQL', () => {
             {
               name: 'weight',
               type: {
-                name: ScalarTypes.Float,
+                fieldType: {
+                  name: ScalarTypes.Float,
+                  type: Options.name,
+                },
               },
+              interfaces: [],
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
@@ -317,8 +421,14 @@ describe('Input Values tests on TreeToGraphQL', () => {
               args: [
                 {
                   name: '73.0',
+                  args: [],
+                  directives: [],
+                  interfaces: [],
                   type: {
-                    name: Value.FloatValue,
+                    fieldType: {
+                      name: Value.FloatValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.FloatValue,
@@ -329,8 +439,12 @@ describe('Input Values tests on TreeToGraphQL', () => {
             {
               name: 'verified',
               type: {
-                name: ScalarTypes.Boolean,
+                fieldType: {
+                  name: ScalarTypes.Boolean,
+                  type: Options.name,
+                },
               },
+              interfaces: [],
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
@@ -338,8 +452,14 @@ describe('Input Values tests on TreeToGraphQL', () => {
               args: [
                 {
                   name: 'true',
+                  args: [],
+                  directives: [],
+                  interfaces: [],
                   type: {
-                    name: Value.BooleanValue,
+                    fieldType: {
+                      name: Value.BooleanValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.BooleanValue,
@@ -366,17 +486,25 @@ describe('Input Values tests on TreeToGraphQL', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'year',
+              interfaces: [],
               type: {
-                name: ScalarTypes.Int,
+                fieldType: {
+                  name: ScalarTypes.Int,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
@@ -389,46 +517,69 @@ describe('Input Values tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'car',
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [
                 {
                   name: Value.ObjectValue,
+                  directives: [],
+                  interfaces: [],
                   type: {
-                    name: Value.ObjectValue,
+                    fieldType: {
+                      name: Value.ObjectValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.ObjectValue,
                   },
                   args: [
                     {
+                      directives: [],
+                      interfaces: [],
                       name: 'year',
                       type: {
-                        name: 'year',
-                        options: [],
+                        fieldType: {
+                          name: 'year',
+                          type: Options.name,
+                        },
                       },
                       data: {
                         type: Instances.Argument,
                       },
                       args: [
                         {
+                          args: [],
+                          directives: [],
+                          interfaces: [],
                           name: '2010',
                           type: {
-                            name: Value.IntValue,
+                            fieldType: {
+                              name: Value.IntValue,
+                              type: Options.name,
+                            },
                           },
                           data: {
                             type: Value.IntValue,
@@ -454,12 +605,16 @@ describe('Input Values tests on TreeToGraphQL', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.enum,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.enum,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'HONDA',
@@ -467,9 +622,14 @@ describe('Input Values tests on TreeToGraphQL', () => {
                 type: ValueDefinition.EnumValueDefinition,
               },
               type: {
-                name: ValueDefinition.EnumValueDefinition,
+                fieldType: {
+                  name: ValueDefinition.EnumValueDefinition,
+                  type: Options.name,
+                },
               },
               directives: [],
+              args: [],
+              interfaces: [],
             },
             {
               name: 'YAMAHA',
@@ -477,40 +637,59 @@ describe('Input Values tests on TreeToGraphQL', () => {
                 type: ValueDefinition.EnumValueDefinition,
               },
               type: {
-                name: ValueDefinition.EnumValueDefinition,
+                fieldType: {
+                  name: ValueDefinition.EnumValueDefinition,
+                  type: Options.name,
+                },
               },
               directives: [],
+              args: [],
+              interfaces: [],
             },
           ],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'car',
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [
                 {
                   name: 'HONDA',
                   type: {
-                    name: 'HONDA',
+                    fieldType: {
+                      name: 'HONDA',
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.EnumValue,
                   },
+                  args: [],
+                  directives: [],
+                  interfaces: [],
                 },
               ],
             },

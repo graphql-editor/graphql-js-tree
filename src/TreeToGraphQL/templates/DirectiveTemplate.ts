@@ -1,4 +1,5 @@
 import { ParserField } from '@/Models';
+import { getTypeName } from '@/TreeToGraphQL/templates/shared/getTypeName';
 import { TemplateUtils } from './TemplateUtils';
 
 /**
@@ -10,12 +11,12 @@ export class DirectiveTemplate {
    */
   static resolve(f: ParserField): string {
     let argsString = '';
-    if (f.args && f.args.length) {
+    if (f.args.length) {
       argsString = `(\n${f.args
         .map((a) => TemplateUtils.resolverForConnection(a))
         .map((a) => `\t${a}`)
         .join('\n')}\n)`;
     }
-    return `@${f.type.name}${argsString}`;
+    return `@${getTypeName(f.type.fieldType)}${argsString}`;
   }
 }

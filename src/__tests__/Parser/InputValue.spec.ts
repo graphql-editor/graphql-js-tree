@@ -8,7 +8,7 @@ import {
   ValueDefinition,
   Options,
 } from '../../Models';
-import { Parser, ParserUtils } from '../../Parser';
+import { Parser } from '../../Parser';
 
 describe('Input Values tests on parser', () => {
   test(`Built in ScalarTypes - ${Object.keys(ScalarTypes).join(', ')}`, () => {
@@ -25,73 +25,97 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'id',
               type: {
-                name: ScalarTypes.ID,
+                fieldType: {
+                  name: ScalarTypes.ID,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [],
             },
             {
               name: 'age',
               type: {
-                name: ScalarTypes.Int,
+                fieldType: {
+                  name: ScalarTypes.Int,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [],
             },
             {
               name: 'weight',
               type: {
-                name: ScalarTypes.Float,
+                fieldType: {
+                  name: ScalarTypes.Float,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [],
             },
             {
               name: 'verified',
               type: {
-                name: ScalarTypes.Boolean,
+                fieldType: {
+                  name: ScalarTypes.Boolean,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [],
             },
           ],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
   test('Enum objects', () => {
     const schema = `
@@ -105,40 +129,52 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.enum,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.enum,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
           directives: [],
           args: [],
+          interfaces: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'car',
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
           ],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
   test('Input objects', () => {
     const schema = `
@@ -154,22 +190,30 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'year',
               type: {
-                name: ScalarTypes.Int,
+                fieldType: {
+                  name: ScalarTypes.Int,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [],
             },
           ],
@@ -177,29 +221,37 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'car',
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [],
             },
           ],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
   test('Custom scalar objects', () => {
     const schema = `
@@ -213,39 +265,52 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.scalar,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.scalar,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
           },
           directives: [],
+          interfaces: [],
+          args: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'car',
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
           ],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
   test(`Default ScalarTypes values - ${Object.keys(ScalarTypes).join(', ')}`, () => {
     const schema = `input Person{
@@ -264,8 +329,12 @@ describe('Input Values tests on parser', () => {
       nodes: [
         {
           name: 'Person',
+          interfaces: [],
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
@@ -275,17 +344,27 @@ describe('Input Values tests on parser', () => {
             {
               name: 'id',
               type: {
-                name: ScalarTypes.ID,
+                fieldType: {
+                  name: ScalarTypes.ID,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [
                 {
                   name: 'abcdef',
+                  interfaces: [],
+                  args: [],
+                  directives: [],
                   type: {
-                    name: Value.StringValue,
+                    fieldType: {
+                      name: Value.StringValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.StringValue,
@@ -296,17 +375,27 @@ describe('Input Values tests on parser', () => {
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [
                 {
                   name: 'Artur',
+                  interfaces: [],
+                  args: [],
+                  directives: [],
                   type: {
-                    name: Value.StringValue,
+                    fieldType: {
+                      name: Value.StringValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.StringValue,
@@ -317,17 +406,27 @@ describe('Input Values tests on parser', () => {
             {
               name: 'emptyName',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [
                 {
                   name: '',
+                  interfaces: [],
+                  args: [],
+                  directives: [],
                   type: {
-                    name: Value.StringValue,
+                    fieldType: {
+                      name: Value.StringValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.StringValue,
@@ -338,96 +437,144 @@ describe('Input Values tests on parser', () => {
             {
               name: 'noName',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
+              args: [],
             },
             {
               name: 'emptyArray',
               type: {
-                name: ScalarTypes.String,
-                options: [Options.array],
+                fieldType: {
+                  type: Options.array,
+                  nest: {
+                    type: Options.name,
+                    name: ScalarTypes.String,
+                  },
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
             {
               name: 'noArray',
               type: {
-                name: ScalarTypes.String,
-                options: [Options.array],
+                fieldType: {
+                  type: Options.array,
+                  nest: {
+                    type: Options.name,
+                    name: ScalarTypes.String,
+                  },
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
+              args: [],
             },
             {
               name: 'age',
               type: {
-                name: ScalarTypes.Int,
+                fieldType: {
+                  name: ScalarTypes.Int,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
+              interfaces: [],
               directives: [],
               args: [
                 {
                   name: '28',
                   type: {
-                    name: Value.IntValue,
+                    fieldType: {
+                      name: Value.IntValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.IntValue,
                   },
+                  args: [],
+                  interfaces: [],
+                  directives: [],
                 },
               ],
             },
             {
               name: 'weight',
               type: {
-                name: ScalarTypes.Float,
+                fieldType: {
+                  name: ScalarTypes.Float,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [
                 {
                   name: '73.0',
                   type: {
-                    name: Value.FloatValue,
+                    fieldType: {
+                      name: Value.FloatValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.FloatValue,
                   },
+                  args: [],
+                  directives: [],
+                  interfaces: [],
                 },
               ],
             },
             {
               name: 'verified',
               type: {
-                name: ScalarTypes.Boolean,
+                fieldType: {
+                  name: ScalarTypes.Boolean,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [
                 {
                   name: 'true',
                   type: {
-                    name: Value.BooleanValue,
+                    fieldType: {
+                      name: Value.BooleanValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.BooleanValue,
                   },
+                  args: [],
+                  directives: [],
+                  interfaces: [],
                 },
               ],
             },
@@ -435,7 +582,7 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
 
   test('Default Input objects', () => {
@@ -454,69 +601,100 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'year',
               type: {
-                name: ScalarTypes.Int,
+                fieldType: {
+                  name: ScalarTypes.Int,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
           ],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'car',
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
+              interfaces: [],
               directives: [],
               args: [
                 {
                   name: Value.ObjectValue,
                   type: {
-                    name: Value.ObjectValue,
+                    fieldType: {
+                      name: Value.ObjectValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.ObjectValue,
                   },
+                  interfaces: [],
+                  directives: [],
                   args: [
                     {
                       name: 'year',
                       type: {
-                        name: 'year',
-                        options: [],
+                        fieldType: {
+                          name: 'year',
+                          type: Options.name,
+                        },
                       },
                       data: {
                         type: Instances.Argument,
                       },
+                      interfaces: [],
+                      directives: [],
                       args: [
                         {
                           name: '2010',
+                          interfaces: [],
+                          args: [],
+                          directives: [],
                           type: {
-                            name: Value.IntValue,
+                            fieldType: {
+                              name: Value.IntValue,
+                              type: Options.name,
+                            },
                           },
                           data: {
                             type: Value.IntValue,
@@ -532,7 +710,7 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
   test('Default Enum objects', () => {
     const schema = `
@@ -549,12 +727,16 @@ describe('Input Values tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.enum,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.enum,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'HONDA',
@@ -562,9 +744,14 @@ describe('Input Values tests on parser', () => {
                 type: ValueDefinition.EnumValueDefinition,
               },
               type: {
-                name: ValueDefinition.EnumValueDefinition,
+                fieldType: {
+                  name: ValueDefinition.EnumValueDefinition,
+                  type: Options.name,
+                },
               },
               directives: [],
+              interfaces: [],
+              args: [],
             },
             {
               name: 'YAMAHA',
@@ -572,40 +759,59 @@ describe('Input Values tests on parser', () => {
                 type: ValueDefinition.EnumValueDefinition,
               },
               type: {
-                name: ValueDefinition.EnumValueDefinition,
+                fieldType: {
+                  name: ValueDefinition.EnumValueDefinition,
+                  type: Options.name,
+                },
               },
               directives: [],
+              interfaces: [],
+              args: [],
             },
           ],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'car',
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [
                 {
                   name: 'HONDA',
                   type: {
-                    name: 'HONDA',
+                    fieldType: {
+                      name: 'HONDA',
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.EnumValue,
                   },
+                  interfaces: [],
+                  directives: [],
+                  args: [],
                 },
               ],
             },
@@ -613,6 +819,6 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
 });
