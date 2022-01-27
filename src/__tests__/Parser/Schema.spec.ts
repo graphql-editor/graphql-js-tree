@@ -55,7 +55,7 @@ describe('Schema base operations', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`query should exist`, () => {
     const schema = `type Query{
@@ -99,7 +99,7 @@ describe('Schema base operations', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`empty query`, () => {
     const schema = `
@@ -129,6 +129,6 @@ describe('Schema base operations', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
 });

@@ -113,7 +113,7 @@ describe('Fields tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('Type objects', () => {
     const schema = `
@@ -172,7 +172,7 @@ describe('Fields tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('Interface objects', () => {
     const schema = `
@@ -231,7 +231,7 @@ describe('Fields tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('Enum objects', () => {
     const schema = `
@@ -290,7 +290,7 @@ describe('Fields tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('Custom scalar objects', () => {
     const schema = `
@@ -349,7 +349,7 @@ describe('Fields tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('Union objects', () => {
     const schema = `
@@ -471,7 +471,7 @@ describe('Fields tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`Required fields`, () => {
     const schema = `type Person{
@@ -532,7 +532,7 @@ describe('Fields tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`ListType fields`, () => {
     const schema = `type Person{
@@ -621,6 +621,6 @@ describe('Fields tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
 });

@@ -115,7 +115,7 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('Enum objects', () => {
     const schema = `
@@ -174,7 +174,7 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('Input objects', () => {
     const schema = `
@@ -251,7 +251,7 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('Custom scalar objects', () => {
     const schema = `
@@ -310,7 +310,7 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`Default ScalarTypes values - ${Object.keys(ScalarTypes).join(', ')}`, () => {
     const schema = `input Person{
@@ -582,7 +582,7 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
 
   test('Default Input objects', () => {
@@ -710,7 +710,7 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('Default Enum objects', () => {
     const schema = `
@@ -819,6 +819,6 @@ describe('Input Values tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
 });

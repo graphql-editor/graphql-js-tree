@@ -19,8 +19,8 @@ import { Parser } from '../../Parser';
 describe('Directive tests on parser', () => {
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.OBJECT}`, () => {
     const schema = `
-    directive @model on ${Directive.OBJECT}
     type Person @model
+    directive @model on ${Directive.OBJECT}
     `;
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
@@ -74,7 +74,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.FIELD_DEFINITION}`, () => {
     const schema = `
@@ -151,7 +151,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ARGUMENT_DEFINITION}`, () => {
     const schema = `
@@ -244,7 +244,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INTERFACE}`, () => {
     const schema = `
@@ -303,7 +303,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.UNION}`, () => {
     const schema = `
@@ -425,7 +425,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ENUM}`, () => {
     const schema = `
@@ -484,7 +484,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ENUM_VALUE}`, () => {
     const schema = `
@@ -577,7 +577,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INPUT_OBJECT}`, () => {
     const schema = `
@@ -636,14 +636,14 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INPUT_FIELD_DEFINITION}`, () => {
     const schema = `
-    directive @model on ${Directive.INPUT_FIELD_DEFINITION}
     input Person{
-      name: String
+      name: String @model
     }
+    directive @model on ${Directive.INPUT_FIELD_DEFINITION}
     `;
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
@@ -713,7 +713,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.SCALAR}`, () => {
     const schema = `
@@ -772,7 +772,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.OBJECT} with input arguments`, () => {
     const schema = `
@@ -813,7 +813,7 @@ describe('Directive tests on parser', () => {
                 },
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition,
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               interfaces: [],
@@ -828,7 +828,7 @@ describe('Directive tests on parser', () => {
                 },
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition,
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [],
@@ -843,7 +843,7 @@ describe('Directive tests on parser', () => {
                 },
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition,
+                type: ValueDefinition.InputValueDefinition,
               },
               args: [],
               directives: [],
@@ -1061,6 +1061,6 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
 });

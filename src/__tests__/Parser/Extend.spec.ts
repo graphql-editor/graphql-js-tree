@@ -85,7 +85,7 @@ describe('Extend tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   it('Extends Person type and correctly join extensions', () => {
     const schema = `

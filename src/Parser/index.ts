@@ -19,8 +19,8 @@ export class Parser {
       .join('');
     return stripDocs
       .split('\n')
-      .filter((s) => s.startsWith('#'))
-      .map((s) => s.slice(1).trimStart());
+      .filter((s) => s.trimStart().startsWith('#'))
+      .map((s) => s.trimStart().slice(1).trimStart());
   }
   /**
    * Parse schema from string and return ast

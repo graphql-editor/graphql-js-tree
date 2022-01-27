@@ -24,7 +24,7 @@ describe('TypeDefintion declarations tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('InterfaceTypeDefinition - interface keyword', () => {
     const schema = 'interface Person';
@@ -48,7 +48,7 @@ describe('TypeDefintion declarations tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('InputObjectTypeDefinition - input keyword', () => {
     const schema = 'input Person';
@@ -72,7 +72,7 @@ describe('TypeDefintion declarations tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('EnumTypeDefinition - enum keyword', () => {
     const schema = 'enum Person';
@@ -96,7 +96,7 @@ describe('TypeDefintion declarations tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('UnionTypeDefinition - union keyword', () => {
     const schema = 'union Person';
@@ -120,7 +120,7 @@ describe('TypeDefintion declarations tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test('ScalarTypeDefinition - scalar keyword', () => {
     const schema = 'scalar Person';
@@ -144,6 +144,6 @@ describe('TypeDefintion declarations tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
 });

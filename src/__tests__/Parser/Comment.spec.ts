@@ -12,10 +12,10 @@ import { Parser } from '../../Parser';
 describe('Comment tests on parser', () => {
   it('Creates comment node from graphql', () => {
     const schema = `
-          type Person{
-              name:String
-          }
-          # hello world
+  type Person{
+      name:String
+  }
+  # hello world
           `;
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
@@ -69,7 +69,7 @@ describe('Comment tests on parser', () => {
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toContainEqual(treeMock.nodes[1]);
   });
   it('Doesnt create a comment node from markdown in description', () => {
     const schema = `
@@ -134,6 +134,6 @@ type Person{
         },
       ],
     };
-    expect(tree.nodes).toEqual(treeMock.nodes);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
 });
