@@ -91,3 +91,11 @@ export enum Helpers {
   Extend = 'Extend',
   Comment = 'Comment',
 }
+
+export enum Options {
+  array = 'array',
+  required = 'required',
+  name = 'name',
+}
+
+export type FieldType = { type: Options; nest?: FieldType; name?: string };

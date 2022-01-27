@@ -6,8 +6,9 @@ import {
   TypeDefinitionDisplayStrings,
   TypeExtension,
   TypeSystemDefinition,
+  Options,
 } from '../../Models';
-import { Parser, ParserUtils } from '../../Parser';
+import { Parser } from '../../Parser';
 
 describe('Extend tests on parser', () => {
   it('Extends Person type', () => {
@@ -23,20 +24,26 @@ describe('Extend tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          description: '',
           interfaces: [],
           directives: [],
           args: [
             {
               name: 'name',
               args: [],
+              interfaces: [],
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               directives: [],
               data: {
@@ -48,20 +55,26 @@ describe('Extend tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: 'type',
+            fieldType: {
+              name: 'type',
+              type: Options.name,
+            },
           },
           data: {
             type: TypeExtension.ObjectTypeExtension,
           },
-          description: '',
           interfaces: [],
           directives: [],
           args: [
             {
               name: 'age',
               args: [],
+              interfaces: [],
               type: {
-                name: ScalarTypes.Int,
+                fieldType: {
+                  name: ScalarTypes.Int,
+                  type: Options.name,
+                },
               },
               directives: [],
               data: {
@@ -72,7 +85,7 @@ describe('Extend tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   it('Extends Person type and correctly join extensions', () => {
     const schema = `

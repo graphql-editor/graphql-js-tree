@@ -1,4 +1,5 @@
 import { ParserField, Value } from '@/Models';
+import { getTypeName } from '@/TreeToGraphQL/templates/shared/getTypeName';
 import { TemplateUtils } from './TemplateUtils';
 
 /**
@@ -9,10 +10,13 @@ export class ValueTemplate {
     let returnedValue = `${f.name}`;
     if (f.data.type) {
       if (f.data.type === Value.EnumValue) {
-        returnedValue = `${f.type.name}`;
+        returnedValue = `${getTypeName(f.type.fieldType)}`;
       }
       if (f.data.type === Value.StringValue) {
         returnedValue = `"${f.name}"`;
+      }
+      if (f.data.type === Value.ListValue) {
+        returnedValue = `[${(f.args || []).map((a) => TemplateUtils.resolverForConnection(a))}]`;
       }
       if (f.data.type === Value.ObjectValue) {
         returnedValue = `{ ${(f.args || []).map((a) => TemplateUtils.resolverForConnection(a))}}`;

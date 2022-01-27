@@ -9,6 +9,7 @@ import {
   TypeSystemDefinitionDisplayStrings,
   Value,
   ValueDefinition,
+  Options,
 } from '../../Models';
 import { TreeToGraphQL } from '../../TreeToGraphQL';
 import { trimGraphQL } from '../TestUtils';
@@ -23,7 +24,10 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -36,9 +40,14 @@ describe('Directive tests on TreeToGraphQL', () => {
                 type: Instances.Directive,
               },
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
               args: [],
+              directives: [],
+              interfaces: [],
             },
           ],
           args: [],
@@ -46,12 +55,18 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'model',
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
             directiveOptions: [Directive.OBJECT],
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
+          args: [],
+          directives: [],
+          interfaces: [],
         },
       ],
     };
@@ -66,7 +81,10 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -76,7 +94,10 @@ describe('Directive tests on TreeToGraphQL', () => {
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
@@ -89,11 +110,17 @@ describe('Directive tests on TreeToGraphQL', () => {
                     type: Instances.Directive,
                   },
                   type: {
-                    name: 'model',
+                    fieldType: {
+                      name: 'model',
+                      type: Options.name,
+                    },
                   },
                   args: [],
+                  directives: [],
+                  interfaces: [],
                 },
               ],
+              interfaces: [],
             },
           ],
           directives: [],
@@ -101,9 +128,15 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'model',
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
             directiveOptions: [Directive.FIELD_DEFINITION],
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
           },
+          args: [],
+          directives: [],
+          interfaces: [],
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
@@ -121,7 +154,10 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -134,7 +170,10 @@ describe('Directive tests on TreeToGraphQL', () => {
                 {
                   name: 'override',
                   type: {
-                    name: ScalarTypes.String,
+                    fieldType: {
+                      name: ScalarTypes.String,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: ValueDefinition.InputValueDefinition,
@@ -147,15 +186,25 @@ describe('Directive tests on TreeToGraphQL', () => {
                         type: Instances.Directive,
                       },
                       type: {
-                        name: 'model',
+                        fieldType: {
+                          name: 'model',
+                          type: Options.name,
+                        },
                       },
                       args: [],
+                      directives: [],
+                      interfaces: [],
                     },
                   ],
+                  interfaces: [],
                 },
               ],
+              interfaces: [],
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
@@ -168,9 +217,15 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'model',
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
             directiveOptions: [Directive.ARGUMENT_DEFINITION],
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
           },
+          args: [],
+          directives: [],
+          interfaces: [],
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
@@ -188,7 +243,10 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.interface,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.interface,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
@@ -201,8 +259,13 @@ describe('Directive tests on TreeToGraphQL', () => {
               data: {
                 type: Instances.Directive,
               },
+              directives: [],
+              interfaces: [],
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
               args: [],
             },
@@ -211,9 +274,15 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'model',
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
             directiveOptions: [Directive.INTERFACE],
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
           },
+          args: [],
+          directives: [],
+          interfaces: [],
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
@@ -231,9 +300,15 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'model',
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
             directiveOptions: [Directive.UNION],
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
           },
+          args: [],
+          directives: [],
+          interfaces: [],
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
@@ -241,7 +316,10 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -253,7 +331,10 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'Plane',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -265,19 +346,28 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'Machine',
           type: {
-            name: TypeDefinitionDisplayStrings.union,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.union,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.UnionTypeDefinition,
           },
+          interfaces: [],
           directives: [
             {
               name: 'model',
+              directives: [],
+              interfaces: [],
               data: {
                 type: Instances.Directive,
               },
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
               args: [],
             },
@@ -285,8 +375,14 @@ describe('Directive tests on TreeToGraphQL', () => {
           args: [
             {
               name: 'Car',
+              args: [],
+              directives: [],
+              interfaces: [],
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.UnionMemberDefinition,
@@ -295,8 +391,14 @@ describe('Directive tests on TreeToGraphQL', () => {
             {
               name: 'Plane',
               type: {
-                name: 'Plane',
+                fieldType: {
+                  name: 'Plane',
+                  type: Options.name,
+                },
               },
+              args: [],
+              directives: [],
+              interfaces: [],
               data: {
                 type: TypeSystemDefinition.UnionMemberDefinition,
               },
@@ -316,20 +418,29 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.enum,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.enum,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
           args: [],
+          interfaces: [],
           directives: [
             {
               name: 'model',
               data: {
                 type: Instances.Directive,
               },
+              directives: [],
+              interfaces: [],
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
               args: [],
             },
@@ -338,9 +449,15 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'model',
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
             directiveOptions: [Directive.ENUM],
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
           },
+          args: [],
+          directives: [],
+          interfaces: [],
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
@@ -358,7 +475,10 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.enum,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.enum,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.EnumTypeDefinition,
@@ -367,19 +487,29 @@ describe('Directive tests on TreeToGraphQL', () => {
             {
               name: 'SMART',
               type: {
-                name: ValueDefinition.EnumValueDefinition,
+                fieldType: {
+                  name: ValueDefinition.EnumValueDefinition,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.EnumValueDefinition,
               },
+              args: [],
+              interfaces: [],
               directives: [
                 {
                   name: 'model',
+                  directives: [],
+                  interfaces: [],
                   data: {
                     type: Instances.Directive,
                   },
                   type: {
-                    name: 'model',
+                    fieldType: {
+                      name: 'model',
+                      type: Options.name,
+                    },
                   },
                   args: [],
                 },
@@ -387,8 +517,13 @@ describe('Directive tests on TreeToGraphQL', () => {
             },
             {
               name: 'DUMB',
+              args: [],
+              interfaces: [],
               type: {
-                name: ValueDefinition.EnumValueDefinition,
+                fieldType: {
+                  name: ValueDefinition.EnumValueDefinition,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.EnumValueDefinition,
@@ -396,13 +531,20 @@ describe('Directive tests on TreeToGraphQL', () => {
               directives: [],
             },
           ],
+          interfaces: [],
           directives: [],
         },
         {
           name: 'model',
+          args: [],
+          directives: [],
+          interfaces: [],
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
             directiveOptions: [Directive.ENUM_VALUE],
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
@@ -421,20 +563,29 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           args: [],
+          interfaces: [],
           directives: [
             {
+              directives: [],
+              interfaces: [],
               name: 'model',
               data: {
                 type: Instances.Directive,
               },
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
               args: [],
             },
@@ -442,9 +593,15 @@ describe('Directive tests on TreeToGraphQL', () => {
         },
         {
           name: 'model',
+          args: [],
+          directives: [],
+          interfaces: [],
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
             directiveOptions: [Directive.INPUT_OBJECT],
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
@@ -463,29 +620,42 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
+          interfaces: [],
           args: [
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               args: [],
+              interfaces: [],
               directives: [
                 {
                   name: 'model',
+                  directives: [],
+                  interfaces: [],
                   data: {
                     type: Instances.Directive,
                   },
                   type: {
-                    name: 'model',
+                    fieldType: {
+                      name: 'model',
+                      type: Options.name,
+                    },
                   },
                   args: [],
                 },
@@ -496,9 +666,15 @@ describe('Directive tests on TreeToGraphQL', () => {
         },
         {
           name: 'model',
+          args: [],
+          directives: [],
+          interfaces: [],
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
             directiveOptions: [Directive.INPUT_FIELD_DEFINITION],
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
@@ -517,19 +693,29 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.scalar,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.scalar,
+              type: Options.name,
+            },
           },
+          args: [],
+          interfaces: [],
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
           },
           directives: [
             {
               name: 'model',
+              directives: [],
+              interfaces: [],
               data: {
                 type: Instances.Directive,
               },
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
               args: [],
             },
@@ -537,9 +723,15 @@ describe('Directive tests on TreeToGraphQL', () => {
         },
         {
           name: 'model',
+          args: [],
+          directives: [],
+          interfaces: [],
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
             directiveOptions: [Directive.SCALAR],
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
@@ -558,7 +750,10 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'Address',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
@@ -566,8 +761,12 @@ describe('Directive tests on TreeToGraphQL', () => {
           args: [
             {
               name: 'name',
+              interfaces: [],
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
@@ -577,8 +776,12 @@ describe('Directive tests on TreeToGraphQL', () => {
             },
             {
               name: 'age',
+              interfaces: [],
               type: {
-                name: ScalarTypes.Int,
+                fieldType: {
+                  name: ScalarTypes.Int,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
@@ -588,8 +791,12 @@ describe('Directive tests on TreeToGraphQL', () => {
             },
             {
               name: 'weight',
+              interfaces: [],
               type: {
-                name: ScalarTypes.Float,
+                fieldType: {
+                  name: ScalarTypes.Float,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
@@ -598,12 +805,16 @@ describe('Directive tests on TreeToGraphQL', () => {
               args: [],
             },
           ],
+          interfaces: [],
           directives: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -616,36 +827,57 @@ describe('Directive tests on TreeToGraphQL', () => {
                 type: Instances.Directive,
               },
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
+              directives: [],
+              interfaces: [],
               args: [
                 {
                   name: 'address',
                   type: {
-                    name: 'address',
-                    options: [],
+                    fieldType: {
+                      name: 'address',
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Instances.Argument,
                   },
+                  directives: [],
+                  interfaces: [],
                   args: [
                     {
                       name: Value.ObjectValue,
+                      directives: [],
+                      interfaces: [],
                       args: [
                         {
                           name: 'name',
                           type: {
-                            name: 'name',
-                            options: [],
+                            fieldType: {
+                              name: 'name',
+                              type: Options.name,
+                            },
                           },
                           data: {
                             type: Instances.Argument,
                           },
+                          directives: [],
+                          interfaces: [],
                           args: [
                             {
                               name: 'Artur',
+                              args: [],
+                              directives: [],
+                              interfaces: [],
                               type: {
-                                name: Value.StringValue,
+                                fieldType: {
+                                  name: Value.StringValue,
+                                  type: Options.name,
+                                },
                               },
                               data: {
                                 type: Value.StringValue,
@@ -656,18 +888,28 @@ describe('Directive tests on TreeToGraphQL', () => {
                         {
                           name: 'weight',
                           type: {
-                            name: 'weight',
-                            options: [],
+                            fieldType: {
+                              name: 'weight',
+                              type: Options.name,
+                            },
                           },
                           data: {
                             type: Instances.Argument,
                           },
+                          directives: [],
+                          interfaces: [],
                           args: [
                             {
                               name: '22.3',
                               type: {
-                                name: Value.FloatValue,
+                                fieldType: {
+                                  name: Value.FloatValue,
+                                  type: Options.name,
+                                },
                               },
+                              directives: [],
+                              interfaces: [],
+                              args: [],
                               data: {
                                 type: Value.FloatValue,
                               },
@@ -679,7 +921,10 @@ describe('Directive tests on TreeToGraphQL', () => {
                         type: Value.ObjectValue,
                       },
                       type: {
-                        name: Value.ObjectValue,
+                        fieldType: {
+                          name: Value.ObjectValue,
+                          type: Options.name,
+                        },
                       },
                     },
                   ],
@@ -692,50 +937,74 @@ describe('Directive tests on TreeToGraphQL', () => {
         {
           name: 'model',
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
             directiveOptions: [Directive.OBJECT],
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
+          directives: [],
+          interfaces: [],
           args: [
             {
               name: 'address',
               type: {
-                name: 'Address',
+                fieldType: {
+                  name: 'Address',
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [
                 {
                   name: Value.ObjectValue,
                   type: {
-                    name: Value.ObjectValue,
+                    fieldType: {
+                      name: Value.ObjectValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.ObjectValue,
                   },
+                  directives: [],
+                  interfaces: [],
                   args: [
                     {
                       name: 'age',
                       type: {
-                        name: 'age',
-                        options: [],
+                        fieldType: {
+                          name: 'age',
+                          type: Options.name,
+                        },
                       },
                       data: {
                         type: Instances.Argument,
                       },
+                      directives: [],
+                      interfaces: [],
                       args: [
                         {
                           name: '2010',
                           type: {
-                            name: Value.IntValue,
+                            fieldType: {
+                              name: Value.IntValue,
+                              type: Options.name,
+                            },
                           },
                           data: {
                             type: Value.IntValue,
                           },
+                          args: [],
+                          directives: [],
+                          interfaces: [],
                         },
                       ],
                     },

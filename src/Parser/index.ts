@@ -7,7 +7,7 @@ import {
   isTypeSystemExtensionNode,
   parse,
 } from 'graphql';
-import { AllTypes, ParserField, ParserTree, TypeDefinitionDisplayMap } from '@/Models';
+import { AllTypes, ParserField, ParserTree, TypeDefinitionDisplayMap, Options } from '@/Models';
 import { Directive, Helpers, OperationType, TypeDefinition, TypeExtension } from '@/Models/Spec';
 import { TypeResolver } from './typeResolver';
 import { ParserUtils } from './ParserUtils';
@@ -19,8 +19,8 @@ export class Parser {
       .join('');
     return stripDocs
       .split('\n')
-      .filter((s) => s.startsWith('#'))
-      .map((s) => s.slice(1).trimStart());
+      .filter((s) => s.trimStart().startsWith('#'))
+      .map((s) => s.trimStart().slice(1).trimStart());
   }
   /**
    * Parse schema from string and return ast
@@ -36,18 +36,19 @@ export class Parser {
           type:
             d.kind === 'DirectiveDefinition'
               ? {
-                  name: TypeDefinitionDisplayMap[d.kind],
+                  fieldType: { name: TypeDefinitionDisplayMap[d.kind], type: Options.name },
                   directiveOptions: d.locations.map((l) => l.value as Directive),
                 }
               : {
-                  name: TypeDefinitionDisplayMap[d.kind],
+                  fieldType: { name: TypeDefinitionDisplayMap[d.kind], type: Options.name },
                 },
           data: {
             type: d.kind as AllTypes,
           },
-          description: 'description' in d && d.description ? d.description.value : '',
-          interfaces: 'interfaces' in d && d.interfaces ? d.interfaces.map((i) => i.name.value) : undefined,
-          directives: 'directives' in d && d.directives ? TypeResolver.iterateDirectives(d.directives) : undefined,
+
+          ...('description' in d && d.description?.value ? { description: d.description.value } : {}),
+          interfaces: 'interfaces' in d && d.interfaces ? d.interfaces.map((i) => i.name.value) : [],
+          directives: 'directives' in d && d.directives ? TypeResolver.iterateDirectives(d.directives) : [],
           args: TypeResolver.resolveFieldsFromDefinition(d),
         };
       }
@@ -94,19 +95,22 @@ export class Parser {
       .filter((t) => 'name' in t && t.name && !excludeRoots.includes(t.name.value))
       .map(Parser.documentDefinitionToSerializedNodeTree)
       .filter((d) => !!d) as ParserField[];
-    const comments: ParserField[] = Parser.findComments(schema).map(
-      (description) =>
-        ({
+    const comments: ParserField[] = Parser.findComments(schema).map((description) => ({
+      name: Helpers.Comment,
+      type: {
+        fieldType: {
           name: Helpers.Comment,
-          type: {
-            name: Helpers.Comment,
-          },
-          data: {
-            type: Helpers.Comment,
-          },
-          description,
-        } as ParserField),
-    );
+          type: Options.name,
+        },
+      },
+      args: [],
+      directives: [],
+      interfaces: [],
+      data: {
+        type: Helpers.Comment,
+      },
+      description,
+    }));
     const nodeTree: ParserTree = {
       nodes: [...comments, ...nodes],
     };
@@ -137,15 +141,9 @@ export class Parser {
       if (!extendedNode) {
         throw new Error(`Invalid extension node`);
       }
-      if (e.directives) {
-        extendedNode.directives = [...(extendedNode.directives || []), ...e.directives];
-      }
-      if (e.interfaces) {
-        extendedNode.interfaces = [...(extendedNode.interfaces || []), ...e.interfaces];
-      }
-      if (e.args) {
-        extendedNode.args = [...(extendedNode.args || []), ...e.args];
-      }
+      extendedNode.directives = [...(extendedNode.directives || []), ...e.directives];
+      extendedNode.interfaces = [...(extendedNode.interfaces || []), ...e.interfaces];
+      extendedNode.args = [...(extendedNode.args || []), ...e.args];
     });
 
     return { nodes };

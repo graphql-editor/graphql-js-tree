@@ -9,8 +9,9 @@ import {
   TypeSystemDefinitionDisplayStrings,
   Value,
   ValueDefinition,
+  Options,
 } from '../../Models';
-import { Parser, ParserUtils } from '../../Parser';
+import { Parser } from '../../Parser';
 
 // TODO: Add schema directive test
 // TODO: Add directive with arguments test
@@ -18,8 +19,8 @@ import { Parser, ParserUtils } from '../../Parser';
 describe('Directive tests on parser', () => {
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.OBJECT}`, () => {
     const schema = `
-    directive @model on ${Directive.OBJECT}
     type Person @model
+    directive @model on ${Directive.OBJECT}
     `;
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
@@ -27,7 +28,10 @@ describe('Directive tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -36,21 +40,32 @@ describe('Directive tests on parser', () => {
           directives: [
             {
               name: 'model',
+              args: [],
+              directives: [],
+              interfaces: [],
               data: {
                 type: Instances.Directive,
               },
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
-              args: [],
             },
           ],
           args: [],
         },
         {
           name: 'model',
+          args: [],
+          directives: [],
+          interfaces: [],
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
             directiveOptions: [Directive.OBJECT],
           },
           data: {
@@ -59,7 +74,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.FIELD_DEFINITION}`, () => {
     const schema = `
@@ -74,7 +89,10 @@ describe('Directive tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -84,12 +102,16 @@ describe('Directive tests on parser', () => {
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               args: [],
+              interfaces: [],
               directives: [
                 {
                   name: 'model',
@@ -97,9 +119,14 @@ describe('Directive tests on parser', () => {
                     type: Instances.Directive,
                   },
                   type: {
-                    name: 'model',
+                    fieldType: {
+                      name: 'model',
+                      type: Options.name,
+                    },
                   },
                   args: [],
+                  directives: [],
+                  interfaces: [],
                 },
               ],
             },
@@ -108,8 +135,14 @@ describe('Directive tests on parser', () => {
         },
         {
           name: 'model',
+          args: [],
+          directives: [],
+          interfaces: [],
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
             directiveOptions: [Directive.FIELD_DEFINITION],
           },
           data: {
@@ -118,7 +151,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ARGUMENT_DEFINITION}`, () => {
     const schema = `
@@ -133,7 +166,10 @@ describe('Directive tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -142,16 +178,21 @@ describe('Directive tests on parser', () => {
           args: [
             {
               name: 'name',
+              interfaces: [],
               args: [
                 {
                   name: 'override',
                   type: {
-                    name: ScalarTypes.String,
+                    fieldType: {
+                      name: ScalarTypes.String,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: ValueDefinition.InputValueDefinition,
                   },
                   args: [],
+                  interfaces: [],
                   directives: [
                     {
                       name: 'model',
@@ -159,15 +200,23 @@ describe('Directive tests on parser', () => {
                         type: Instances.Directive,
                       },
                       type: {
-                        name: 'model',
+                        fieldType: {
+                          name: 'model',
+                          type: Options.name,
+                        },
                       },
                       args: [],
+                      directives: [],
+                      interfaces: [],
                     },
                   ],
                 },
               ],
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
@@ -179,8 +228,14 @@ describe('Directive tests on parser', () => {
         },
         {
           name: 'model',
+          args: [],
+          directives: [],
+          interfaces: [],
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
             directiveOptions: [Directive.ARGUMENT_DEFINITION],
           },
           data: {
@@ -189,7 +244,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INTERFACE}`, () => {
     const schema = `
@@ -202,7 +257,10 @@ describe('Directive tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.interface,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.interface,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
@@ -216,16 +274,27 @@ describe('Directive tests on parser', () => {
                 type: Instances.Directive,
               },
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
               args: [],
+              directives: [],
+              interfaces: [],
             },
           ],
         },
         {
           name: 'model',
+          args: [],
+          directives: [],
+          interfaces: [],
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
             directiveOptions: [Directive.INTERFACE],
           },
           data: {
@@ -234,7 +303,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.UNION}`, () => {
     const schema = `
@@ -248,8 +317,14 @@ describe('Directive tests on parser', () => {
       nodes: [
         {
           name: 'model',
+          args: [],
+          directives: [],
+          interfaces: [],
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
             directiveOptions: [Directive.UNION],
           },
           data: {
@@ -259,7 +334,10 @@ describe('Directive tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -271,7 +349,10 @@ describe('Directive tests on parser', () => {
         {
           name: 'Plane',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -282,8 +363,12 @@ describe('Directive tests on parser', () => {
         },
         {
           name: 'Machine',
+          interfaces: [],
           type: {
-            name: TypeDefinitionDisplayStrings.union,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.union,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.UnionTypeDefinition,
@@ -295,16 +380,27 @@ describe('Directive tests on parser', () => {
                 type: Instances.Directive,
               },
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
               args: [],
+              directives: [],
+              interfaces: [],
             },
           ],
           args: [
             {
               name: 'Car',
+              args: [],
+              directives: [],
+              interfaces: [],
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.UnionMemberDefinition,
@@ -312,8 +408,14 @@ describe('Directive tests on parser', () => {
             },
             {
               name: 'Plane',
+              args: [],
+              directives: [],
+              interfaces: [],
               type: {
-                name: 'Plane',
+                fieldType: {
+                  name: 'Plane',
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.UnionMemberDefinition,
@@ -323,7 +425,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ENUM}`, () => {
     const schema = `
@@ -336,29 +438,44 @@ describe('Directive tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.enum,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.enum,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
           args: [],
+          interfaces: [],
           directives: [
             {
               name: 'model',
+              args: [],
+              directives: [],
+              interfaces: [],
               data: {
                 type: Instances.Directive,
               },
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
-              args: [],
             },
           ],
         },
         {
           name: 'model',
+          args: [],
+          directives: [],
+          interfaces: [],
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
             directiveOptions: [Directive.ENUM],
           },
           data: {
@@ -367,7 +484,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.ENUM_VALUE}`, () => {
     const schema = `
@@ -383,16 +500,26 @@ describe('Directive tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.enum,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.enum,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
+          directives: [],
+          interfaces: [],
           args: [
             {
               name: 'SMART',
+              args: [],
+              interfaces: [],
               type: {
-                name: ValueDefinition.EnumValueDefinition,
+                fieldType: {
+                  name: ValueDefinition.EnumValueDefinition,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.EnumValueDefinition,
@@ -404,29 +531,44 @@ describe('Directive tests on parser', () => {
                     type: Instances.Directive,
                   },
                   type: {
-                    name: 'model',
+                    fieldType: {
+                      name: 'model',
+                      type: Options.name,
+                    },
                   },
                   args: [],
+                  directives: [],
+                  interfaces: [],
                 },
               ],
             },
             {
               name: 'DUMB',
+              args: [],
+              directives: [],
+              interfaces: [],
               type: {
-                name: ValueDefinition.EnumValueDefinition,
+                fieldType: {
+                  name: ValueDefinition.EnumValueDefinition,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.EnumValueDefinition,
               },
-              directives: [],
             },
           ],
-          directives: [],
         },
         {
           name: 'model',
+          args: [],
+          directives: [],
+          interfaces: [],
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
             directiveOptions: [Directive.ENUM_VALUE],
           },
           data: {
@@ -435,7 +577,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INPUT_OBJECT}`, () => {
     const schema = `
@@ -448,12 +590,16 @@ describe('Directive tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           args: [],
+          interfaces: [],
           directives: [
             {
               name: 'model',
@@ -461,32 +607,43 @@ describe('Directive tests on parser', () => {
                 type: Instances.Directive,
               },
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
               args: [],
+              directives: [],
+              interfaces: [],
             },
           ],
         },
         {
           name: 'model',
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
             directiveOptions: [Directive.INPUT_OBJECT],
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
+          args: [],
+          directives: [],
+          interfaces: [],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.INPUT_FIELD_DEFINITION}`, () => {
     const schema = `
-    directive @model on ${Directive.INPUT_FIELD_DEFINITION}
     input Person{
-      name: String
+      name: String @model
     }
+    directive @model on ${Directive.INPUT_FIELD_DEFINITION}
     `;
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
@@ -494,21 +651,30 @@ describe('Directive tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
+          directives: [],
+          interfaces: [],
           args: [
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               args: [],
+              interfaces: [],
               directives: [
                 {
                   name: 'model',
@@ -516,19 +682,29 @@ describe('Directive tests on parser', () => {
                     type: Instances.Directive,
                   },
                   type: {
-                    name: 'model',
+                    fieldType: {
+                      name: 'model',
+                      type: Options.name,
+                    },
                   },
                   args: [],
+                  directives: [],
+                  interfaces: [],
                 },
               ],
             },
           ],
-          directives: [],
         },
         {
           name: 'model',
+          args: [],
+          directives: [],
+          interfaces: [],
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
             directiveOptions: [Directive.INPUT_FIELD_DEFINITION],
           },
           data: {
@@ -537,7 +713,7 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.SCALAR}`, () => {
     const schema = `
@@ -550,8 +726,13 @@ describe('Directive tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.scalar,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.scalar,
+              type: Options.name,
+            },
           },
+          args: [],
+          interfaces: [],
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
           },
@@ -562,25 +743,36 @@ describe('Directive tests on parser', () => {
                 type: Instances.Directive,
               },
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
               args: [],
+              directives: [],
+              interfaces: [],
             },
           ],
         },
         {
           name: 'model',
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
             directiveOptions: [Directive.SCALAR],
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
+          args: [],
+          directives: [],
+          interfaces: [],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.OBJECT} with input arguments`, () => {
     const schema = `
@@ -603,7 +795,10 @@ describe('Directive tests on parser', () => {
         {
           name: 'Address',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
@@ -612,43 +807,59 @@ describe('Directive tests on parser', () => {
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition,
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [],
             },
             {
               name: 'age',
               type: {
-                name: ScalarTypes.Int,
+                fieldType: {
+                  name: ScalarTypes.Int,
+                  type: Options.name,
+                },
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition,
+                type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
             {
               name: 'weight',
               type: {
-                name: ScalarTypes.Float,
+                fieldType: {
+                  name: ScalarTypes.Float,
+                  type: Options.name,
+                },
               },
               data: {
-                type: TypeSystemDefinition.FieldDefinition,
+                type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
               args: [],
+              directives: [],
+              interfaces: [],
             },
           ],
           directives: [],
+          interfaces: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -661,36 +872,57 @@ describe('Directive tests on parser', () => {
                 type: Instances.Directive,
               },
               type: {
-                name: 'model',
+                fieldType: {
+                  name: 'model',
+                  type: Options.name,
+                },
               },
+              directives: [],
+              interfaces: [],
               args: [
                 {
                   name: 'address',
                   type: {
-                    name: 'address',
-                    options: [],
+                    fieldType: {
+                      name: 'address',
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Instances.Argument,
                   },
+                  directives: [],
+                  interfaces: [],
                   args: [
                     {
                       name: Value.ObjectValue,
+                      directives: [],
+                      interfaces: [],
                       args: [
                         {
                           name: 'name',
                           type: {
-                            name: 'name',
-                            options: [],
+                            fieldType: {
+                              name: 'name',
+                              type: Options.name,
+                            },
                           },
+                          directives: [],
+                          interfaces: [],
                           data: {
                             type: Instances.Argument,
                           },
                           args: [
                             {
                               name: 'Artur',
+                              directives: [],
+                              interfaces: [],
+                              args: [],
                               type: {
-                                name: Value.StringValue,
+                                fieldType: {
+                                  name: Value.StringValue,
+                                  type: Options.name,
+                                },
                               },
                               data: {
                                 type: Value.StringValue,
@@ -701,9 +933,13 @@ describe('Directive tests on parser', () => {
                         {
                           name: 'weight',
                           type: {
-                            name: 'weight',
-                            options: [],
+                            fieldType: {
+                              name: 'weight',
+                              type: Options.name,
+                            },
                           },
+                          directives: [],
+                          interfaces: [],
                           data: {
                             type: Instances.Argument,
                           },
@@ -711,8 +947,14 @@ describe('Directive tests on parser', () => {
                             {
                               name: '22.3',
                               type: {
-                                name: Value.FloatValue,
+                                fieldType: {
+                                  name: Value.FloatValue,
+                                  type: Options.name,
+                                },
                               },
+                              directives: [],
+                              interfaces: [],
+                              args: [],
                               data: {
                                 type: Value.FloatValue,
                               },
@@ -724,7 +966,10 @@ describe('Directive tests on parser', () => {
                         type: Value.ObjectValue,
                       },
                       type: {
-                        name: Value.ObjectValue,
+                        fieldType: {
+                          name: Value.ObjectValue,
+                          type: Options.name,
+                        },
                       },
                     },
                   ],
@@ -737,50 +982,74 @@ describe('Directive tests on parser', () => {
         {
           name: 'model',
           type: {
-            name: TypeSystemDefinitionDisplayStrings.directive,
+            fieldType: {
+              name: TypeSystemDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
             directiveOptions: [Directive.OBJECT],
           },
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
+          directives: [],
+          interfaces: [],
           args: [
             {
               name: 'address',
               type: {
-                name: 'Address',
+                fieldType: {
+                  name: 'Address',
+                  type: Options.name,
+                },
               },
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [
                 {
                   name: Value.ObjectValue,
                   type: {
-                    name: Value.ObjectValue,
+                    fieldType: {
+                      name: Value.ObjectValue,
+                      type: Options.name,
+                    },
                   },
                   data: {
                     type: Value.ObjectValue,
                   },
+                  directives: [],
+                  interfaces: [],
                   args: [
                     {
                       name: 'age',
                       type: {
-                        name: 'age',
-                        options: [],
+                        fieldType: {
+                          name: 'age',
+                          type: Options.name,
+                        },
                       },
                       data: {
                         type: Instances.Argument,
                       },
+                      directives: [],
+                      interfaces: [],
                       args: [
                         {
                           name: '2010',
                           type: {
-                            name: Value.IntValue,
+                            fieldType: {
+                              name: Value.IntValue,
+                              type: Options.name,
+                            },
                           },
                           data: {
                             type: Value.IntValue,
                           },
+                          args: [],
+                          directives: [],
+                          interfaces: [],
                         },
                       ],
                     },
@@ -792,6 +1061,6 @@ describe('Directive tests on parser', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
 });

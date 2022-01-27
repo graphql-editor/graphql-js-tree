@@ -1,5 +1,5 @@
-import { ParserTree, ScalarTypes, TypeDefinition, TypeSystemDefinition } from '../../Models';
-import { Parser, ParserUtils } from '../../Parser';
+import { ParserTree, ScalarTypes, TypeDefinition, TypeSystemDefinition, Options } from '../../Models';
+import { Parser } from '../../Parser';
 
 describe('Interfaces works as expected', () => {
   it('Implements HasName Person type', () => {
@@ -15,12 +15,14 @@ describe('Interfaces works as expected', () => {
         {
           name: 'Person',
           type: {
-            name: 'type',
+            fieldType: {
+              name: 'type',
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          description: '',
           interfaces: ['HasName'],
           directives: [],
           args: [
@@ -28,9 +30,13 @@ describe('Interfaces works as expected', () => {
               name: 'name',
               args: [],
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               directives: [],
+              interfaces: [],
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
@@ -40,19 +46,26 @@ describe('Interfaces works as expected', () => {
         {
           name: 'HasName',
           type: {
-            name: 'interface',
+            fieldType: {
+              name: 'interface',
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
-          description: '',
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'name',
               args: [],
+              interfaces: [],
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               directives: [],
               data: {
@@ -63,7 +76,7 @@ describe('Interfaces works as expected', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   it('Implements HasName Person interface', () => {
     const schema = `
@@ -78,20 +91,26 @@ describe('Interfaces works as expected', () => {
         {
           name: 'Person',
           type: {
-            name: 'interface',
+            fieldType: {
+              name: 'interface',
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
-          description: '',
           interfaces: ['HasName'],
           directives: [],
           args: [
             {
               name: 'name',
               args: [],
+              interfaces: [],
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               directives: [],
               data: {
@@ -103,19 +122,26 @@ describe('Interfaces works as expected', () => {
         {
           name: 'HasName',
           type: {
-            name: 'interface',
+            fieldType: {
+              name: 'interface',
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
-          description: '',
           directives: [],
+          interfaces: [],
           args: [
             {
               name: 'name',
               args: [],
+              interfaces: [],
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               directives: [],
               data: {
@@ -126,6 +152,6 @@ describe('Interfaces works as expected', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
 });

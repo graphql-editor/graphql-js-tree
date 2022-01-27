@@ -1,4 +1,4 @@
-import { Helpers, ParserTree } from '../../Models';
+import { Helpers, ParserTree, Options } from '../../Models';
 import { TreeToGraphQL } from '../../TreeToGraphQL';
 
 describe('Comment tests on TreeToGraphQL', () => {
@@ -8,12 +8,18 @@ describe('Comment tests on TreeToGraphQL', () => {
         {
           name: 'comment',
           type: {
-            name: 'comment',
+            fieldType: {
+              name: 'comment',
+              type: Options.name,
+            },
           },
           data: {
             type: Helpers.Comment,
           },
           description: 'hello world',
+          directives: [],
+          interfaces: [],
+          args: [],
         },
       ],
     };

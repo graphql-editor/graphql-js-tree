@@ -15,7 +15,10 @@ describe('Fields tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -26,57 +29,77 @@ describe('Fields tests on parser', () => {
             {
               name: 'id',
               type: {
-                name: ScalarTypes.ID,
+                fieldType: {
+                  name: ScalarTypes.ID,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
             {
               name: 'age',
               type: {
-                name: ScalarTypes.Int,
+                fieldType: {
+                  name: ScalarTypes.Int,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
             {
               name: 'weight',
               type: {
-                name: ScalarTypes.Float,
+                fieldType: {
+                  name: ScalarTypes.Float,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
             {
               name: 'verified',
               type: {
-                name: ScalarTypes.Boolean,
+                fieldType: {
+                  name: ScalarTypes.Boolean,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
           ],
         },
@@ -96,7 +119,10 @@ describe('Fields tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -108,7 +134,10 @@ describe('Fields tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -119,13 +148,17 @@ describe('Fields tests on parser', () => {
             {
               name: 'car',
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
           ],
         },
@@ -141,18 +174,25 @@ describe('Fields tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.interface,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.interface,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
           directives: [],
           args: [],
+          interfaces: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -163,13 +203,17 @@ describe('Fields tests on parser', () => {
             {
               name: 'car',
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
           ],
         },
@@ -185,18 +229,25 @@ describe('Fields tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.enum,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.enum,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
           directives: [],
           args: [],
+          interfaces: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -207,13 +258,17 @@ describe('Fields tests on parser', () => {
             {
               name: 'car',
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
           ],
         },
@@ -229,17 +284,25 @@ describe('Fields tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.scalar,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.scalar,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
           },
           directives: [],
+          interfaces: [],
+          args: [],
         },
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -250,13 +313,17 @@ describe('Fields tests on parser', () => {
             {
               name: 'car',
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
           ],
         },
@@ -272,7 +339,10 @@ describe('Fields tests on parser', () => {
         {
           name: 'Car',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -284,7 +354,10 @@ describe('Fields tests on parser', () => {
         {
           name: 'Plane',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -295,8 +368,12 @@ describe('Fields tests on parser', () => {
         },
         {
           name: 'Machine',
+          interfaces: [],
           type: {
-            name: TypeDefinitionDisplayStrings.union,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.union,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.UnionTypeDefinition,
@@ -305,8 +382,14 @@ describe('Fields tests on parser', () => {
           args: [
             {
               name: 'Car',
+              directives: [],
+              interfaces: [],
+              args: [],
               type: {
-                name: 'Car',
+                fieldType: {
+                  name: 'Car',
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.UnionMemberDefinition,
@@ -314,8 +397,14 @@ describe('Fields tests on parser', () => {
             },
             {
               name: 'Plane',
+              directives: [],
+              interfaces: [],
+              args: [],
               type: {
-                name: 'Plane',
+                fieldType: {
+                  name: 'Plane',
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.UnionMemberDefinition,
@@ -326,7 +415,10 @@ describe('Fields tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -337,12 +429,16 @@ describe('Fields tests on parser', () => {
             {
               name: 'machine',
               type: {
-                name: 'Machine',
+                fieldType: {
+                  name: 'Machine',
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [],
             },
           ],
@@ -359,7 +455,10 @@ describe('Fields tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -370,13 +469,19 @@ describe('Fields tests on parser', () => {
             {
               name: 'id',
               type: {
-                name: ScalarTypes.ID,
-                options: [Options.required],
+                fieldType: {
+                  type: Options.required,
+                  nest: {
+                    type: Options.name,
+                    name: ScalarTypes.ID,
+                  },
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [],
             },
           ],
@@ -393,7 +498,10 @@ describe('Fields tests on parser', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -404,37 +512,61 @@ describe('Fields tests on parser', () => {
             {
               name: 'id',
               type: {
-                name: ScalarTypes.ID,
-                options: [Options.required],
+                fieldType: {
+                  type: Options.required,
+                  nest: {
+                    name: ScalarTypes.ID,
+                    type: Options.name,
+                  },
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [],
             },
             {
               name: 'name',
               type: {
-                name: ScalarTypes.String,
-                options: [Options.array],
+                fieldType: {
+                  type: Options.array,
+                  nest: {
+                    name: ScalarTypes.String,
+                    type: Options.name,
+                  },
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [],
             },
             {
               name: 'friends',
               type: {
-                name: 'Person',
-                options: [Options.array, Options.arrayRequired, Options.required],
+                fieldType: {
+                  type: Options.required,
+                  nest: {
+                    type: Options.array,
+                    nest: {
+                      type: Options.required,
+                      nest: {
+                        type: Options.name,
+                        name: 'Person',
+                      },
+                    },
+                  },
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
+              interfaces: [],
               args: [],
             },
           ],
@@ -445,5 +577,106 @@ describe('Fields tests on parser', () => {
     const graphql = TreeToGraphQL.parse(treeMock);
     expect(graphql).toContain(`name: [${ScalarTypes.String}]`);
     expect(graphql).toContain(`friends: [Person!]!`);
+  });
+  test(`ListType nested lists`, () => {
+    const treeMock: ParserTree = {
+      nodes: [
+        {
+          name: 'Person',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+          interfaces: [],
+          directives: [],
+          args: [
+            {
+              name: 'matrix',
+              type: {
+                fieldType: {
+                  type: Options.array,
+                  nest: {
+                    type: Options.array,
+                    nest: {
+                      type: Options.name,
+                      name: ScalarTypes.String,
+                    },
+                  },
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+              directives: [],
+              interfaces: [],
+              args: [],
+            },
+          ],
+        },
+      ],
+    };
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`matrix: [[${ScalarTypes.String}]]`);
+  });
+  test(`ListType nested lists with required`, () => {
+    const treeMock: ParserTree = {
+      nodes: [
+        {
+          name: 'Person',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+          interfaces: [],
+          directives: [],
+          args: [
+            {
+              name: 'matrix',
+              type: {
+                fieldType: {
+                  type: Options.required,
+                  nest: {
+                    type: Options.array,
+                    nest: {
+                      type: Options.required,
+                      nest: {
+                        type: Options.array,
+                        nest: {
+                          type: Options.required,
+                          nest: {
+                            type: Options.name,
+                            name: ScalarTypes.String,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+              directives: [],
+              interfaces: [],
+              args: [],
+            },
+          ],
+        },
+      ],
+    };
+
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`matrix: [[${ScalarTypes.String}!]!]!`);
   });
 });

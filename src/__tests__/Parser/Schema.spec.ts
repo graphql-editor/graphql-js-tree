@@ -5,8 +5,9 @@ import {
   TypeDefinition,
   TypeDefinitionDisplayStrings,
   TypeSystemDefinition,
+  Options,
 } from '../../Models';
-import { Parser, ParserUtils } from '../../Parser';
+import { Parser } from '../../Parser';
 
 describe('Schema base operations', () => {
   test(`query`, () => {
@@ -23,8 +24,11 @@ describe('Schema base operations', () => {
         {
           name: 'Query',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
             operations: [OperationType.query],
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -35,19 +39,23 @@ describe('Schema base operations', () => {
             {
               name: 'status',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
           ],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`query should exist`, () => {
     const schema = `type Query{
@@ -60,8 +68,11 @@ describe('Schema base operations', () => {
         {
           name: 'Query',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
             operations: [OperationType.query],
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -72,19 +83,23 @@ describe('Schema base operations', () => {
             {
               name: 'status',
               type: {
-                name: ScalarTypes.String,
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
               },
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [],
               args: [],
+              interfaces: [],
             },
           ],
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
   test(`empty query`, () => {
     const schema = `
@@ -99,8 +114,11 @@ describe('Schema base operations', () => {
         {
           name: 'Query',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
             operations: [OperationType.query],
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -111,6 +129,6 @@ describe('Schema base operations', () => {
         },
       ],
     };
-    expect(ParserUtils.compareParserTreesNodes(tree.nodes, treeMock.nodes)).toBe(true);
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
 });

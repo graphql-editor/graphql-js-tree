@@ -1,4 +1,4 @@
-import { ParserTree, TypeDefinition, TypeDefinitionDisplayStrings } from '../../Models';
+import { ParserTree, TypeDefinition, TypeDefinitionDisplayStrings, Options } from '../../Models';
 import { TreeToGraphQL } from '../../TreeToGraphQL';
 
 describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
@@ -9,7 +9,10 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.type,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
@@ -30,13 +33,17 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.interface,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.interface,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
           directives: [],
           args: [],
+          interfaces: [],
         },
       ],
     };
@@ -50,13 +57,17 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.input,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [],
           args: [],
+          interfaces: [],
         },
       ],
     };
@@ -70,13 +81,17 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.enum,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.enum,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
           directives: [],
           args: [],
+          interfaces: [],
         },
       ],
     };
@@ -90,13 +105,17 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.union,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.union,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.UnionTypeDefinition,
           },
           directives: [],
           args: [],
+          interfaces: [],
         },
       ],
     };
@@ -110,12 +129,17 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
         {
           name: 'Person',
           type: {
-            name: TypeDefinitionDisplayStrings.scalar,
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.scalar,
+              type: Options.name,
+            },
           },
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
           },
           directives: [],
+          args: [],
+          interfaces: [],
         },
       ],
     };
