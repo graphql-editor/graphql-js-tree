@@ -1,5 +1,5 @@
 import { ParserField } from '@/Models';
-import { getTypeName } from '@/TreeToGraphQL/templates/shared/getTypeName';
+import { getTypeName } from '@/shared/getTypeName';
 import { TemplateUtils } from './TemplateUtils';
 
 /**

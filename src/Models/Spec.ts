@@ -98,4 +98,7 @@ export enum Options {
   name = 'name',
 }
 
-export type FieldType = { type: Options; nest?: FieldType; name?: string };
+export type FieldType =
+  | { type: Options.name; name: string }
+  | { type: Options.required; nest: FieldType }
+  | { type: Options.array; nest: FieldType };

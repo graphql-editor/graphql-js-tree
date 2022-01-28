@@ -30,6 +30,5 @@ export type AllTypes =
   | Type;
 
 export interface GraphQLNodeParams {
-  type?: AllTypes;
-  for?: AllTypes[];
+  type: AllTypes;
 }
