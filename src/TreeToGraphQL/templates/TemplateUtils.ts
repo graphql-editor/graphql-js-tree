@@ -8,7 +8,7 @@ import {
   Value,
   ValueDefinition,
 } from '@/Models';
-import { compileType } from '@/shared/getTypeName';
+import { compileType } from '@/shared';
 import { ArgumentTemplate } from './ArgumentTemplate';
 import { CommentTemplate } from './CommentTemplate';
 import { DirectiveTemplate } from './DirectiveTemplate';

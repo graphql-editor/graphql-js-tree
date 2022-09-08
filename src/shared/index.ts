@@ -7,14 +7,14 @@ export const getTypeName = (f: FieldType): string => {
   return getTypeName(f.nest);
 };
 
-export const compileType = (f: FieldType, fn: (x: string) => string = (x) => x, required = false): string => {
+export const compileType = (f: FieldType): string => {
   if (f.type === Options.array) {
-    return compileType(f.nest, (x) => (required ? `[${fn(x)}]!` : `[${fn(x)}]`));
+    return `[${compileType(f.nest)}]`;
   }
   if (f.type === Options.required) {
-    return compileType(f.nest, fn, true);
+    return `${compileType(f.nest)}!`;
   }
-  return required ? fn(`${f.name}!`) : fn(f.name);
+  return f.name;
 };
 
 export const decompileType = (typeName: string): FieldType => {

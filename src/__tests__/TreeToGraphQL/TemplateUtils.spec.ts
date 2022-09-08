@@ -1,5 +1,5 @@
-import { TemplateUtils } from '@/TreeToGraphQL/templates/TemplateUtils';
-import { Options, ParserField, TypeSystemDefinition } from '../../Models';
+import { compileType, decompileType } from '@/shared';
+import { FieldType, Options, ParserField, TypeSystemDefinition } from '../../Models';
 
 describe('TemplateUtils tests on parser', () => {
   test(`ListType fields`, () => {
@@ -25,7 +25,36 @@ describe('TemplateUtils tests on parser', () => {
       args: [],
     };
 
-    const graphql = TemplateUtils.resolveFieldType(treeMock.type.fieldType);
+    const graphql = compileType(treeMock.type.fieldType);
     expect(graphql).toContain(`[Person]!`);
+  });
+  test(`ListType fields  2`, () => {
+    const treeMock: FieldType = {
+      type: Options.required,
+      nest: {
+        type: Options.array,
+        nest: {
+          type: Options.array,
+          nest: {
+            type: Options.required,
+            nest: {
+              type: Options.name,
+              name: 'Person',
+            },
+          },
+        },
+      },
+    };
+
+    const graphql = compileType(treeMock);
+    expect(graphql).toContain(`[[Person!]]!`);
+  });
+  test(`ListType fields  3`, () => {
+    const ft = decompileType(`[[Person]!]!`);
+    expect(compileType(ft)).toContain(`[[Person]!]!`);
+  });
+  test(`ListType fields  4`, () => {
+    const ft = decompileType(`[[Person]!]!`);
+    expect(compileType(ft)).toContain(`[[Person]!]!`);
   });
 });

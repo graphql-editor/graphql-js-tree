@@ -1,5 +1,5 @@
 import { ParserField, Value } from '@/Models';
-import { getTypeName } from '@/shared/getTypeName';
+import { getTypeName } from '@/shared';
 import { TemplateUtils } from './TemplateUtils';
 
 /**
