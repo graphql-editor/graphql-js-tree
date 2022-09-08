@@ -623,4 +623,90 @@ describe('Fields tests on parser', () => {
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
+  test(`ListType fields`, () => {
+    const schema = `type Person{
+        id: ${ScalarTypes.ID}!
+        name: [${ScalarTypes.String}]
+        friends: [Person]!
+    }`;
+    const tree = Parser.parse(schema);
+    const treeMock: ParserTree = {
+      nodes: [
+        {
+          name: 'Person',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+          interfaces: [],
+          directives: [],
+          args: [
+            {
+              name: 'id',
+              type: {
+                fieldType: {
+                  type: Options.required,
+                  nest: {
+                    name: ScalarTypes.ID,
+                    type: Options.name,
+                  },
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+              directives: [],
+              args: [],
+              interfaces: [],
+            },
+            {
+              name: 'name',
+              type: {
+                fieldType: {
+                  type: Options.array,
+                  nest: {
+                    name: ScalarTypes.String,
+                    type: Options.name,
+                  },
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+              directives: [],
+              args: [],
+              interfaces: [],
+            },
+            {
+              name: 'friends',
+              type: {
+                fieldType: {
+                  type: Options.required,
+                  nest: {
+                    type: Options.array,
+                    nest: {
+                      type: Options.name,
+                      name: 'Person',
+                    },
+                  },
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+              directives: [],
+              args: [],
+              interfaces: [],
+            },
+          ],
+        },
+      ],
+    };
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
+  });
 });

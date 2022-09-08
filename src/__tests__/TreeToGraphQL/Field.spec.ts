@@ -553,11 +553,8 @@ describe('Fields tests on parser', () => {
                   nest: {
                     type: Options.array,
                     nest: {
-                      type: Options.required,
-                      nest: {
-                        type: Options.name,
-                        name: 'Person',
-                      },
+                      type: Options.name,
+                      name: 'Person',
                     },
                   },
                 },
@@ -576,7 +573,7 @@ describe('Fields tests on parser', () => {
 
     const graphql = TreeToGraphQL.parse(treeMock);
     expect(graphql).toContain(`name: [${ScalarTypes.String}]`);
-    expect(graphql).toContain(`friends: [Person!]!`);
+    expect(graphql).toContain(`friends: [Person]!`);
   });
   test(`ListType nested lists`, () => {
     const treeMock: ParserTree = {
