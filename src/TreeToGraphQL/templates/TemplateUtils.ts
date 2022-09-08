@@ -34,16 +34,13 @@ export class TemplateUtils {
     fn: (x: string) => string = (x) => x,
     required = false,
   ): string => {
-    if (f.type === Options.name && f.name) {
-      return fn(required ? `${f.name}!` : f.name);
-    }
     if (f.type === Options.array) {
       return TemplateUtils.resolveFieldType(f.nest, (x) => (required ? `[${fn(x)}]!` : `[${fn(x)}]`));
     }
     if (f.type === Options.required) {
       return TemplateUtils.resolveFieldType(f.nest, fn, true);
     }
-    throw new Error('Invalid field type:' + JSON.stringify(f));
+    return fn(required ? `${f.name}!` : f.name);
   };
   /**
    *
