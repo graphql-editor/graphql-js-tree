@@ -1,7 +1,6 @@
 import {
   Helpers,
   Instances,
-  Options,
   ParserField,
   TypeDefinition,
   TypeExtension,
@@ -9,6 +8,7 @@ import {
   Value,
   ValueDefinition,
 } from '@/Models';
+import { compileType } from '@/shared/getTypeName';
 import { ArgumentTemplate } from './ArgumentTemplate';
 import { CommentTemplate } from './CommentTemplate';
 import { DirectiveTemplate } from './DirectiveTemplate';
@@ -29,18 +29,8 @@ const dedent = new RegExp('\n([\t ]*)', 'gm');
  * @class TemplateUtils
  */
 export class TemplateUtils {
-  static resolveFieldType = (
-    f: ParserField['type']['fieldType'],
-    fn: (x: string) => string = (x) => x,
-    required = false,
-  ): string => {
-    if (f.type === Options.array) {
-      return TemplateUtils.resolveFieldType(f.nest, (x) => (required ? `[${fn(x)}]!` : `[${fn(x)}]`));
-    }
-    if (f.type === Options.required) {
-      return TemplateUtils.resolveFieldType(f.nest, fn, true);
-    }
-    return fn(required ? `${f.name}!` : f.name);
+  static resolveFieldType = (f: ParserField['type']['fieldType']): string => {
+    return compileType(f);
   };
   /**
    *

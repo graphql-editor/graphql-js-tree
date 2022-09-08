@@ -14,7 +14,7 @@ export const compileType = (f: FieldType, fn: (x: string) => string = (x) => x, 
   if (f.type === Options.required) {
     return compileType(f.nest, fn, true);
   }
-  return fn(f.name);
+  return required ? fn(`${f.name}!`) : fn(f.name);
 };
 
 export const decompileType = (typeName: string): FieldType => {
