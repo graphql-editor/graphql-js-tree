@@ -16,7 +16,7 @@ export class ValueTemplate {
         returnedValue = `"${f.name}"`;
       }
       if (f.data.type === Value.ListValue) {
-        returnedValue = `[${(f.args || []).map((a) => TemplateUtils.resolverForConnection(a))}]`;
+        returnedValue = `[${(f.args || []).map((a) => TemplateUtils.resolverForConnection(a)).join(', ')}]`;
       }
       if (f.data.type === Value.ObjectValue) {
         returnedValue = `{ ${(f.args || []).map((a) => TemplateUtils.resolverForConnection(a))}}`;

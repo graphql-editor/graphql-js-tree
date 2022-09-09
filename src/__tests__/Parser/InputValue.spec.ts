@@ -317,9 +317,7 @@ describe('Input Values tests on parser', () => {
         id: ${ScalarTypes.ID} = "abcdef"
         name: ${ScalarTypes.String} = "Artur"
         emptyName: ${ScalarTypes.String} = ""
-        noName: ${ScalarTypes.String}
         emptyArray: [${ScalarTypes.String}] = []
-        noArray: [${ScalarTypes.String}]
         age: ${ScalarTypes.Int} = 28
         weight: ${ScalarTypes.Float} = 73.0
         verified: ${ScalarTypes.Boolean} = true
@@ -435,21 +433,6 @@ describe('Input Values tests on parser', () => {
               ],
             },
             {
-              name: 'noName',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.String,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
-            {
               name: 'emptyArray',
               type: {
                 fieldType: {
@@ -464,27 +447,19 @@ describe('Input Values tests on parser', () => {
                 type: ValueDefinition.InputValueDefinition,
               },
               directives: [],
-              args: [],
-              interfaces: [],
-            },
-            {
-              name: 'noArray',
-              type: {
-                fieldType: {
-                  type: Options.array,
-                  nest: {
-                    type: Options.name,
-                    name: ScalarTypes.String,
-                  },
+              args: [
+                {
+                  args: [],
+                  data: { type: Value.ListValue },
+                  directives: [],
+                  interfaces: [],
+                  name: Value.ListValue,
+                  type: { fieldType: { name: Value.ListValue, type: Options.name } },
                 },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
-              directives: [],
+              ],
               interfaces: [],
-              args: [],
             },
+
             {
               name: 'age',
               type: {
@@ -575,6 +550,113 @@ describe('Input Values tests on parser', () => {
                   args: [],
                   directives: [],
                   interfaces: [],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
+  });
+  test(`Default ScalarTypes values - ${Object.keys(ScalarTypes).join(', ')}`, () => {
+    const schema = `input Person{
+        names: [${ScalarTypes.String}] = ["Artur","A","B"]
+    }`;
+    const tree = Parser.parse(schema);
+    const treeMock: ParserTree = {
+      nodes: [
+        {
+          name: 'Person',
+          interfaces: [],
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.InputObjectTypeDefinition,
+          },
+          directives: [],
+          args: [
+            {
+              name: 'names',
+              type: {
+                fieldType: {
+                  type: Options.array,
+                  nest: {
+                    name: ScalarTypes.String,
+                    type: Options.name,
+                  },
+                },
+              },
+              data: {
+                type: ValueDefinition.InputValueDefinition,
+              },
+              directives: [],
+              interfaces: [],
+              args: [
+                {
+                  name: Value.ListValue,
+                  type: {
+                    fieldType: {
+                      name: Value.ListValue,
+                      type: Options.name,
+                    },
+                  },
+                  data: {
+                    type: Value.ListValue,
+                  },
+                  directives: [],
+                  interfaces: [],
+                  args: [
+                    {
+                      name: 'Artur',
+                      interfaces: [],
+                      args: [],
+                      directives: [],
+                      type: {
+                        fieldType: {
+                          name: Value.StringValue,
+                          type: Options.name,
+                        },
+                      },
+                      data: {
+                        type: Value.StringValue,
+                      },
+                    },
+                    {
+                      name: 'A',
+                      interfaces: [],
+                      args: [],
+                      directives: [],
+                      type: {
+                        fieldType: {
+                          name: Value.StringValue,
+                          type: Options.name,
+                        },
+                      },
+                      data: {
+                        type: Value.StringValue,
+                      },
+                    },
+                    {
+                      name: 'B',
+                      interfaces: [],
+                      args: [],
+                      directives: [],
+                      type: {
+                        fieldType: {
+                          name: Value.StringValue,
+                          type: Options.name,
+                        },
+                      },
+                      data: {
+                        type: Value.StringValue,
+                      },
+                    },
+                  ],
                 },
               ],
             },

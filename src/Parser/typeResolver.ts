@@ -111,7 +111,23 @@ export class TypeResolver {
    */
   static resolveValue(value: ValueNode): ParserField[] {
     if (value.kind === 'ListValue') {
-      return value.values.map(TypeResolver.resolveValue).reduce((a, b) => [...(a || []), ...(b || [])], []);
+      return [
+        {
+          name: value.kind,
+          directives: [],
+          interfaces: [],
+          args: value.values.map((f) => TypeResolver.resolveValue(f)).reduce((a, b) => [...a, ...b], []),
+          data: {
+            type: value.kind as AllTypes,
+          },
+          type: {
+            fieldType: {
+              name: value.kind as AllTypes,
+              type: Options.name,
+            },
+          },
+        },
+      ];
     }
     if (value.kind === 'ObjectValue') {
       return [

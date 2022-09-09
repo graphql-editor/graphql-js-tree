@@ -479,7 +479,110 @@ describe('Input Values tests on TreeToGraphQL', () => {
     expect(graphql).toContain(`weight: ${ScalarTypes.Float} = 73.0`);
     expect(graphql).toContain(`verified: ${ScalarTypes.Boolean} = true`);
   });
-
+  test('Default Input Arrays', () => {
+    const treeMock: ParserTree = {
+      nodes: [
+        {
+          name: 'Person',
+          interfaces: [],
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.input,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.InputObjectTypeDefinition,
+          },
+          directives: [],
+          args: [
+            {
+              name: 'names',
+              type: {
+                fieldType: {
+                  type: Options.array,
+                  nest: {
+                    name: ScalarTypes.String,
+                    type: Options.name,
+                  },
+                },
+              },
+              data: {
+                type: ValueDefinition.InputValueDefinition,
+              },
+              directives: [],
+              interfaces: [],
+              args: [
+                {
+                  name: Value.ListValue,
+                  interfaces: [],
+                  args: [
+                    {
+                      name: 'Artur',
+                      interfaces: [],
+                      args: [],
+                      directives: [],
+                      type: {
+                        fieldType: {
+                          name: Value.StringValue,
+                          type: Options.name,
+                        },
+                      },
+                      data: {
+                        type: Value.StringValue,
+                      },
+                    },
+                    {
+                      name: 'A',
+                      interfaces: [],
+                      args: [],
+                      directives: [],
+                      type: {
+                        fieldType: {
+                          name: Value.StringValue,
+                          type: Options.name,
+                        },
+                      },
+                      data: {
+                        type: Value.StringValue,
+                      },
+                    },
+                    {
+                      name: 'B',
+                      interfaces: [],
+                      args: [],
+                      directives: [],
+                      type: {
+                        fieldType: {
+                          name: Value.StringValue,
+                          type: Options.name,
+                        },
+                      },
+                      data: {
+                        type: Value.StringValue,
+                      },
+                    },
+                  ],
+                  directives: [],
+                  type: {
+                    fieldType: {
+                      name: Value.ListValue,
+                      type: Options.name,
+                    },
+                  },
+                  data: {
+                    type: Value.ListValue,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`names: [String] = [`);
+  });
   test('Default Input objects', () => {
     const treeMock: ParserTree = {
       nodes: [
