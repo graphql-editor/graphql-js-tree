@@ -1,3 +1,4 @@
+import { createParserField } from '@/shared';
 import {
   ParserTree,
   ScalarTypes,
@@ -13,7 +14,7 @@ describe('Extend tests on TreeToGraphQL', () => {
   it('Extends Person TreeToGraphQL', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -25,27 +26,22 @@ describe('Extend tests on TreeToGraphQL', () => {
             type: TypeDefinition.ObjectTypeDefinition,
           },
           description: '',
-          interfaces: [],
-          directives: [],
           args: [
-            {
+            createParserField({
               name: 'name',
-              args: [],
               type: {
                 fieldType: {
                   name: ScalarTypes.String,
                   type: Options.name,
                 },
               },
-              directives: [],
-              interfaces: [],
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -57,26 +53,21 @@ describe('Extend tests on TreeToGraphQL', () => {
             type: TypeExtension.ObjectTypeExtension,
           },
           description: '',
-          interfaces: [],
-          directives: [],
           args: [
-            {
+            createParserField({
               name: 'age',
-              args: [],
-              interfaces: [],
               type: {
                 fieldType: {
                   name: ScalarTypes.Int,
                   type: Options.name,
                 },
               },
-              directives: [],
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);

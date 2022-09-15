@@ -1,3 +1,4 @@
+import { createParserField } from '@/shared';
 import {
   Instances,
   ParserTree,
@@ -14,9 +15,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
   test(`Built in ScalarTypes - ${Object.keys(ScalarTypes).join(', ')}`, () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeDefinitionDisplayStrings.input,
@@ -26,10 +27,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
+
           args: [
-            {
-              interfaces: [],
+            createParserField({
               name: 'id',
               type: {
                 fieldType: {
@@ -40,11 +40,8 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-            },
-            {
-              interfaces: [],
+            }),
+            createParserField({
               name: 'name',
               type: {
                 fieldType: {
@@ -55,11 +52,8 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-            },
-            {
-              interfaces: [],
+            }),
+            createParserField({
               name: 'age',
               type: {
                 fieldType: {
@@ -70,12 +64,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'weight',
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.Float,
@@ -85,12 +77,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'verified',
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.Boolean,
@@ -100,11 +90,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -117,9 +105,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
   test('Enum objects', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeDefinitionDisplayStrings.enum,
@@ -129,10 +117,8 @@ describe('Input Values tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
-          directives: [],
-          args: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -143,12 +129,11 @@ describe('Input Values tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'car',
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: 'Car',
@@ -158,11 +143,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -172,7 +155,7 @@ describe('Input Values tests on TreeToGraphQL', () => {
   test('Input objects', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -183,12 +166,11 @@ describe('Input Values tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'year',
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.Int,
@@ -198,12 +180,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -214,11 +194,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
-              interfaces: [],
+            createParserField({
               name: 'car',
               type: {
                 fieldType: {
@@ -229,11 +207,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -243,10 +219,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
   test('Custom scalar objects', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
-          args: [],
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeDefinitionDisplayStrings.scalar,
@@ -256,9 +231,8 @@ describe('Input Values tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
           },
-          directives: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -269,12 +243,11 @@ describe('Input Values tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'car',
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: 'Car',
@@ -284,11 +257,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -298,7 +269,7 @@ describe('Input Values tests on TreeToGraphQL', () => {
   test(`Default ScalarTypes values - ${Object.keys(ScalarTypes).join(', ')}`, () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -306,15 +277,15 @@ describe('Input Values tests on TreeToGraphQL', () => {
               type: Options.name,
             },
           },
-          interfaces: [],
+
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'id',
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.ID,
@@ -324,13 +295,11 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
+
               args: [
-                {
+                createParserField({
                   name: 'abcdef',
-                  args: [],
-                  directives: [],
-                  interfaces: [],
+
                   type: {
                     fieldType: {
                       name: Value.StringValue,
@@ -340,10 +309,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   data: {
                     type: Value.StringValue,
                   },
-                },
+                }),
               ],
-            },
-            {
+            }),
+            createParserField({
               name: 'name',
               type: {
                 fieldType: {
@@ -354,14 +323,11 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: 'Artur',
-                  args: [],
-                  directives: [],
-                  interfaces: [],
+
                   type: {
                     fieldType: {
                       name: Value.StringValue,
@@ -371,10 +337,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   data: {
                     type: Value.StringValue,
                   },
-                },
+                }),
               ],
-            },
-            {
+            }),
+            createParserField({
               name: 'age',
               type: {
                 fieldType: {
@@ -382,17 +348,15 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   type: Options.name,
                 },
               },
-              interfaces: [],
+
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
+
               args: [
-                {
+                createParserField({
                   name: '28',
-                  args: [],
-                  directives: [],
-                  interfaces: [],
+
                   type: {
                     fieldType: {
                       name: Value.IntValue,
@@ -402,10 +366,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   data: {
                     type: Value.IntValue,
                   },
-                },
+                }),
               ],
-            },
-            {
+            }),
+            createParserField({
               name: 'weight',
               type: {
                 fieldType: {
@@ -413,17 +377,15 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   type: Options.name,
                 },
               },
-              interfaces: [],
+
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
+
               args: [
-                {
+                createParserField({
                   name: '73.0',
-                  args: [],
-                  directives: [],
-                  interfaces: [],
+
                   type: {
                     fieldType: {
                       name: Value.FloatValue,
@@ -433,10 +395,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   data: {
                     type: Value.FloatValue,
                   },
-                },
+                }),
               ],
-            },
-            {
+            }),
+            createParserField({
               name: 'verified',
               type: {
                 fieldType: {
@@ -444,17 +406,15 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   type: Options.name,
                 },
               },
-              interfaces: [],
+
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
+
               args: [
-                {
+                createParserField({
                   name: 'true',
-                  args: [],
-                  directives: [],
-                  interfaces: [],
+
                   type: {
                     fieldType: {
                       name: Value.BooleanValue,
@@ -464,11 +424,11 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   data: {
                     type: Value.BooleanValue,
                   },
-                },
+                }),
               ],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -482,9 +442,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
   test('Default Input Arrays', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeDefinitionDisplayStrings.input,
@@ -494,9 +454,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'names',
               type: {
                 fieldType: {
@@ -510,18 +470,15 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: Value.ListValue,
-                  interfaces: [],
+
                   args: [
-                    {
+                    createParserField({
                       name: 'Artur',
-                      interfaces: [],
-                      args: [],
-                      directives: [],
+
                       type: {
                         fieldType: {
                           name: Value.StringValue,
@@ -531,12 +488,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
                       data: {
                         type: Value.StringValue,
                       },
-                    },
-                    {
+                    }),
+                    createParserField({
                       name: 'A',
-                      interfaces: [],
-                      args: [],
-                      directives: [],
+
                       type: {
                         fieldType: {
                           name: Value.StringValue,
@@ -546,12 +501,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
                       data: {
                         type: Value.StringValue,
                       },
-                    },
-                    {
+                    }),
+                    createParserField({
                       name: 'B',
-                      interfaces: [],
-                      args: [],
-                      directives: [],
+
                       type: {
                         fieldType: {
                           name: Value.StringValue,
@@ -561,9 +514,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
                       data: {
                         type: Value.StringValue,
                       },
-                    },
+                    }),
                   ],
-                  directives: [],
+
                   type: {
                     fieldType: {
                       name: Value.ListValue,
@@ -573,11 +526,11 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   data: {
                     type: Value.ListValue,
                   },
-                },
+                }),
               ],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -586,7 +539,7 @@ describe('Input Values tests on TreeToGraphQL', () => {
   test('Default Input objects', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -597,12 +550,11 @@ describe('Input Values tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'year',
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.Int,
@@ -612,12 +564,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -628,10 +578,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'car',
               type: {
                 fieldType: {
@@ -642,13 +591,11 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: Value.ObjectValue,
-                  directives: [],
-                  interfaces: [],
+
                   type: {
                     fieldType: {
                       name: Value.ObjectValue,
@@ -659,9 +606,7 @@ describe('Input Values tests on TreeToGraphQL', () => {
                     type: Value.ObjectValue,
                   },
                   args: [
-                    {
-                      directives: [],
-                      interfaces: [],
+                    createParserField({
                       name: 'year',
                       type: {
                         fieldType: {
@@ -673,10 +618,7 @@ describe('Input Values tests on TreeToGraphQL', () => {
                         type: Instances.Argument,
                       },
                       args: [
-                        {
-                          args: [],
-                          directives: [],
-                          interfaces: [],
+                        createParserField({
                           name: '2010',
                           type: {
                             fieldType: {
@@ -687,15 +629,15 @@ describe('Input Values tests on TreeToGraphQL', () => {
                           data: {
                             type: Value.IntValue,
                           },
-                        },
+                        }),
                       ],
-                    },
+                    }),
                   ],
-                },
+                }),
               ],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -705,7 +647,7 @@ describe('Input Values tests on TreeToGraphQL', () => {
   test('Default Enum objects', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -716,10 +658,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'HONDA',
               data: {
                 type: ValueDefinition.EnumValueDefinition,
@@ -730,11 +671,8 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   type: Options.name,
                 },
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'YAMAHA',
               data: {
                 type: ValueDefinition.EnumValueDefinition,
@@ -745,13 +683,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   type: Options.name,
                 },
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -762,10 +697,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'car',
               type: {
                 fieldType: {
@@ -776,10 +710,9 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: 'HONDA',
                   type: {
                     fieldType: {
@@ -790,14 +723,11 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   data: {
                     type: Value.EnumValue,
                   },
-                  args: [],
-                  directives: [],
-                  interfaces: [],
-                },
+                }),
               ],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);

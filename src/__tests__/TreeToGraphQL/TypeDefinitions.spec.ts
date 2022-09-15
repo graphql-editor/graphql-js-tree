@@ -1,3 +1,4 @@
+import { createParserField } from '@/shared';
 import { ParserTree, TypeDefinition, TypeDefinitionDisplayStrings, Options } from '../../Models';
 import { TreeToGraphQL } from '../../TreeToGraphQL';
 
@@ -6,7 +7,7 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
     const schema = 'type Person';
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -17,10 +18,7 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
-          args: [],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -30,7 +28,7 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
     const schema = 'interface Person';
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -41,10 +39,7 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
-          directives: [],
-          args: [],
-          interfaces: [],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -54,7 +49,7 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
     const schema = 'input Person';
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -65,10 +60,7 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          args: [],
-          interfaces: [],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -78,7 +70,7 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
     const schema = 'enum Person';
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -89,10 +81,7 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
-          directives: [],
-          args: [],
-          interfaces: [],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -102,7 +91,7 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
     const schema = 'union Person';
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -113,10 +102,7 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.UnionTypeDefinition,
           },
-          directives: [],
-          args: [],
-          interfaces: [],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -126,7 +112,7 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
     const schema = 'scalar Person';
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -137,10 +123,7 @@ describe('TypeDefintion declarations tests on TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
           },
-          directives: [],
-          args: [],
-          interfaces: [],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);

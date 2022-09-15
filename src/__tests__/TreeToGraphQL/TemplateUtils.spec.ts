@@ -1,9 +1,9 @@
-import { compileType, decompileType } from '@/shared';
+import { compileType, createParserField, decompileType } from '@/shared';
 import { FieldType, Options, ParserField, TypeSystemDefinition } from '../../Models';
 
 describe('TemplateUtils tests on parser', () => {
   test(`ListType fields`, () => {
-    const treeMock: ParserField = {
+    const treeMock: ParserField = createParserField({
       name: 'friends',
       type: {
         fieldType: {
@@ -20,10 +20,7 @@ describe('TemplateUtils tests on parser', () => {
       data: {
         type: TypeSystemDefinition.FieldDefinition,
       },
-      directives: [],
-      interfaces: [],
-      args: [],
-    };
+    });
 
     const graphql = compileType(treeMock.type.fieldType);
     expect(graphql).toContain(`[Person]!`);

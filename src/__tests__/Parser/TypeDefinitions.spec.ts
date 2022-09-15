@@ -1,3 +1,4 @@
+import { createParserField } from '@/shared';
 import { ParserTree, TypeDefinition, TypeDefinitionDisplayStrings, Options } from '../../Models';
 import { Parser } from '../../Parser';
 
@@ -7,7 +8,7 @@ describe('TypeDefintion declarations tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -18,10 +19,7 @@ describe('TypeDefintion declarations tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
-          args: [],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -31,7 +29,7 @@ describe('TypeDefintion declarations tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -42,10 +40,7 @@ describe('TypeDefintion declarations tests on parser', () => {
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
-          directives: [],
-          args: [],
-          interfaces: [],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -55,7 +50,7 @@ describe('TypeDefintion declarations tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -66,10 +61,7 @@ describe('TypeDefintion declarations tests on parser', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          args: [],
-          interfaces: [],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -79,7 +71,7 @@ describe('TypeDefintion declarations tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -90,10 +82,7 @@ describe('TypeDefintion declarations tests on parser', () => {
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
-          directives: [],
-          args: [],
-          interfaces: [],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -103,7 +92,7 @@ describe('TypeDefintion declarations tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -114,10 +103,7 @@ describe('TypeDefintion declarations tests on parser', () => {
           data: {
             type: TypeDefinition.UnionTypeDefinition,
           },
-          directives: [],
-          args: [],
-          interfaces: [],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -127,7 +113,7 @@ describe('TypeDefintion declarations tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -138,10 +124,7 @@ describe('TypeDefintion declarations tests on parser', () => {
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
-          args: [],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));

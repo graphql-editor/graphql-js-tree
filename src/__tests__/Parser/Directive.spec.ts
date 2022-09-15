@@ -1,3 +1,4 @@
+import { createParserField } from '@/shared';
 import {
   Directive,
   Instances,
@@ -25,7 +26,7 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -36,13 +37,11 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
+
           directives: [
-            {
+            createParserField({
               name: 'model',
-              args: [],
-              directives: [],
-              interfaces: [],
+
               data: {
                 type: Instances.Directive,
               },
@@ -52,15 +51,12 @@ describe('Directive tests on parser', () => {
                   type: Options.name,
                 },
               },
-            },
+            }),
           ],
-          args: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'model',
-          args: [],
-          directives: [],
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeSystemDefinitionDisplayStrings.directive,
@@ -71,7 +67,7 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -86,7 +82,7 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -97,9 +93,9 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
               type: {
                 fieldType: {
@@ -110,10 +106,9 @@ describe('Directive tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              args: [],
-              interfaces: [],
+
               directives: [
-                {
+                createParserField({
                   name: 'model',
                   data: {
                     type: Instances.Directive,
@@ -124,20 +119,14 @@ describe('Directive tests on parser', () => {
                       type: Options.name,
                     },
                   },
-                  args: [],
-                  directives: [],
-                  interfaces: [],
-                },
+                }),
               ],
-            },
+            }),
           ],
-          directives: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'model',
-          args: [],
-          directives: [],
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeSystemDefinitionDisplayStrings.directive,
@@ -148,7 +137,7 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -163,7 +152,7 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -174,13 +163,13 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: 'override',
                   type: {
                     fieldType: {
@@ -191,10 +180,9 @@ describe('Directive tests on parser', () => {
                   data: {
                     type: ValueDefinition.InputValueDefinition,
                   },
-                  args: [],
-                  interfaces: [],
+
                   directives: [
-                    {
+                    createParserField({
                       name: 'model',
                       data: {
                         type: Instances.Directive,
@@ -205,12 +193,9 @@ describe('Directive tests on parser', () => {
                           type: Options.name,
                         },
                       },
-                      args: [],
-                      directives: [],
-                      interfaces: [],
-                    },
+                    }),
                   ],
-                },
+                }),
               ],
               type: {
                 fieldType: {
@@ -221,16 +206,12 @@ describe('Directive tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-            },
+            }),
           ],
-          directives: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'model',
-          args: [],
-          directives: [],
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeSystemDefinitionDisplayStrings.directive,
@@ -241,7 +222,7 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -254,7 +235,7 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -265,10 +246,9 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
-          interfaces: [],
-          args: [],
+
           directives: [
-            {
+            createParserField({
               name: 'model',
               data: {
                 type: Instances.Directive,
@@ -279,17 +259,12 @@ describe('Directive tests on parser', () => {
                   type: Options.name,
                 },
               },
-              args: [],
-              directives: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'model',
-          args: [],
-          directives: [],
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeSystemDefinitionDisplayStrings.directive,
@@ -300,7 +275,7 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -315,11 +290,9 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'model',
-          args: [],
-          directives: [],
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeSystemDefinitionDisplayStrings.directive,
@@ -330,8 +303,8 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
-        },
-        {
+        }),
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -342,11 +315,8 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
-          args: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'Plane',
           type: {
             fieldType: {
@@ -357,13 +327,10 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
-          args: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'Machine',
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeDefinitionDisplayStrings.union,
@@ -374,7 +341,7 @@ describe('Directive tests on parser', () => {
             type: TypeDefinition.UnionTypeDefinition,
           },
           directives: [
-            {
+            createParserField({
               name: 'model',
               data: {
                 type: Instances.Directive,
@@ -385,17 +352,12 @@ describe('Directive tests on parser', () => {
                   type: Options.name,
                 },
               },
-              args: [],
-              directives: [],
-              interfaces: [],
-            },
+            }),
           ],
           args: [
-            {
+            createParserField({
               name: 'Car',
-              args: [],
-              directives: [],
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: 'Car',
@@ -405,12 +367,10 @@ describe('Directive tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.UnionMemberDefinition,
               },
-            },
-            {
+            }),
+            createParserField({
               name: 'Plane',
-              args: [],
-              directives: [],
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: 'Plane',
@@ -420,9 +380,9 @@ describe('Directive tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.UnionMemberDefinition,
               },
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -435,7 +395,7 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -446,14 +406,11 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
-          args: [],
-          interfaces: [],
+
           directives: [
-            {
+            createParserField({
               name: 'model',
-              args: [],
-              directives: [],
-              interfaces: [],
+
               data: {
                 type: Instances.Directive,
               },
@@ -463,14 +420,12 @@ describe('Directive tests on parser', () => {
                   type: Options.name,
                 },
               },
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'model',
-          args: [],
-          directives: [],
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeSystemDefinitionDisplayStrings.directive,
@@ -481,7 +436,7 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -497,7 +452,7 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -508,13 +463,11 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'SMART',
-              args: [],
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: ValueDefinition.EnumValueDefinition,
@@ -525,7 +478,7 @@ describe('Directive tests on parser', () => {
                 type: ValueDefinition.EnumValueDefinition,
               },
               directives: [
-                {
+                createParserField({
                   name: 'model',
                   data: {
                     type: Instances.Directive,
@@ -536,17 +489,12 @@ describe('Directive tests on parser', () => {
                       type: Options.name,
                     },
                   },
-                  args: [],
-                  directives: [],
-                  interfaces: [],
-                },
+                }),
               ],
-            },
-            {
+            }),
+            createParserField({
               name: 'DUMB',
-              args: [],
-              directives: [],
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: ValueDefinition.EnumValueDefinition,
@@ -556,14 +504,12 @@ describe('Directive tests on parser', () => {
               data: {
                 type: ValueDefinition.EnumValueDefinition,
               },
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'model',
-          args: [],
-          directives: [],
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeSystemDefinitionDisplayStrings.directive,
@@ -574,7 +520,7 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -587,7 +533,7 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -598,10 +544,9 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          args: [],
-          interfaces: [],
+
           directives: [
-            {
+            createParserField({
               name: 'model',
               data: {
                 type: Instances.Directive,
@@ -612,13 +557,10 @@ describe('Directive tests on parser', () => {
                   type: Options.name,
                 },
               },
-              args: [],
-              directives: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'model',
           type: {
             fieldType: {
@@ -630,10 +572,7 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
-          args: [],
-          directives: [],
-          interfaces: [],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -648,7 +587,7 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -659,10 +598,9 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
               type: {
                 fieldType: {
@@ -673,10 +611,9 @@ describe('Directive tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              args: [],
-              interfaces: [],
+
               directives: [
-                {
+                createParserField({
                   name: 'model',
                   data: {
                     type: Instances.Directive,
@@ -687,19 +624,14 @@ describe('Directive tests on parser', () => {
                       type: Options.name,
                     },
                   },
-                  args: [],
-                  directives: [],
-                  interfaces: [],
-                },
+                }),
               ],
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'model',
-          args: [],
-          directives: [],
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeSystemDefinitionDisplayStrings.directive,
@@ -710,7 +642,7 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -723,7 +655,7 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -731,13 +663,12 @@ describe('Directive tests on parser', () => {
               type: Options.name,
             },
           },
-          args: [],
-          interfaces: [],
+
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
           },
           directives: [
-            {
+            createParserField({
               name: 'model',
               data: {
                 type: Instances.Directive,
@@ -748,13 +679,10 @@ describe('Directive tests on parser', () => {
                   type: Options.name,
                 },
               },
-              args: [],
-              directives: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'model',
           type: {
             fieldType: {
@@ -766,10 +694,7 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
-          args: [],
-          directives: [],
-          interfaces: [],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -792,7 +717,7 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Address',
           type: {
             fieldType: {
@@ -804,7 +729,7 @@ describe('Directive tests on parser', () => {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           args: [
-            {
+            createParserField({
               name: 'name',
               type: {
                 fieldType: {
@@ -815,11 +740,8 @@ describe('Directive tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'age',
               type: {
                 fieldType: {
@@ -830,11 +752,8 @@ describe('Directive tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'weight',
               type: {
                 fieldType: {
@@ -845,15 +764,10 @@ describe('Directive tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              args: [],
-              directives: [],
-              interfaces: [],
-            },
+            }),
           ],
-          directives: [],
-          interfaces: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -864,9 +778,9 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
+
           directives: [
-            {
+            createParserField({
               name: 'model',
               data: {
                 type: Instances.Directive,
@@ -877,10 +791,9 @@ describe('Directive tests on parser', () => {
                   type: Options.name,
                 },
               },
-              directives: [],
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: 'address',
                   type: {
                     fieldType: {
@@ -891,15 +804,13 @@ describe('Directive tests on parser', () => {
                   data: {
                     type: Instances.Argument,
                   },
-                  directives: [],
-                  interfaces: [],
+
                   args: [
-                    {
+                    createParserField({
                       name: Value.ObjectValue,
-                      directives: [],
-                      interfaces: [],
+
                       args: [
-                        {
+                        createParserField({
                           name: 'name',
                           type: {
                             fieldType: {
@@ -907,17 +818,14 @@ describe('Directive tests on parser', () => {
                               type: Options.name,
                             },
                           },
-                          directives: [],
-                          interfaces: [],
+
                           data: {
                             type: Instances.Argument,
                           },
                           args: [
-                            {
+                            createParserField({
                               name: 'Artur',
-                              directives: [],
-                              interfaces: [],
-                              args: [],
+
                               type: {
                                 fieldType: {
                                   name: Value.StringValue,
@@ -927,10 +835,10 @@ describe('Directive tests on parser', () => {
                               data: {
                                 type: Value.StringValue,
                               },
-                            },
+                            }),
                           ],
-                        },
-                        {
+                        }),
+                        createParserField({
                           name: 'weight',
                           type: {
                             fieldType: {
@@ -938,13 +846,12 @@ describe('Directive tests on parser', () => {
                               type: Options.name,
                             },
                           },
-                          directives: [],
-                          interfaces: [],
+
                           data: {
                             type: Instances.Argument,
                           },
                           args: [
-                            {
+                            createParserField({
                               name: '22.3',
                               type: {
                                 fieldType: {
@@ -952,15 +859,13 @@ describe('Directive tests on parser', () => {
                                   type: Options.name,
                                 },
                               },
-                              directives: [],
-                              interfaces: [],
-                              args: [],
+
                               data: {
                                 type: Value.FloatValue,
                               },
-                            },
+                            }),
                           ],
-                        },
+                        }),
                       ],
                       data: {
                         type: Value.ObjectValue,
@@ -971,15 +876,14 @@ describe('Directive tests on parser', () => {
                           type: Options.name,
                         },
                       },
-                    },
+                    }),
                   ],
-                },
+                }),
               ],
-            },
+            }),
           ],
-          args: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'model',
           type: {
             fieldType: {
@@ -991,10 +895,9 @@ describe('Directive tests on parser', () => {
           data: {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'address',
               type: {
                 fieldType: {
@@ -1005,10 +908,9 @@ describe('Directive tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: Value.ObjectValue,
                   type: {
                     fieldType: {
@@ -1019,10 +921,9 @@ describe('Directive tests on parser', () => {
                   data: {
                     type: Value.ObjectValue,
                   },
-                  directives: [],
-                  interfaces: [],
+
                   args: [
-                    {
+                    createParserField({
                       name: 'age',
                       type: {
                         fieldType: {
@@ -1033,10 +934,9 @@ describe('Directive tests on parser', () => {
                       data: {
                         type: Instances.Argument,
                       },
-                      directives: [],
-                      interfaces: [],
+
                       args: [
-                        {
+                        createParserField({
                           name: '2010',
                           type: {
                             fieldType: {
@@ -1047,18 +947,15 @@ describe('Directive tests on parser', () => {
                           data: {
                             type: Value.IntValue,
                           },
-                          args: [],
-                          directives: [],
-                          interfaces: [],
-                        },
+                        }),
                       ],
-                    },
+                    }),
                   ],
-                },
+                }),
               ],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));

@@ -9,6 +9,7 @@ import {
   Options,
 } from '../../Models';
 import { Parser } from '../../Parser';
+import { createParserField } from '@/shared';
 
 describe('Extend tests on parser', () => {
   it('Extends Person type', () => {
@@ -21,7 +22,7 @@ describe('Extend tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -32,27 +33,25 @@ describe('Extend tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
-              args: [],
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.String,
                   type: Options.name,
                 },
               },
-              directives: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -63,26 +62,24 @@ describe('Extend tests on parser', () => {
           data: {
             type: TypeExtension.ObjectTypeExtension,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'age',
-              args: [],
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.Int,
                   type: Options.name,
                 },
               },
-              directives: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));

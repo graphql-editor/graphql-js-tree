@@ -1,3 +1,4 @@
+import { createParserField } from '@/shared';
 import {
   Instances,
   ParserTree,
@@ -22,7 +23,7 @@ describe('Input Values tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -33,10 +34,9 @@ describe('Input Values tests on parser', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'id',
               type: {
                 fieldType: {
@@ -47,11 +47,8 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'name',
               type: {
                 fieldType: {
@@ -62,11 +59,8 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'age',
               type: {
                 fieldType: {
@@ -77,11 +71,8 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'weight',
               type: {
                 fieldType: {
@@ -92,11 +83,8 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'verified',
               type: {
                 fieldType: {
@@ -107,12 +95,9 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -126,7 +111,7 @@ describe('Input Values tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -137,11 +122,8 @@ describe('Input Values tests on parser', () => {
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
-          directives: [],
-          args: [],
-          interfaces: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -152,10 +134,9 @@ describe('Input Values tests on parser', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'car',
               type: {
                 fieldType: {
@@ -166,12 +147,9 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -187,7 +165,7 @@ describe('Input Values tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -198,10 +176,9 @@ describe('Input Values tests on parser', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'year',
               type: {
                 fieldType: {
@@ -212,13 +189,10 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -229,10 +203,9 @@ describe('Input Values tests on parser', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'car',
               type: {
                 fieldType: {
@@ -243,12 +216,9 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -262,7 +232,7 @@ describe('Input Values tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -273,11 +243,8 @@ describe('Input Values tests on parser', () => {
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
-          args: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -288,10 +255,9 @@ describe('Input Values tests on parser', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'car',
               type: {
                 fieldType: {
@@ -302,12 +268,9 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -325,9 +288,9 @@ describe('Input Values tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeDefinitionDisplayStrings.input,
@@ -337,9 +300,9 @@ describe('Input Values tests on parser', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'id',
               type: {
                 fieldType: {
@@ -350,14 +313,11 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: 'abcdef',
-                  interfaces: [],
-                  args: [],
-                  directives: [],
+
                   type: {
                     fieldType: {
                       name: Value.StringValue,
@@ -367,10 +327,10 @@ describe('Input Values tests on parser', () => {
                   data: {
                     type: Value.StringValue,
                   },
-                },
+                }),
               ],
-            },
-            {
+            }),
+            createParserField({
               name: 'name',
               type: {
                 fieldType: {
@@ -381,14 +341,11 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: 'Artur',
-                  interfaces: [],
-                  args: [],
-                  directives: [],
+
                   type: {
                     fieldType: {
                       name: Value.StringValue,
@@ -398,10 +355,10 @@ describe('Input Values tests on parser', () => {
                   data: {
                     type: Value.StringValue,
                   },
-                },
+                }),
               ],
-            },
-            {
+            }),
+            createParserField({
               name: 'emptyName',
               type: {
                 fieldType: {
@@ -412,14 +369,11 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: '',
-                  interfaces: [],
-                  args: [],
-                  directives: [],
+
                   type: {
                     fieldType: {
                       name: Value.StringValue,
@@ -429,10 +383,10 @@ describe('Input Values tests on parser', () => {
                   data: {
                     type: Value.StringValue,
                   },
-                },
+                }),
               ],
-            },
-            {
+            }),
+            createParserField({
               name: 'emptyArray',
               type: {
                 fieldType: {
@@ -446,21 +400,18 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
+
               args: [
-                {
-                  args: [],
+                createParserField({
                   data: { type: Value.ListValue },
-                  directives: [],
-                  interfaces: [],
+
                   name: Value.ListValue,
                   type: { fieldType: { name: Value.ListValue, type: Options.name } },
-                },
+                }),
               ],
-              interfaces: [],
-            },
+            }),
 
-            {
+            createParserField({
               name: 'age',
               type: {
                 fieldType: {
@@ -471,10 +422,9 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              interfaces: [],
-              directives: [],
+
               args: [
-                {
+                createParserField({
                   name: '28',
                   type: {
                     fieldType: {
@@ -485,13 +435,10 @@ describe('Input Values tests on parser', () => {
                   data: {
                     type: Value.IntValue,
                   },
-                  args: [],
-                  interfaces: [],
-                  directives: [],
-                },
+                }),
               ],
-            },
-            {
+            }),
+            createParserField({
               name: 'weight',
               type: {
                 fieldType: {
@@ -502,10 +449,9 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: '73.0',
                   type: {
                     fieldType: {
@@ -516,13 +462,10 @@ describe('Input Values tests on parser', () => {
                   data: {
                     type: Value.FloatValue,
                   },
-                  args: [],
-                  directives: [],
-                  interfaces: [],
-                },
+                }),
               ],
-            },
-            {
+            }),
+            createParserField({
               name: 'verified',
               type: {
                 fieldType: {
@@ -533,10 +476,9 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: 'true',
                   type: {
                     fieldType: {
@@ -547,14 +489,11 @@ describe('Input Values tests on parser', () => {
                   data: {
                     type: Value.BooleanValue,
                   },
-                  args: [],
-                  directives: [],
-                  interfaces: [],
-                },
+                }),
               ],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -566,9 +505,9 @@ describe('Input Values tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeDefinitionDisplayStrings.input,
@@ -578,9 +517,9 @@ describe('Input Values tests on parser', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'names',
               type: {
                 fieldType: {
@@ -594,10 +533,9 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: Value.ListValue,
                   type: {
                     fieldType: {
@@ -608,14 +546,11 @@ describe('Input Values tests on parser', () => {
                   data: {
                     type: Value.ListValue,
                   },
-                  directives: [],
-                  interfaces: [],
+
                   args: [
-                    {
+                    createParserField({
                       name: 'Artur',
-                      interfaces: [],
-                      args: [],
-                      directives: [],
+
                       type: {
                         fieldType: {
                           name: Value.StringValue,
@@ -625,12 +560,10 @@ describe('Input Values tests on parser', () => {
                       data: {
                         type: Value.StringValue,
                       },
-                    },
-                    {
+                    }),
+                    createParserField({
                       name: 'A',
-                      interfaces: [],
-                      args: [],
-                      directives: [],
+
                       type: {
                         fieldType: {
                           name: Value.StringValue,
@@ -640,12 +573,10 @@ describe('Input Values tests on parser', () => {
                       data: {
                         type: Value.StringValue,
                       },
-                    },
-                    {
+                    }),
+                    createParserField({
                       name: 'B',
-                      interfaces: [],
-                      args: [],
-                      directives: [],
+
                       type: {
                         fieldType: {
                           name: Value.StringValue,
@@ -655,13 +586,13 @@ describe('Input Values tests on parser', () => {
                       data: {
                         type: Value.StringValue,
                       },
-                    },
+                    }),
                   ],
-                },
+                }),
               ],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -680,7 +611,7 @@ describe('Input Values tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -691,10 +622,9 @@ describe('Input Values tests on parser', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'year',
               type: {
                 fieldType: {
@@ -705,13 +635,10 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -722,10 +649,9 @@ describe('Input Values tests on parser', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'car',
               type: {
                 fieldType: {
@@ -736,10 +662,9 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              interfaces: [],
-              directives: [],
+
               args: [
-                {
+                createParserField({
                   name: Value.ObjectValue,
                   type: {
                     fieldType: {
@@ -750,10 +675,9 @@ describe('Input Values tests on parser', () => {
                   data: {
                     type: Value.ObjectValue,
                   },
-                  interfaces: [],
-                  directives: [],
+
                   args: [
-                    {
+                    createParserField({
                       name: 'year',
                       type: {
                         fieldType: {
@@ -764,14 +688,11 @@ describe('Input Values tests on parser', () => {
                       data: {
                         type: Instances.Argument,
                       },
-                      interfaces: [],
-                      directives: [],
+
                       args: [
-                        {
+                        createParserField({
                           name: '2010',
-                          interfaces: [],
-                          args: [],
-                          directives: [],
+
                           type: {
                             fieldType: {
                               name: Value.IntValue,
@@ -781,15 +702,15 @@ describe('Input Values tests on parser', () => {
                           data: {
                             type: Value.IntValue,
                           },
-                        },
+                        }),
                       ],
-                    },
+                    }),
                   ],
-                },
+                }),
               ],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -806,7 +727,7 @@ describe('Input Values tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -817,10 +738,9 @@ describe('Input Values tests on parser', () => {
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'HONDA',
               data: {
                 type: ValueDefinition.EnumValueDefinition,
@@ -831,11 +751,8 @@ describe('Input Values tests on parser', () => {
                   type: Options.name,
                 },
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'YAMAHA',
               data: {
                 type: ValueDefinition.EnumValueDefinition,
@@ -846,13 +763,10 @@ describe('Input Values tests on parser', () => {
                   type: Options.name,
                 },
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -863,10 +777,9 @@ describe('Input Values tests on parser', () => {
           data: {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'car',
               type: {
                 fieldType: {
@@ -877,10 +790,9 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              directives: [],
-              interfaces: [],
+
               args: [
-                {
+                createParserField({
                   name: 'HONDA',
                   type: {
                     fieldType: {
@@ -891,14 +803,11 @@ describe('Input Values tests on parser', () => {
                   data: {
                     type: Value.EnumValue,
                   },
-                  interfaces: [],
-                  directives: [],
-                  args: [],
-                },
+                }),
               ],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));

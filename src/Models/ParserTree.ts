@@ -3,6 +3,7 @@ import { GraphQLNodeParams } from './Types';
 
 export interface ParserField {
   name: string;
+  id: string;
   type: {
     fieldType: FieldType;
     operations?: OperationType[];

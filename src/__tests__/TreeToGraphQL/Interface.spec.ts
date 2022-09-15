@@ -1,3 +1,4 @@
+import { createParserField } from '@/shared';
 import { ParserTree, ScalarTypes, TypeDefinition, TypeSystemDefinition, Options } from '../../Models';
 import { TreeToGraphQL } from '../../TreeToGraphQL';
 
@@ -5,7 +6,7 @@ describe('Interfaces works as expected in TreeGraphQL', () => {
   it('Implements HasName Person interface', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -18,26 +19,25 @@ describe('Interfaces works as expected in TreeGraphQL', () => {
           },
           description: '',
           interfaces: ['HasName', 'HasAge'],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
-              interfaces: [],
-              args: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.String,
                   type: Options.name,
                 },
               },
-              directives: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'HasName',
           type: {
             fieldType: {
@@ -49,29 +49,27 @@ describe('Interfaces works as expected in TreeGraphQL', () => {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
           description: '',
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
-              interfaces: [],
-              args: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.String,
                   type: Options.name,
                 },
               },
-              directives: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'HasAge',
-          interfaces: [],
+
           type: {
             fieldType: {
               name: 'interface',
@@ -81,25 +79,24 @@ describe('Interfaces works as expected in TreeGraphQL', () => {
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'age',
-              args: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.Int,
                   type: Options.name,
                 },
               },
-              directives: [],
-              interfaces: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
@@ -108,7 +105,7 @@ describe('Interfaces works as expected in TreeGraphQL', () => {
   it('Implements HasName Person type', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -120,26 +117,25 @@ describe('Interfaces works as expected in TreeGraphQL', () => {
             type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: ['HasName', 'HasAge'],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
-              args: [],
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.String,
                   type: Options.name,
                 },
               },
-              directives: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'HasName',
           type: {
             fieldType: {
@@ -150,27 +146,25 @@ describe('Interfaces works as expected in TreeGraphQL', () => {
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
-              args: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.String,
                   type: Options.name,
                 },
               },
-              interfaces: [],
-              directives: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'HasAge',
           type: {
             fieldType: {
@@ -182,26 +176,24 @@ describe('Interfaces works as expected in TreeGraphQL', () => {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
           description: '',
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'age',
-              args: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.Int,
                   type: Options.name,
                 },
               },
-              interfaces: [],
-              directives: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);

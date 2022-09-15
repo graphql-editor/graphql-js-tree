@@ -12,6 +12,7 @@ import {
 } from 'graphql';
 import { AllTypes, Options, ParserField } from '@/Models';
 import { Instances, TypeSystemDefinition, Value, ValueDefinition } from '@/Models/Spec';
+import { generateNodeId } from '@/shared';
 
 /**
  * Class for resolving Types to ParserFields
@@ -48,17 +49,21 @@ export class TypeResolver {
    * @param fields
    */
   static iterateObjectTypeFields(fields: ReadonlyArray<FieldDefinitionNode>): ParserField[] {
-    return fields.map((n) => ({
-      name: n.name.value,
-      ...(n.description ? { description: n.description.value } : {}),
-      args: n.arguments ? TypeResolver.iterateInputValueFields(n.arguments) : [],
-      type: { fieldType: TypeResolver.resolveSingleFieldType(n.type) },
-      directives: n.directives ? TypeResolver.iterateDirectives(n.directives) : [],
-      interfaces: [],
-      data: {
-        type: TypeSystemDefinition.FieldDefinition,
-      },
-    }));
+    return fields.map((n) => {
+      const args = n.arguments ? TypeResolver.iterateInputValueFields(n.arguments) : [];
+      return {
+        name: n.name.value,
+        ...(n.description ? { description: n.description.value } : {}),
+        args,
+        type: { fieldType: TypeResolver.resolveSingleFieldType(n.type) },
+        directives: n.directives ? TypeResolver.iterateDirectives(n.directives) : [],
+        interfaces: [],
+        data: {
+          type: TypeSystemDefinition.FieldDefinition,
+        },
+        id: generateNodeId(n.name.value, TypeSystemDefinition.FieldDefinition, args),
+      };
+    });
   }
 
   /**
@@ -88,6 +93,7 @@ export class TypeResolver {
    * @param f
    */
   static resolveObjectField(f: ObjectFieldNode): ParserField[] {
+    const args = TypeResolver.resolveValue(f.value);
     return [
       {
         name: f.name.value,
@@ -99,7 +105,8 @@ export class TypeResolver {
         },
         interfaces: [],
         directives: [],
-        args: TypeResolver.resolveValue(f.value),
+        args,
+        id: generateNodeId(f.name.value, Instances.Argument, args),
       },
     ];
   }
@@ -111,12 +118,14 @@ export class TypeResolver {
    */
   static resolveValue(value: ValueNode): ParserField[] {
     if (value.kind === 'ListValue') {
+      const args = value.values.map((f) => TypeResolver.resolveValue(f)).reduce((a, b) => [...a, ...b], []);
+
       return [
         {
           name: value.kind,
           directives: [],
           interfaces: [],
-          args: value.values.map((f) => TypeResolver.resolveValue(f)).reduce((a, b) => [...a, ...b], []),
+          args,
           data: {
             type: value.kind as AllTypes,
           },
@@ -126,16 +135,19 @@ export class TypeResolver {
               type: Options.name,
             },
           },
+          id: generateNodeId(value.kind, value.kind as AllTypes, args),
         },
       ];
     }
     if (value.kind === 'ObjectValue') {
+      const args = value.fields.map((f) => TypeResolver.resolveObjectField(f)).reduce((a, b) => [...a, ...b], []);
+
       return [
         {
+          args,
           name: value.kind,
           directives: [],
           interfaces: [],
-          args: value.fields.map((f) => TypeResolver.resolveObjectField(f)).reduce((a, b) => [...a, ...b], []),
           data: {
             type: value.kind as AllTypes,
           },
@@ -145,6 +157,7 @@ export class TypeResolver {
               type: Options.name,
             },
           },
+          id: generateNodeId(value.kind, value.kind as AllTypes, args),
         },
       ];
     }
@@ -164,13 +177,15 @@ export class TypeResolver {
               type: Options.name,
             },
           },
+          id: generateNodeId(value.value, value.kind as AllTypes, []),
         },
       ];
     }
     if (value.kind in Value) {
+      const name = 'value' in value ? value.value.toString() : 'name' in value ? value.name.value : '';
       return [
         {
-          name: 'value' in value ? value.value.toString() : 'name' in value ? value.name.value : '',
+          name,
           type: {
             fieldType: {
               name: value.kind,
@@ -183,6 +198,7 @@ export class TypeResolver {
           data: {
             type: value.kind as AllTypes,
           },
+          id: generateNodeId(name, value.kind as AllTypes, []),
         },
       ];
     }
@@ -194,21 +210,25 @@ export class TypeResolver {
    * @param directives GraphQL Directive nodes
    */
   static iterateDirectives(directives: ReadonlyArray<DirectiveNode>): ParserField[] {
-    return directives.map((n) => ({
-      name: n.name.value,
-      type: {
-        fieldType: {
-          name: n.name.value,
-          type: Options.name,
+    return directives.map((n) => {
+      const args = n.arguments ? TypeResolver.iterateArgumentFields(n.arguments) : [];
+      return {
+        name: n.name.value,
+        type: {
+          fieldType: {
+            name: n.name.value,
+            type: Options.name,
+          },
         },
-      },
-      directives: [],
-      interfaces: [],
-      data: {
-        type: Instances.Directive,
-      },
-      args: n.arguments ? TypeResolver.iterateArgumentFields(n.arguments) : [],
-    }));
+        directives: [],
+        interfaces: [],
+        data: {
+          type: Instances.Directive,
+        },
+        args,
+        id: generateNodeId(n.name.value, Instances.Directive, args),
+      };
+    });
   }
 
   /**
@@ -218,18 +238,22 @@ export class TypeResolver {
    * @returns
    */
   static iterateArgumentFields(fields: ReadonlyArray<ArgumentNode>): ParserField[] {
-    return fields.map((n) => ({
-      name: n.name.value,
-      type: {
-        fieldType: TypeResolver.resolveInputValueOptions(n.value, n.name.value),
-      },
-      data: {
-        type: Instances.Argument,
-      },
-      args: TypeResolver.resolveValue(n.value),
-      directives: [],
-      interfaces: [],
-    }));
+    return fields.map((n) => {
+      const args = TypeResolver.resolveValue(n.value);
+      return {
+        name: n.name.value,
+        type: {
+          fieldType: TypeResolver.resolveInputValueOptions(n.value, n.name.value),
+        },
+        data: {
+          type: Instances.Argument,
+        },
+        directives: [],
+        interfaces: [],
+        args,
+        id: generateNodeId(n.name.value, Instances.Argument, args),
+      };
+    });
   }
 
   /**
@@ -238,17 +262,21 @@ export class TypeResolver {
    * @param fields Input Value Definitions
    */
   static iterateInputValueFields(fields: ReadonlyArray<InputValueDefinitionNode>): ParserField[] {
-    return fields.map((n) => ({
-      name: n.name.value,
-      ...(n.description ? { description: n.description.value } : {}),
-      directives: n.directives ? TypeResolver.iterateDirectives(n.directives) : [],
-      type: { fieldType: TypeResolver.resolveSingleFieldType(n.type) },
-      data: {
-        type: ValueDefinition.InputValueDefinition,
-      },
-      interfaces: [],
-      args: n.defaultValue ? TypeResolver.resolveValue(n.defaultValue) : [],
-    }));
+    return fields.map((n) => {
+      const args = n.defaultValue ? TypeResolver.resolveValue(n.defaultValue) : [];
+      return {
+        name: n.name.value,
+        ...(n.description ? { description: n.description.value } : {}),
+        directives: n.directives ? TypeResolver.iterateDirectives(n.directives) : [],
+        type: { fieldType: TypeResolver.resolveSingleFieldType(n.type) },
+        data: {
+          type: ValueDefinition.InputValueDefinition,
+        },
+        args,
+        interfaces: [],
+        id: generateNodeId(n.name.value, ValueDefinition.InputValueDefinition, args),
+      };
+    });
   }
 
   /**
@@ -283,6 +311,7 @@ export class TypeResolver {
         data: {
           type: ValueDefinition.EnumValueDefinition,
         },
+        id: generateNodeId(v.name.value, ValueDefinition.EnumValueDefinition, []),
       }));
     }
     if (n.kind === 'ScalarTypeDefinition') {
@@ -301,6 +330,7 @@ export class TypeResolver {
         data: {
           type: TypeSystemDefinition.UnionMemberDefinition,
         },
+        id: generateNodeId(t.name.value, TypeSystemDefinition.UnionMemberDefinition, []),
       }));
     }
     if (n.kind === 'InputObjectTypeDefinition') {
@@ -329,6 +359,7 @@ export class TypeResolver {
         data: {
           type: ValueDefinition.EnumValueDefinition,
         },
+        id: generateNodeId(v.name.value, ValueDefinition.EnumValueDefinition, []),
       }));
     }
     if ('types' in n && n.types) {
@@ -341,6 +372,7 @@ export class TypeResolver {
         data: {
           type: TypeSystemDefinition.UnionMemberDefinition,
         },
+        id: generateNodeId(t.name.value, TypeSystemDefinition.UnionMemberDefinition, []),
       }));
     }
     if ((n.kind === 'InputObjectTypeDefinition' || n.kind === 'InputObjectTypeExtension') && n.fields) {

@@ -1,3 +1,4 @@
+import { createParserField } from '@/shared';
 import { Helpers, ParserTree, Options } from '../../Models';
 import { TreeToGraphQL } from '../../TreeToGraphQL';
 
@@ -5,7 +6,7 @@ describe('Comment tests on TreeToGraphQL', () => {
   it('Creates comment node and parse it back', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'comment',
           type: {
             fieldType: {
@@ -17,10 +18,7 @@ describe('Comment tests on TreeToGraphQL', () => {
             type: Helpers.Comment,
           },
           description: 'hello world',
-          directives: [],
-          interfaces: [],
-          args: [],
-        },
+        }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);

@@ -11,6 +11,7 @@ import { AllTypes, ParserField, ParserTree, TypeDefinitionDisplayMap, Options } 
 import { Directive, Helpers, OperationType, TypeDefinition, TypeExtension } from '@/Models/Spec';
 import { TypeResolver } from './typeResolver';
 import { ParserUtils } from './ParserUtils';
+import { createParserField, generateNodeId } from '@/shared';
 export class Parser {
   static findComments(schema: string): string[] {
     const stripDocs = schema
@@ -30,6 +31,7 @@ export class Parser {
   static importSchema = (schema: string): GraphQLSchema => buildASTSchema(parse(schema));
   static documentDefinitionToSerializedNodeTree = (d: DefinitionNode): ParserField | undefined => {
     if (isTypeSystemDefinitionNode(d) || isTypeSystemExtensionNode(d)) {
+      const args = TypeResolver.resolveFieldsFromDefinition(d);
       if ('name' in d) {
         return {
           name: d.name.value,
@@ -49,7 +51,8 @@ export class Parser {
           ...('description' in d && d.description?.value ? { description: d.description.value } : {}),
           interfaces: 'interfaces' in d && d.interfaces ? d.interfaces.map((i) => i.name.value) : [],
           directives: 'directives' in d && d.directives ? TypeResolver.iterateDirectives(d.directives) : [],
-          args: TypeResolver.resolveFieldsFromDefinition(d),
+          args,
+          id: generateNodeId(d.name.value, d.kind as AllTypes, args),
         };
       }
     }
@@ -95,22 +98,21 @@ export class Parser {
       .filter((t) => 'name' in t && t.name && !excludeRoots.includes(t.name.value))
       .map(Parser.documentDefinitionToSerializedNodeTree)
       .filter((d) => !!d) as ParserField[];
-    const comments: ParserField[] = Parser.findComments(schema).map((description) => ({
-      name: Helpers.Comment,
-      type: {
-        fieldType: {
-          name: Helpers.Comment,
-          type: Options.name,
+    const comments: ParserField[] = Parser.findComments(schema).map((description) =>
+      createParserField({
+        name: Helpers.Comment,
+        type: {
+          fieldType: {
+            name: Helpers.Comment,
+            type: Options.name,
+          },
         },
-      },
-      args: [],
-      directives: [],
-      interfaces: [],
-      data: {
-        type: Helpers.Comment,
-      },
-      description,
-    }));
+        data: {
+          type: Helpers.Comment,
+        },
+        description,
+      }),
+    );
     const nodeTree: ParserTree = {
       nodes: [...comments, ...nodes],
     };

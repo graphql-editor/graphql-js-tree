@@ -1,3 +1,4 @@
+import { createParserField } from '@/shared';
 import {
   OperationType,
   ParserTree,
@@ -21,7 +22,7 @@ describe('Schema base operations', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Query',
           type: {
             operations: [OperationType.query],
@@ -33,10 +34,9 @@ describe('Schema base operations', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'status',
               type: {
                 fieldType: {
@@ -47,12 +47,9 @@ describe('Schema base operations', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -65,7 +62,7 @@ describe('Schema base operations', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Query',
           type: {
             operations: [OperationType.query],
@@ -77,10 +74,9 @@ describe('Schema base operations', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'status',
               type: {
                 fieldType: {
@@ -91,12 +87,9 @@ describe('Schema base operations', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -111,7 +104,7 @@ describe('Schema base operations', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Query',
           type: {
             operations: [OperationType.query],
@@ -123,10 +116,7 @@ describe('Schema base operations', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
-          args: [],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));

@@ -1,3 +1,4 @@
+import { createParserField } from '@/shared';
 import {
   Helpers,
   ParserTree,
@@ -20,7 +21,7 @@ describe('Comment tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -31,27 +32,25 @@ describe('Comment tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
-              args: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.String,
                   type: Options.name,
                 },
               },
-              directives: [],
-              interfaces: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: Helpers.Comment,
           type: {
             fieldType: {
@@ -63,10 +62,7 @@ describe('Comment tests on parser', () => {
             type: Helpers.Comment,
           },
           description: 'hello world',
-          directives: [],
-          interfaces: [],
-          args: [],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toContainEqual(treeMock.nodes[1]);
@@ -84,7 +80,7 @@ type Person{
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -96,27 +92,25 @@ type Person{
             type: TypeDefinition.ObjectTypeDefinition,
           },
           description: `# My header`,
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
-              args: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.String,
                   type: Options.name,
                 },
               },
-              directives: [],
-              interfaces: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: Helpers.Comment,
           type: {
             fieldType: {
@@ -128,10 +122,7 @@ type Person{
             type: Helpers.Comment,
           },
           description: 'hello world',
-          directives: [],
-          interfaces: [],
-          args: [],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));

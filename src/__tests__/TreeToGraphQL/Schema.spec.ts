@@ -1,3 +1,4 @@
+import { createParserField } from '@/shared';
 import {
   OperationType,
   ParserTree,
@@ -14,7 +15,7 @@ describe('Schema base operations in TreeToGraphQL', () => {
   test(`query`, () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Query',
           type: {
             fieldType: {
@@ -26,10 +27,9 @@ describe('Schema base operations in TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'status',
               type: {
                 fieldType: {
@@ -40,12 +40,9 @@ describe('Schema base operations in TreeToGraphQL', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -55,7 +52,7 @@ describe('Schema base operations in TreeToGraphQL', () => {
   test(`empty query`, () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Query',
           type: {
             fieldType: {
@@ -67,10 +64,7 @@ describe('Schema base operations in TreeToGraphQL', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
-          args: [],
-        },
+        }),
       ],
     };
 

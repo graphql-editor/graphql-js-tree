@@ -1,3 +1,4 @@
+import { createParserField } from '@/shared';
 import { ParserTree, ScalarTypes, TypeDefinition, TypeSystemDefinition, Options } from '../../Models';
 import { Parser } from '../../Parser';
 
@@ -12,7 +13,7 @@ describe('Interfaces works as expected', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -24,26 +25,25 @@ describe('Interfaces works as expected', () => {
             type: TypeDefinition.ObjectTypeDefinition,
           },
           interfaces: ['HasName'],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
-              args: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.String,
                   type: Options.name,
                 },
               },
-              directives: [],
-              interfaces: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'HasName',
           type: {
             fieldType: {
@@ -54,26 +54,24 @@ describe('Interfaces works as expected', () => {
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
-              args: [],
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.String,
                   type: Options.name,
                 },
               },
-              directives: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
@@ -88,7 +86,7 @@ describe('Interfaces works as expected', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -100,26 +98,25 @@ describe('Interfaces works as expected', () => {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
           interfaces: ['HasName'],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
-              args: [],
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.String,
                   type: Options.name,
                 },
               },
-              directives: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'HasName',
           type: {
             fieldType: {
@@ -130,26 +127,24 @@ describe('Interfaces works as expected', () => {
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
+
           args: [
-            {
+            createParserField({
               name: 'name',
-              args: [],
-              interfaces: [],
+
               type: {
                 fieldType: {
                   name: ScalarTypes.String,
                   type: Options.name,
                 },
               },
-              directives: [],
+
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));

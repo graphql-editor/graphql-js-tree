@@ -1,3 +1,4 @@
+import { createParserField } from '@/shared';
 import {
   Options,
   ParserTree,
@@ -12,7 +13,7 @@ describe('Fields tests on parser', () => {
   test(`Built in ScalarTypes - ${Object.keys(ScalarTypes).join(', ')}`, () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -23,10 +24,9 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'id',
               type: {
                 fieldType: {
@@ -37,11 +37,8 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'name',
               type: {
                 fieldType: {
@@ -52,11 +49,8 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'age',
               type: {
                 fieldType: {
@@ -67,11 +61,8 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'weight',
               type: {
                 fieldType: {
@@ -82,11 +73,8 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'verified',
               type: {
                 fieldType: {
@@ -97,12 +85,9 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -116,7 +101,7 @@ describe('Fields tests on parser', () => {
   test('Type objects', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -127,11 +112,8 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
-          args: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -142,10 +124,9 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'car',
               type: {
                 fieldType: {
@@ -156,12 +137,9 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -171,7 +149,7 @@ describe('Fields tests on parser', () => {
   test('Interface objects', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -182,11 +160,8 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
-          directives: [],
-          args: [],
-          interfaces: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -197,10 +172,9 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'car',
               type: {
                 fieldType: {
@@ -211,12 +185,9 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -226,7 +197,7 @@ describe('Fields tests on parser', () => {
   test('Enum objects', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -237,11 +208,8 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.EnumTypeDefinition,
           },
-          directives: [],
-          args: [],
-          interfaces: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -252,10 +220,9 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'car',
               type: {
                 fieldType: {
@@ -266,12 +233,9 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -281,7 +245,7 @@ describe('Fields tests on parser', () => {
   test('Custom scalar objects', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -292,11 +256,8 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ScalarTypeDefinition,
           },
-          directives: [],
-          interfaces: [],
-          args: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -307,10 +268,9 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'car',
               type: {
                 fieldType: {
@@ -321,12 +281,9 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              args: [],
-              interfaces: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -336,7 +293,7 @@ describe('Fields tests on parser', () => {
   test('Union objects', () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Car',
           type: {
             fieldType: {
@@ -347,11 +304,8 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
-          args: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'Plane',
           type: {
             fieldType: {
@@ -362,13 +316,10 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
-          args: [],
-        },
-        {
+        }),
+        createParserField({
           name: 'Machine',
-          interfaces: [],
+
           type: {
             fieldType: {
               name: TypeDefinitionDisplayStrings.union,
@@ -378,13 +329,11 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.UnionTypeDefinition,
           },
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'Car',
-              directives: [],
-              interfaces: [],
-              args: [],
+
               type: {
                 fieldType: {
                   name: 'Car',
@@ -394,12 +343,10 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.UnionMemberDefinition,
               },
-            },
-            {
+            }),
+            createParserField({
               name: 'Plane',
-              directives: [],
-              interfaces: [],
-              args: [],
+
               type: {
                 fieldType: {
                   name: 'Plane',
@@ -409,10 +356,10 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.UnionMemberDefinition,
               },
-            },
+            }),
           ],
-        },
-        {
+        }),
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -423,10 +370,9 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'machine',
               type: {
                 fieldType: {
@@ -437,12 +383,9 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -452,7 +395,7 @@ describe('Fields tests on parser', () => {
   test(`Required fields`, () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -463,10 +406,9 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'id',
               type: {
                 fieldType: {
@@ -480,12 +422,9 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -495,7 +434,7 @@ describe('Fields tests on parser', () => {
   test(`ListType fields`, () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -506,10 +445,9 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'id',
               type: {
                 fieldType: {
@@ -523,11 +461,8 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'name',
               type: {
                 fieldType: {
@@ -541,11 +476,8 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
-            {
+            }),
+            createParserField({
               name: 'friends',
               type: {
                 fieldType: {
@@ -562,12 +494,9 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -578,7 +507,7 @@ describe('Fields tests on parser', () => {
   test(`ListType nested lists`, () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -589,10 +518,9 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'matrix',
               type: {
                 fieldType: {
@@ -609,12 +537,9 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
@@ -624,7 +549,7 @@ describe('Fields tests on parser', () => {
   test(`ListType nested lists with required`, () => {
     const treeMock: ParserTree = {
       nodes: [
-        {
+        createParserField({
           name: 'Person',
           type: {
             fieldType: {
@@ -635,10 +560,9 @@ describe('Fields tests on parser', () => {
           data: {
             type: TypeDefinition.ObjectTypeDefinition,
           },
-          interfaces: [],
-          directives: [],
+
           args: [
-            {
+            createParserField({
               name: 'matrix',
               type: {
                 fieldType: {
@@ -664,12 +588,9 @@ describe('Fields tests on parser', () => {
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
-              directives: [],
-              interfaces: [],
-              args: [],
-            },
+            }),
           ],
-        },
+        }),
       ],
     };
 
