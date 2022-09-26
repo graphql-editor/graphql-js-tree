@@ -67,7 +67,10 @@ export class Parser {
   static parse = (schema: string, excludeRoots: string[] = [], libraries = ''): ParserTree => {
     let parsedSchema: DocumentNode | undefined;
     const compiledSchema = [libraries, schema].join('\n');
-
+    const isEmptySchema = compiledSchema.replace(/\s+/gm, '').length === 0;
+    if (isEmptySchema) {
+      return { nodes: [] };
+    }
     try {
       parsedSchema = parse(compiledSchema);
     } catch (error) {

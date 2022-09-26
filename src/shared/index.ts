@@ -39,7 +39,7 @@ export const decompileType = (typeName: string): FieldType => {
 };
 
 export const generateNodeId = (name: string, dataType: AllTypes, args: ParserField[]) => {
-  const s = [name, dataType, args.map((a) => a.name)].join('-');
+  const s = [name, dataType, args.map((a) => a.name).join('-')].join('-');
   return cyrb53(s);
 };
 const cyrb53 = (str: string, seed = 0) => {
