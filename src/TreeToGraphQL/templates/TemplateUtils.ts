@@ -99,6 +99,9 @@ export class TemplateUtils {
         return ValueTemplate.resolve(f);
       }
       if (type in TypeExtension) {
+        if (type === TypeExtension.UnionTypeExtension) {
+          return TypeDefinitionsTemplates.resolveUnionExtension(f);
+        }
         return TypeDefinitionsTemplates.resolveExtension(f);
       }
       if (type in TypeDefinition) {

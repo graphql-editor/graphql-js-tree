@@ -17,6 +17,18 @@ export class TypeDefinitionsTemplates {
     `${TemplateUtils.resolveImplements(interfaces)}${TemplateUtils.resolveDirectives(directives)}${
       args && args.length ? `{\n${args.map((a) => TemplateUtils.resolverForConnection(a, 1)).join('\n')}\n}` : ''
     }`;
+  static resolveUnionExtension: typeof TypeDefinitionsTemplates.resolve = ({
+    name,
+    description,
+    data,
+    interfaces,
+    args,
+    directives,
+  }) =>
+    TypeDefinitionsTemplates.extendedDefinitionTemplate({ name, description, data }) +
+    `${TemplateUtils.resolveImplements(interfaces)}${TemplateUtils.resolveDirectives(directives)}${
+      args && args.length ? ` = ${args.map((a) => TemplateUtils.resolverForConnection(a, 1)).join(' | ')}` : ''
+    }`;
   /**
    * Basic TypeDefinition template with mapping to display `type` instead of `ObjectTypeDefinition`
    */

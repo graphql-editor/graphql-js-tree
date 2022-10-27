@@ -7,6 +7,8 @@ import {
   TypeExtension,
   TypeSystemDefinition,
   Options,
+  Instances,
+  Directive,
 } from '../../Models';
 import { Parser } from '../../Parser';
 import { createParserField } from '@/shared';
@@ -84,6 +86,120 @@ describe('Extend tests on parser', () => {
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
+  it('Extends union', () => {
+    const schema = `
+        type Man{ name:String }
+        type Woman{ name:String }
+        type Kid{ name:String }
+        union Person = Man | Woman
+        extend union Person = Kid
+        `;
+    const tree = Parser.parse(schema);
+    const nodeWithName = (name: string) =>
+      createParserField({
+        name,
+        type: {
+          fieldType: {
+            name: TypeDefinitionDisplayStrings.type,
+            type: Options.name,
+          },
+        },
+        data: {
+          type: TypeDefinition.ObjectTypeDefinition,
+        },
+
+        args: [
+          createParserField({
+            name: 'name',
+
+            type: {
+              fieldType: {
+                name: ScalarTypes.String,
+                type: Options.name,
+              },
+            },
+
+            data: {
+              type: TypeSystemDefinition.FieldDefinition,
+            },
+          }),
+        ],
+      });
+    const treeMock: ParserTree = {
+      nodes: [
+        nodeWithName('Man'),
+        nodeWithName('Woman'),
+        nodeWithName('Kid'),
+        createParserField({
+          name: 'Person',
+          type: {
+            fieldType: {
+              type: Options.name,
+              name: TypeDefinitionDisplayStrings.union,
+            },
+          },
+          data: {
+            type: TypeDefinition.UnionTypeDefinition,
+          },
+          args: [
+            createParserField({
+              name: 'Man',
+              type: {
+                fieldType: {
+                  name: 'Man',
+                  type: Options.name,
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.UnionMemberDefinition,
+              },
+            }),
+            createParserField({
+              name: 'Woman',
+              type: {
+                fieldType: {
+                  name: 'Woman',
+                  type: Options.name,
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.UnionMemberDefinition,
+              },
+            }),
+          ],
+        }),
+        createParserField({
+          name: 'Person',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.union,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeExtension.UnionTypeExtension,
+          },
+
+          args: [
+            createParserField({
+              name: 'Kid',
+              type: {
+                fieldType: {
+                  name: 'Kid',
+                  type: Options.name,
+                },
+              },
+
+              data: {
+                type: TypeSystemDefinition.UnionMemberDefinition,
+              },
+            }),
+          ],
+        }),
+      ],
+    };
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
+  });
   it('Extends Person type and correctly join extensions', () => {
     const schema = `
         directive @model on OBJECT
@@ -97,5 +213,69 @@ describe('Extend tests on parser', () => {
     expect(extendedSchema).toContain('name: String');
     expect(extendedSchema).toContain('age: Int');
     expect(extendedSchema).not.toContain('extend type Person');
+  });
+  it('Extends URL scalar', () => {
+    const schema = `
+        scalar URL
+        directive @forScalar on SCALAR
+        extend scalar URL @forScalar
+        `;
+    const tree = Parser.parse(schema);
+    const treeMock: ParserTree = {
+      nodes: [
+        createParserField({
+          name: 'URL',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.scalar,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ScalarTypeDefinition,
+          },
+        }),
+        createParserField({
+          name: 'forScalar',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
+            directiveOptions: [Directive.SCALAR],
+          },
+          data: {
+            type: TypeSystemDefinition.DirectiveDefinition,
+          },
+        }),
+        createParserField({
+          name: 'URL',
+          type: {
+            fieldType: {
+              name: 'scalar',
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeExtension.ScalarTypeExtension,
+          },
+          directives: [
+            createParserField({
+              name: 'forScalar',
+              data: {
+                type: Instances.Directive,
+              },
+              type: {
+                fieldType: {
+                  name: 'forScalar',
+                  type: Options.name,
+                },
+              },
+            }),
+          ],
+        }),
+      ],
+    };
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
 });

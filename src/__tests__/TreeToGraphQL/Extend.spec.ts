@@ -7,11 +7,13 @@ import {
   TypeExtension,
   TypeSystemDefinition,
   Options,
+  Directive,
+  Instances,
 } from '../../Models';
 import { TreeToGraphQL } from '../../TreeToGraphQL';
 
 describe('Extend tests on TreeToGraphQL', () => {
-  it('Extends Person TreeToGraphQL', () => {
+  it('Extends type TreeToGraphQL', () => {
     const treeMock: ParserTree = {
       nodes: [
         createParserField({
@@ -72,5 +74,221 @@ describe('Extend tests on TreeToGraphQL', () => {
     };
     const graphql = TreeToGraphQL.parse(treeMock);
     expect(graphql).toContain(`extend type Person`);
+  });
+  it('Extends union TreeToGraphQL', () => {
+    const treeMock: ParserTree = {
+      nodes: [
+        createParserField({
+          name: 'Kid',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+          description: '',
+          args: [
+            createParserField({
+              name: 'name',
+              type: {
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            }),
+          ],
+        }),
+        createParserField({
+          name: 'Man',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+          description: '',
+          args: [
+            createParserField({
+              name: 'name',
+              type: {
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            }),
+          ],
+        }),
+        createParserField({
+          name: 'Woman',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+          description: '',
+          args: [
+            createParserField({
+              name: 'name',
+              type: {
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            }),
+          ],
+        }),
+        createParserField({
+          name: 'Person',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.union,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.UnionTypeDefinition,
+          },
+          description: '',
+          args: [
+            createParserField({
+              name: 'Kid',
+              type: {
+                fieldType: {
+                  name: 'Kid',
+                  type: Options.name,
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.UnionMemberDefinition,
+              },
+            }),
+          ],
+        }),
+        createParserField({
+          name: 'Person',
+          type: {
+            fieldType: {
+              name: 'type',
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeExtension.UnionTypeExtension,
+          },
+          description: '',
+          args: [
+            createParserField({
+              name: 'Man',
+              type: {
+                fieldType: {
+                  name: 'Man',
+                  type: Options.name,
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.UnionMemberDefinition,
+              },
+            }),
+            createParserField({
+              name: 'Woman',
+              type: {
+                fieldType: {
+                  name: 'Woman',
+                  type: Options.name,
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.UnionMemberDefinition,
+              },
+            }),
+          ],
+        }),
+      ],
+    };
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`extend union Person = Man | Woman`);
+  });
+  it('Extends scalar TreeToGraphQL', () => {
+    const treeMock: ParserTree = {
+      nodes: [
+        createParserField({
+          name: 'URL',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.scalar,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ScalarTypeDefinition,
+          },
+          description: '',
+        }),
+        createParserField({
+          name: 'forScalar',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.directive,
+              type: Options.name,
+            },
+            directiveOptions: [Directive.SCALAR],
+          },
+          data: {
+            type: TypeSystemDefinition.DirectiveDefinition,
+          },
+        }),
+        createParserField({
+          name: 'URL',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.scalar,
+              type: Options.name,
+            },
+          },
+          directives: [
+            createParserField({
+              name: 'forScalar',
+              data: {
+                type: Instances.Directive,
+              },
+              type: {
+                fieldType: {
+                  type: Options.name,
+                  name: 'forScalar',
+                },
+              },
+            }),
+          ],
+          data: {
+            type: TypeExtension.ScalarTypeExtension,
+          },
+          description: '',
+        }),
+      ],
+    };
+    const graphql = TreeToGraphQL.parse(treeMock);
+    expect(graphql).toContain(`extend scalar URL @forScalar`);
   });
 });
