@@ -1,4 +1,3 @@
-import { Kind } from 'graphql';
 import { TypeDefinitionDisplayStrings, TypeSystemDefinitionDisplayStrings } from './DisplayMap';
 import {
   Helpers,
@@ -30,7 +29,7 @@ export type AllTypes =
   | Helpers
   | Type;
 
-export const kindAsAllTypes = (v: Kind) => v as unknown as AllTypes;
+export const kindAsAllTypes = (v: string) => v as AllTypes;
 export interface GraphQLNodeParams {
   type: AllTypes;
 }
