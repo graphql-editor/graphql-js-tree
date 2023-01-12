@@ -36,7 +36,7 @@ describe('Interfaces works as expected', () => {
                   type: Options.name,
                 },
               },
-
+              fromInterface: ['HasName'],
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },
@@ -102,14 +102,13 @@ describe('Interfaces works as expected', () => {
           args: [
             createParserField({
               name: 'name',
-
               type: {
                 fieldType: {
                   name: ScalarTypes.String,
                   type: Options.name,
                 },
               },
-
+              fromInterface: ['HasName'],
               data: {
                 type: TypeSystemDefinition.FieldDefinition,
               },

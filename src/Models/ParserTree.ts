@@ -14,6 +14,7 @@ export interface ParserField {
   interfaces: string[];
   directives: ParserField[];
   description?: string;
+  fromInterface?: string[];
 }
 
 export interface ParserTree {

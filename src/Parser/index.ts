@@ -33,6 +33,9 @@ export class Parser {
     if (isTypeSystemDefinitionNode(d) || isTypeSystemExtensionNode(d)) {
       const args = TypeResolver.resolveFieldsFromDefinition(d);
       if ('name' in d) {
+        const interfaces = 'interfaces' in d && d.interfaces ? d.interfaces.map((i) => i.name.value) : [];
+        const directives = 'directives' in d && d.directives ? TypeResolver.iterateDirectives(d.directives) : [];
+
         return {
           name: d.name.value,
           type:
@@ -49,8 +52,8 @@ export class Parser {
           },
 
           ...('description' in d && d.description?.value ? { description: d.description.value } : {}),
-          interfaces: 'interfaces' in d && d.interfaces ? d.interfaces.map((i) => i.name.value) : [],
-          directives: 'directives' in d && d.directives ? TypeResolver.iterateDirectives(d.directives) : [],
+          interfaces,
+          directives,
           args,
           id: generateNodeId(d.name.value, d.kind as AllTypes, args),
         };
@@ -119,8 +122,9 @@ export class Parser {
     const nodeTree: ParserTree = {
       nodes: [...comments, ...nodes],
     };
+    const allInterfaceNodes = nodeTree.nodes.filter((n) => n.data.type === TypeDefinition.InterfaceTypeDefinition);
     nodeTree.nodes.forEach((n) => {
-      if (n.data?.type === TypeDefinition.ObjectTypeDefinition) {
+      if (n.data.type === TypeDefinition.ObjectTypeDefinition) {
         if (operations.Query ? operations.Query === n.name : n.name === 'Query') {
           n.type.operations = [OperationType.query];
         }
@@ -129,6 +133,30 @@ export class Parser {
         }
         if (operations.Subscription ? operations.Subscription === n.name : n.name === 'Subscription') {
           n.type.operations = [OperationType.subscription];
+        }
+      }
+      if (
+        n.data.type === TypeDefinition.ObjectTypeDefinition ||
+        n.data.type === TypeDefinition.InterfaceTypeDefinition
+      ) {
+        if (n.interfaces) {
+          const myInterfaces = allInterfaceNodes
+            .filter((interfaceNode) => n.interfaces.includes(interfaceNode.name))
+            .map((n) => ({
+              name: n.name,
+              argNames: n.args.map((a) => a.name),
+            }));
+          n.args = n.args.map((a) => {
+            const interfaceNames = myInterfaces
+              .filter((myInterface) => myInterface.argNames.includes(a.name))
+              .map((i) => i.name);
+            if (interfaceNames.length)
+              return {
+                ...a,
+                fromInterface: interfaceNames,
+              };
+            return a;
+          });
         }
       }
     });
