@@ -7,7 +7,7 @@ import {
   isTypeSystemExtensionNode,
   parse,
 } from 'graphql';
-import { AllTypes, ParserField, ParserTree, TypeDefinitionDisplayMap, Options } from '@/Models';
+import { ParserField, ParserTree, TypeDefinitionDisplayMap, Options, kindAsAllTypes } from '@/Models';
 import { Directive, Helpers, OperationType, TypeDefinition, TypeExtension } from '@/Models/Spec';
 import { TypeResolver } from './typeResolver';
 import { ParserUtils } from './ParserUtils';
@@ -48,14 +48,14 @@ export class Parser {
                   fieldType: { name: TypeDefinitionDisplayMap[d.kind], type: Options.name },
                 },
           data: {
-            type: d.kind as AllTypes,
+            type: kindAsAllTypes(d.kind),
           },
 
           ...('description' in d && d.description?.value ? { description: d.description.value } : {}),
           interfaces,
           directives,
           args,
-          id: generateNodeId(d.name.value, d.kind as AllTypes, args),
+          id: generateNodeId(d.name.value, kindAsAllTypes(d.kind), args),
         };
       }
     }

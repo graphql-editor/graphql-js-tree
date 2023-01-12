@@ -10,7 +10,7 @@ import {
   TypeSystemExtensionNode,
   ValueNode,
 } from 'graphql';
-import { AllTypes, Options, ParserField } from '@/Models';
+import { AllTypes, kindAsAllTypes, Options, ParserField } from '@/Models';
 import { Instances, TypeSystemDefinition, Value, ValueDefinition } from '@/Models/Spec';
 import { generateNodeId } from '@/shared';
 
@@ -127,15 +127,15 @@ export class TypeResolver {
           interfaces: [],
           args,
           data: {
-            type: value.kind as AllTypes,
+            type: kindAsAllTypes(value.kind),
           },
           type: {
             fieldType: {
-              name: value.kind as AllTypes,
+              name: kindAsAllTypes(value.kind),
               type: Options.name,
             },
           },
-          id: generateNodeId(value.kind, value.kind as AllTypes, args),
+          id: generateNodeId(value.kind, kindAsAllTypes(value.kind), args),
         },
       ];
     }
@@ -149,15 +149,15 @@ export class TypeResolver {
           directives: [],
           interfaces: [],
           data: {
-            type: value.kind as AllTypes,
+            type: kindAsAllTypes(value.kind),
           },
           type: {
             fieldType: {
-              name: value.kind as AllTypes,
+              name: kindAsAllTypes(value.kind),
               type: Options.name,
             },
           },
-          id: generateNodeId(value.kind, value.kind as AllTypes, args),
+          id: generateNodeId(value.kind, kindAsAllTypes(value.kind), args),
         },
       ];
     }
@@ -169,7 +169,7 @@ export class TypeResolver {
           directives: [],
           interfaces: [],
           data: {
-            type: value.kind as AllTypes,
+            type: kindAsAllTypes(value.kind),
           },
           type: {
             fieldType: {
@@ -177,7 +177,7 @@ export class TypeResolver {
               type: Options.name,
             },
           },
-          id: generateNodeId(value.value, value.kind as AllTypes, []),
+          id: generateNodeId(value.value, kindAsAllTypes(value.kind), []),
         },
       ];
     }
@@ -196,9 +196,9 @@ export class TypeResolver {
           directives: [],
           interfaces: [],
           data: {
-            type: value.kind as AllTypes,
+            type: kindAsAllTypes(value.kind),
           },
-          id: generateNodeId(name, value.kind as AllTypes, []),
+          id: generateNodeId(name, kindAsAllTypes(value.kind), []),
         },
       ];
     }
