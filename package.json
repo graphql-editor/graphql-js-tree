@@ -1,6 +1,6 @@
 {
   "name": "graphql-js-tree",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": false,
   "license": "MIT",
   "description": "GraphQL Parser providing simplier structure",
@@ -42,7 +42,7 @@
     "typescript-transform-paths": "^2.0.0"
   },
   "dependencies": {
-    "graphql": "^15.4.0"
+    "graphql": "^16.6.0"
   },
   "config": {
     "commitizen": {
