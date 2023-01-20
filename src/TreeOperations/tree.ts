@@ -1,73 +1,63 @@
-import { ParserField, TypeDefinition, Options, TypeSystemDefinition, TypeExtension, ParserTree } from '@/Models';
-import { getTypeName, createParserField } from '@/shared';
+import { ParserField, TypeDefinition, TypeSystemDefinition, TypeExtension, ParserTree } from '@/Models';
+import { getTypeName } from '@/shared';
 import {
-  deleteFieldFromInterface,
   changeInterfaceField,
   updateInterfaceNodeAddField,
-  renameInterfaceNode,
-  implementInterfaceOnNode,
-  deImplementInterfaceOnNode,
+  _getAllConnectedInterfaces,
 } from '@/TreeOperations/interface';
 import { ChangeAllRelatedNodes, filterNotNull, isExtensionNode, regenerateId } from '@/TreeOperations/shared';
 
 export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
-  const mutateParentIfField = (node: ParserField, nodeId: string) => {
+  const mutateParentIfField = (node: ParserField) => {
     if (node.data.type === TypeSystemDefinition.FieldDefinition) {
-      const parentNode = allNodes.find((an) => an.args.some((a) => a.id === nodeId));
+      const parentNode = allNodes.find((an) => an.args.some((a) => a.id === node.id));
       if (!parentNode) throw new Error('Invalid field definition');
-      const fieldIndex = parentNode.args.findIndex((a) => a.id == nodeId);
+      const fieldIndex = parentNode.args.findIndex((a) => a.id == node.id);
       updateFieldOnNode(parentNode, fieldIndex, node);
       return;
     }
   };
   const deleteFieldFromNode = (n: ParserField, i: number) => {
-    const nodeId = n.id;
     const argName = n.args[i].name;
     if (n.data.type === TypeDefinition.InterfaceTypeDefinition) {
-      deleteFieldFromInterface(tree.nodes, n, argName);
+      tree.nodes
+        .filter((filterNode) => filterNode.interfaces.includes(n.name))
+        .forEach((nodeWithThisInterface) => {
+          nodeWithThisInterface.args = nodeWithThisInterface.args
+            .map((a) => {
+              if (a.name !== argName || !a.fromInterface) return a;
+              if (a.fromInterface.length === 1) return null;
+              return {
+                ...a,
+                fromInterface: a.fromInterface.filter((ai) => ai !== n.name),
+              };
+            })
+            .filter(filterNotNull);
+        });
     }
     n.args.splice(i, 1);
     regenerateId(n);
-    mutateParentIfField(n, nodeId);
+    mutateParentIfField(n);
   };
 
   const updateFieldOnNode = (node: ParserField, i: number, updatedField: ParserField) => {
-    const oldField = JSON.parse(JSON.stringify(node.args[i]));
-    const nodeId = node.id;
+    regenerateId(updatedField);
     if (node.data.type === TypeDefinition.InterfaceTypeDefinition) {
+      const oldField: ParserField = JSON.parse(JSON.stringify(node.args[i]));
       changeInterfaceField(tree.nodes, node, oldField, updatedField);
     }
     node.args[i] = updatedField;
     regenerateId(node);
-    mutateParentIfField(node, nodeId);
+    mutateParentIfField(node);
   };
 
-  const addFieldToNode = (node: ParserField, { id, ...f }: ParserField, name?: string) => {
-    let newName = name || f.name[0].toLowerCase() + f.name.slice(1);
-    const existingNodes = node.args?.filter((a) => a.name.match(`${newName}\d?`)) || [];
-    if (existingNodes.length > 0) {
-      newName = `${newName}${existingNodes.length}`;
-    }
-    const nodeId = id;
-    node.args?.push(
-      createParserField({
-        ...f,
-        directives: [],
-        interfaces: [],
-        args: [],
-        type: {
-          fieldType: {
-            name: f.name,
-            type: Options.name,
-          },
-        },
-        name: newName,
-      }),
-    );
+  const addFieldToNode = (node: ParserField, f: ParserField) => {
+    node.args?.push({ ...f });
     if (node.data.type === TypeDefinition.InterfaceTypeDefinition) {
       updateInterfaceNodeAddField(tree.nodes, node);
     }
-    mutateParentIfField(node, nodeId);
+    regenerateId(node);
+    mutateParentIfField(node);
   };
   const renameNode = (node: ParserField, newName: string) => {
     const isError = allNodes.map((n) => n.name).includes(newName);
@@ -75,7 +65,16 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
       return;
     }
     if (node.data.type === TypeDefinition.InterfaceTypeDefinition) {
-      renameInterfaceNode(tree.nodes, newName, node.name);
+      const oldName = node.name;
+      tree.nodes
+        .filter((n) => n.interfaces.includes(oldName))
+        .forEach((n) => {
+          n.interfaces = n.interfaces.filter((i) => i !== oldName).concat([newName]);
+          n.args.forEach((a) => {
+            a.fromInterface = a.fromInterface?.filter((fi) => fi !== oldName).concat([newName]);
+          });
+          regenerateId(n);
+        });
     }
     ChangeAllRelatedNodes({
       newName,
@@ -88,11 +87,10 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
   const removeNode = (node: ParserField) => {
     const deletedNode = tree.nodes.findIndex((n) => n === node);
     if (deletedNode === -1) throw new Error('Error deleting a node');
-    const allNodes = [...tree.nodes];
     // co jak usuwamy extension interface
     if (node.data.type === TypeExtension.InterfaceTypeExtension) {
     }
-    allNodes.splice(deletedNode, 1);
+    tree.nodes.splice(deletedNode, 1);
     tree.nodes.forEach((n) => {
       n.args = n.args
         .filter((a) => {
@@ -103,13 +101,49 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
           return a;
         })
         .filter(filterNotNull);
+      regenerateId(n);
     });
+    if (node.data.type === TypeDefinition.InterfaceTypeDefinition) {
+      tree.nodes
+        .filter((n) => n.interfaces.includes(node.name))
+        .forEach((n) => {
+          deImplementInterface(n, node.name);
+        });
+    }
   };
   const implementInterface = (node: ParserField, interfaceNode: ParserField) => {
-    implementInterfaceOnNode(tree.nodes, node, interfaceNode);
+    const interfacesToPush = _getAllConnectedInterfaces(allNodes, [interfaceNode.name]);
+    node.interfaces.push(...interfacesToPush);
+    const argsToPush = interfaceNode.args?.filter((a) => !node.args?.find((na) => na.name === a.name)) || [];
+    node.args = node.args.map((a) => {
+      if (interfaceNode.args.find((interfaceArg) => interfaceArg.name === a.name)) {
+        return {
+          ...a,
+          fromInterface: (a.fromInterface || []).concat([interfaceNode.name]),
+        };
+      }
+      return a;
+    });
+    node.args = node.args?.concat(
+      argsToPush.map((atp) => ({
+        ...atp,
+        fromInterface: [interfaceNode.name],
+      })),
+    );
+    regenerateId(node);
   };
   const deImplementInterface = (node: ParserField, interfaceName: string) => {
-    deImplementInterfaceOnNode(tree.nodes, node, interfaceName);
+    const interfacesToDeImplement = _getAllConnectedInterfaces(allNodes, [interfaceName]);
+    node.interfaces = node.interfaces.filter((ni) => !interfacesToDeImplement.includes(ni));
+    node.args = node.args
+      .map((a) => {
+        if (!a.fromInterface?.length) return a;
+        a.fromInterface = a.fromInterface.filter((fi) => !interfacesToDeImplement.includes(fi));
+        if (a.fromInterface.length === 0) return null;
+        return a;
+      })
+      .filter(filterNotNull);
+    regenerateId(node);
   };
   return {
     deleteFieldFromNode,
