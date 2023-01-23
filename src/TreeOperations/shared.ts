@@ -1,4 +1,4 @@
-import { AllTypes, FieldType, Options, ParserField, TypeExtension } from '@/Models';
+import { AllTypes, FieldType, Options, ParserField, ScalarTypes, TypeExtension } from '@/Models';
 import { generateNodeId, getTypeName } from '@/shared';
 
 export function filterNotNull<T>(t: T | null): t is T {
@@ -102,3 +102,26 @@ export const ChangeAllRelatedNodes = ({
 }) => {
   nodes.forEach((n) => ChangeRelatedNode({ oldName, newName, node: n }));
 };
+
+export const isScalarArgument = (field: ParserField, scalarTypes: string[]) => {
+  const typeName = getTypeName(field.type.fieldType);
+  if (typeName === ScalarTypes.Boolean) {
+    return true;
+  }
+  if (typeName === ScalarTypes.Float) {
+    return true;
+  }
+  if (typeName === ScalarTypes.ID) {
+    return true;
+  }
+  if (typeName === ScalarTypes.Int) {
+    return true;
+  }
+  if (typeName === ScalarTypes.String) {
+    return true;
+  }
+  return scalarTypes.includes(typeName);
+};
+
+export const isArrayType = (f: FieldType) =>
+  f.type === Options.required ? f.nest.type === Options.array : f.type === Options.array;

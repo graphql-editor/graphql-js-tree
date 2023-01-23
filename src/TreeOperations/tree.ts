@@ -1,11 +1,26 @@
-import { ParserField, TypeDefinition, TypeSystemDefinition, TypeExtension, ParserTree } from '@/Models';
+import {
+  ParserField,
+  TypeDefinition,
+  TypeSystemDefinition,
+  TypeExtension,
+  ParserTree,
+  Value,
+  ScalarTypes,
+} from '@/Models';
 import { getTypeName } from '@/shared';
 import {
   changeInterfaceField,
   updateInterfaceNodeAddField,
   _getAllConnectedInterfaces,
 } from '@/TreeOperations/interface';
-import { ChangeAllRelatedNodes, filterNotNull, isExtensionNode, regenerateId } from '@/TreeOperations/shared';
+import {
+  ChangeAllRelatedNodes,
+  filterNotNull,
+  isArrayType,
+  isExtensionNode,
+  isScalarArgument,
+  regenerateId,
+} from '@/TreeOperations/shared';
 
 export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
   const mutateParentIfField = (node: ParserField) => {
@@ -145,6 +160,12 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
       .filter(filterNotNull);
     regenerateId(node);
   };
+  const setValueNode = (node: ParserField, value: string) => {
+    node.value = {
+      value,
+      type: checkValueType(node, allNodes),
+    };
+  };
   return {
     deleteFieldFromNode,
     updateFieldOnNode,
@@ -153,5 +174,45 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     removeNode,
     implementInterface,
     deImplementInterface,
+    setValueNode,
   };
+};
+
+const checkValueType = (node: ParserField, nodes: ParserField[]) => {
+  const isArray = isArrayType(node.type.fieldType);
+  if (isArray) return Value.ListValue;
+  const tName = getTypeName(node.type.fieldType);
+  const scalarTypes = nodes.filter((n) => n.data.type === TypeDefinition.ScalarTypeDefinition).map((n) => n.name);
+  if (isScalarArgument(node, scalarTypes)) {
+    if (tName === ScalarTypes.Boolean) {
+      return Value.BooleanValue;
+    }
+    if (tName === ScalarTypes.Float) {
+      return Value.FloatValue;
+    }
+    if (tName === ScalarTypes.ID) {
+      return Value.IDValue;
+    }
+    if (tName === ScalarTypes.Int) {
+      return Value.IntValue;
+    }
+    if (tName === ScalarTypes.String) {
+      return Value.StringValue;
+    }
+    return Value.ScalarValue;
+  }
+  const parentNode = nodes.find((n) => n.name === tName);
+  if (
+    parentNode?.data.type === TypeDefinition.InputObjectTypeDefinition ||
+    parentNode?.data.type === TypeExtension.InputObjectTypeExtension
+  ) {
+    return Value.ObjectValue;
+  }
+  if (
+    parentNode?.data.type === TypeDefinition.EnumTypeDefinition ||
+    parentNode?.data.type === TypeExtension.EnumTypeExtension
+  ) {
+    return Value.EnumValue;
+  }
+  return Value.Variable;
 };

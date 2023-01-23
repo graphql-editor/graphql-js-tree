@@ -29,6 +29,8 @@ export enum Value {
   EnumValue = 'EnumValue',
   ListValue = 'ListValue',
   ObjectValue = 'ObjectValue',
+  IDValue = 'IDValue',
+  ScalarValue = 'ScalarValue',
 }
 export enum Type {
   NamedType = 'NamedType',
