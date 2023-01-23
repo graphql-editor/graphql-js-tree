@@ -1,19 +1,14 @@
-import { ParserField } from '@/Models';
+import { ParserField, Value } from '@/Models';
 import { getTypeName } from '@/shared';
-import { TemplateUtils } from './TemplateUtils';
 
 /**
  * resolve function argument
  */
 export class ArgumentTemplate {
-  static resolve({ args, type }: ParserField, prefix = 0): string {
+  static resolve({ type, value }: ParserField): string {
     let argsString = '';
-    if (args) {
-      if (args.length) {
-        argsString = `${args.map((a) => TemplateUtils.resolverForConnection(a, prefix)).join('\n')}`;
-      } else {
-        argsString = '[]';
-      }
+    if (value?.value) {
+      argsString = `${value.type === Value.StringValue ? `"${value.value}"` : value.value}`;
     }
     return `${getTypeName(type.fieldType)}: ${argsString}`;
   }

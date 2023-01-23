@@ -1,4 +1,4 @@
-import { ParserField } from '@/Models';
+import { ParserField, Value } from '@/Models';
 import { TemplateUtils } from './TemplateUtils';
 
 /**
@@ -7,8 +7,8 @@ import { TemplateUtils } from './TemplateUtils';
 export class InputValueTemplate {
   static resolve(f: ParserField, prefix = 0): string {
     let argsString = '';
-    if (f.args.length > 0) {
-      argsString = ` = ${f.args.map((a) => TemplateUtils.resolverForConnection(a, prefix + 1)).join('\n')}`;
+    if (f.value?.value) {
+      argsString = ` = ${f.value.type === Value.StringValue ? `"${f.value.value}"` : f.value.value}`;
     }
     return `${TemplateUtils.descriptionResolver(f.description, prefix)}${'\t'.repeat(prefix)}${
       f.name

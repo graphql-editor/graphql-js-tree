@@ -5,7 +5,6 @@ import {
   TypeDefinition,
   TypeExtension,
   TypeSystemDefinition,
-  Value,
   ValueDefinition,
 } from '@/Models';
 import { compileType } from '@/shared';
@@ -18,7 +17,6 @@ import { FieldTemplate } from './FieldTemplate';
 import { InputValueTemplate } from './InputValueTemplate';
 import { TypeDefinitionsTemplates } from './TypeDefinitionsTemplates';
 import { UnionMemberTemplate } from './UnionMemberTemplate';
-import { ValueTemplate } from './ValueTemplate';
 
 const dedent = new RegExp('\n([\t ]*)', 'gm');
 
@@ -94,9 +92,6 @@ export class TemplateUtils {
       const { type = '' } = f.data;
       if (type === TypeDefinition.UnionTypeDefinition) {
         return TypeDefinitionsTemplates.resolveUnion(f);
-      }
-      if (type in Value) {
-        return ValueTemplate.resolve(f);
       }
       if (type in TypeExtension) {
         if (type === TypeExtension.UnionTypeExtension) {

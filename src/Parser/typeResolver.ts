@@ -10,9 +10,10 @@ import {
   TypeSystemExtensionNode,
   ValueNode,
 } from 'graphql';
-import { AllTypes, kindAsAllTypes, Options, ParserField } from '@/Models';
-import { Instances, TypeSystemDefinition, Value, ValueDefinition } from '@/Models/Spec';
+import { kindAsValue, Options, ParserField } from '@/Models';
+import { Instances, TypeSystemDefinition, ValueDefinition } from '@/Models/Spec';
 import { generateNodeId } from '@/shared';
+import { extractDefaultValueString } from '@/Parser/extractDefaultValueString';
 
 /**
  * Class for resolving Types to ParserFields
@@ -93,7 +94,6 @@ export class TypeResolver {
    * @param f
    */
   static resolveObjectField(f: ObjectFieldNode): ParserField[] {
-    const args = TypeResolver.resolveValue(f.value);
     return [
       {
         name: f.name.value,
@@ -105,104 +105,14 @@ export class TypeResolver {
         },
         interfaces: [],
         directives: [],
-        args,
-        id: generateNodeId(f.name.value, Instances.Argument, args),
+        args: [],
+        value: {
+          type: kindAsValue(f.value.kind),
+          value: extractDefaultValueString(f.value),
+        },
+        id: generateNodeId(f.name.value, Instances.Argument, []),
       },
     ];
-  }
-
-  /**
-   * Resolve GraphQL ValueNode
-   *
-   * @param value
-   */
-  static resolveValue(value: ValueNode): ParserField[] {
-    if (value.kind === 'ListValue') {
-      const args = value.values.map((f) => TypeResolver.resolveValue(f)).reduce((a, b) => [...a, ...b], []);
-
-      return [
-        {
-          name: value.kind,
-          directives: [],
-          interfaces: [],
-          args,
-          data: {
-            type: kindAsAllTypes(value.kind),
-          },
-          type: {
-            fieldType: {
-              name: kindAsAllTypes(value.kind),
-              type: Options.name,
-            },
-          },
-          id: generateNodeId(value.kind, kindAsAllTypes(value.kind), args),
-        },
-      ];
-    }
-    if (value.kind === 'ObjectValue') {
-      const args = value.fields.map((f) => TypeResolver.resolveObjectField(f)).reduce((a, b) => [...a, ...b], []);
-
-      return [
-        {
-          args,
-          name: value.kind,
-          directives: [],
-          interfaces: [],
-          data: {
-            type: kindAsAllTypes(value.kind),
-          },
-          type: {
-            fieldType: {
-              name: kindAsAllTypes(value.kind),
-              type: Options.name,
-            },
-          },
-          id: generateNodeId(value.kind, kindAsAllTypes(value.kind), args),
-        },
-      ];
-    }
-    if (value.kind === 'EnumValue') {
-      return [
-        {
-          name: value.value,
-          args: [],
-          directives: [],
-          interfaces: [],
-          data: {
-            type: kindAsAllTypes(value.kind),
-          },
-          type: {
-            fieldType: {
-              name: value.value as AllTypes,
-              type: Options.name,
-            },
-          },
-          id: generateNodeId(value.value, kindAsAllTypes(value.kind), []),
-        },
-      ];
-    }
-    if (value.kind in Value) {
-      const name = 'value' in value ? value.value.toString() : 'name' in value ? value.name.value : '';
-      return [
-        {
-          name,
-          type: {
-            fieldType: {
-              name: value.kind,
-              type: Options.name,
-            },
-          },
-          args: [],
-          directives: [],
-          interfaces: [],
-          data: {
-            type: kindAsAllTypes(value.kind),
-          },
-          id: generateNodeId(name, kindAsAllTypes(value.kind), []),
-        },
-      ];
-    }
-    return [];
   }
 
   /**
@@ -239,7 +149,6 @@ export class TypeResolver {
    */
   static iterateArgumentFields(fields: ReadonlyArray<ArgumentNode>): ParserField[] {
     return fields.map((n) => {
-      const args = TypeResolver.resolveValue(n.value);
       return {
         name: n.name.value,
         type: {
@@ -250,8 +159,12 @@ export class TypeResolver {
         },
         directives: [],
         interfaces: [],
-        args,
-        id: generateNodeId(n.name.value, Instances.Argument, args),
+        value: {
+          type: kindAsValue(n.value.kind),
+          value: extractDefaultValueString(n.value),
+        },
+        args: [],
+        id: generateNodeId(n.name.value, Instances.Argument, []),
       };
     });
   }
@@ -263,7 +176,12 @@ export class TypeResolver {
    */
   static iterateInputValueFields(fields: ReadonlyArray<InputValueDefinitionNode>): ParserField[] {
     return fields.map((n) => {
-      const args = n.defaultValue ? TypeResolver.resolveValue(n.defaultValue) : [];
+      const value = n.defaultValue
+        ? {
+            type: kindAsValue(n.defaultValue.kind),
+            value: extractDefaultValueString(n.defaultValue),
+          }
+        : undefined;
       return {
         name: n.name.value,
         ...(n.description ? { description: n.description.value } : {}),
@@ -272,9 +190,10 @@ export class TypeResolver {
         data: {
           type: ValueDefinition.InputValueDefinition,
         },
-        args,
+        args: [],
         interfaces: [],
-        id: generateNodeId(n.name.value, ValueDefinition.InputValueDefinition, args),
+        ...(value ? { value } : {}),
+        id: generateNodeId(n.name.value, ValueDefinition.InputValueDefinition, []),
       };
     });
   }

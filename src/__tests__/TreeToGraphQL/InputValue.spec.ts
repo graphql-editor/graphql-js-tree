@@ -1,6 +1,5 @@
 import { createParserField } from '@/shared';
 import {
-  Instances,
   ParserTree,
   ScalarTypes,
   TypeDefinition,
@@ -285,7 +284,6 @@ describe('Input Values tests on TreeToGraphQL', () => {
           args: [
             createParserField({
               name: 'id',
-
               type: {
                 fieldType: {
                   name: ScalarTypes.ID,
@@ -295,22 +293,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: 'abcdef',
-
-                  type: {
-                    fieldType: {
-                      name: Value.StringValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.StringValue,
-                  },
-                }),
-              ],
+              value: {
+                type: Value.StringValue,
+                value: 'abcdef',
+              },
             }),
             createParserField({
               name: 'name',
@@ -323,22 +309,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: 'Artur',
-
-                  type: {
-                    fieldType: {
-                      name: Value.StringValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.StringValue,
-                  },
-                }),
-              ],
+              value: {
+                type: Value.StringValue,
+                value: 'Arturo',
+              },
             }),
             createParserField({
               name: 'age',
@@ -348,26 +322,13 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   type: Options.name,
                 },
               },
-
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: '28',
-
-                  type: {
-                    fieldType: {
-                      name: Value.IntValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.IntValue,
-                  },
-                }),
-              ],
+              value: {
+                type: Value.IntValue,
+                value: '28',
+              },
             }),
             createParserField({
               name: 'weight',
@@ -381,22 +342,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: '73.0',
-
-                  type: {
-                    fieldType: {
-                      name: Value.FloatValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.FloatValue,
-                  },
-                }),
-              ],
+              value: {
+                type: Value.FloatValue,
+                value: '73.0',
+              },
             }),
             createParserField({
               name: 'verified',
@@ -406,26 +355,13 @@ describe('Input Values tests on TreeToGraphQL', () => {
                   type: Options.name,
                 },
               },
-
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: 'true',
-
-                  type: {
-                    fieldType: {
-                      name: Value.BooleanValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.BooleanValue,
-                  },
-                }),
-              ],
+              value: {
+                type: Value.BooleanValue,
+                value: 'true',
+              },
             }),
           ],
         }),
@@ -434,7 +370,7 @@ describe('Input Values tests on TreeToGraphQL', () => {
 
     const graphql = TreeToGraphQL.parse(treeMock);
     expect(graphql).toContain(`id: ${ScalarTypes.ID} = "abcdef"`);
-    expect(graphql).toContain(`name: ${ScalarTypes.String} = "Artur"`);
+    expect(graphql).toContain(`name: ${ScalarTypes.String} = "Arturo"`);
     expect(graphql).toContain(`age: ${ScalarTypes.Int} = 28`);
     expect(graphql).toContain(`weight: ${ScalarTypes.Float} = 73.0`);
     expect(graphql).toContain(`verified: ${ScalarTypes.Boolean} = true`);
@@ -470,64 +406,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: Value.ListValue,
-
-                  args: [
-                    createParserField({
-                      name: 'Artur',
-
-                      type: {
-                        fieldType: {
-                          name: Value.StringValue,
-                          type: Options.name,
-                        },
-                      },
-                      data: {
-                        type: Value.StringValue,
-                      },
-                    }),
-                    createParserField({
-                      name: 'A',
-
-                      type: {
-                        fieldType: {
-                          name: Value.StringValue,
-                          type: Options.name,
-                        },
-                      },
-                      data: {
-                        type: Value.StringValue,
-                      },
-                    }),
-                    createParserField({
-                      name: 'B',
-
-                      type: {
-                        fieldType: {
-                          name: Value.StringValue,
-                          type: Options.name,
-                        },
-                      },
-                      data: {
-                        type: Value.StringValue,
-                      },
-                    }),
-                  ],
-
-                  type: {
-                    fieldType: {
-                      name: Value.ListValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.ListValue,
-                  },
-                }),
-              ],
+              value: {
+                type: Value.ListValue,
+                value: '["Arturo","A","B"]',
+              },
             }),
           ],
         }),
@@ -591,58 +473,17 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: Value.ObjectValue,
-
-                  type: {
-                    fieldType: {
-                      name: Value.ObjectValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.ObjectValue,
-                  },
-                  args: [
-                    createParserField({
-                      name: 'year',
-                      type: {
-                        fieldType: {
-                          name: 'year',
-                          type: Options.name,
-                        },
-                      },
-                      data: {
-                        type: Instances.Argument,
-                      },
-                      args: [
-                        createParserField({
-                          name: '2010',
-                          type: {
-                            fieldType: {
-                              name: Value.IntValue,
-                              type: Options.name,
-                            },
-                          },
-                          data: {
-                            type: Value.IntValue,
-                          },
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-              ],
+              value: {
+                type: Value.ObjectValue,
+                value: '{year:2010}',
+              },
             }),
           ],
         }),
       ],
     };
     const graphql = TreeToGraphQL.parse(treeMock);
-    expect(graphql).toContain(`car: Car = {`);
-    expect(graphql).toContain(`year: 2010`);
+    expect(graphql).toContain(`car: Car = {year:2010}`);
   });
   test('Default Enum objects', () => {
     const treeMock: ParserTree = {
@@ -710,21 +551,10 @@ describe('Input Values tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: 'HONDA',
-                  type: {
-                    fieldType: {
-                      name: 'HONDA',
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.EnumValue,
-                  },
-                }),
-              ],
+              value: {
+                type: Value.EnumValue,
+                value: 'HONDA',
+              },
             }),
           ],
         }),

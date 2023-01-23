@@ -30,6 +30,7 @@ export type AllTypes =
   | Type;
 
 export const kindAsAllTypes = (v: string) => v as AllTypes;
+export const kindAsValue = (v: string) => v as Value;
 export interface GraphQLNodeParams {
   type: AllTypes;
 }

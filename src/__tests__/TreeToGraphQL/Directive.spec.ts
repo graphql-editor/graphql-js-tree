@@ -729,74 +729,10 @@ describe('Directive tests on TreeToGraphQL', () => {
                   data: {
                     type: Instances.Argument,
                   },
-                  args: [
-                    createParserField({
-                      name: Value.ObjectValue,
-                      args: [
-                        createParserField({
-                          name: 'name',
-                          type: {
-                            fieldType: {
-                              name: 'name',
-                              type: Options.name,
-                            },
-                          },
-                          data: {
-                            type: Instances.Argument,
-                          },
-                          args: [
-                            createParserField({
-                              name: 'Artur',
-                              type: {
-                                fieldType: {
-                                  name: Value.StringValue,
-                                  type: Options.name,
-                                },
-                              },
-                              data: {
-                                type: Value.StringValue,
-                              },
-                            }),
-                          ],
-                        }),
-                        createParserField({
-                          name: 'weight',
-                          type: {
-                            fieldType: {
-                              name: 'weight',
-                              type: Options.name,
-                            },
-                          },
-                          data: {
-                            type: Instances.Argument,
-                          },
-                          args: [
-                            createParserField({
-                              name: '22.3',
-                              type: {
-                                fieldType: {
-                                  name: Value.FloatValue,
-                                  type: Options.name,
-                                },
-                              },
-                              data: {
-                                type: Value.FloatValue,
-                              },
-                            }),
-                          ],
-                        }),
-                      ],
-                      data: {
-                        type: Value.ObjectValue,
-                      },
-                      type: {
-                        fieldType: {
-                          name: Value.ObjectValue,
-                          type: Options.name,
-                        },
-                      },
-                    }),
-                  ],
+                  value: {
+                    type: Value.ObjectValue,
+                    value: `{name:"Arturo", weight:22.3}`,
+                  },
                 }),
               ],
             }),
@@ -826,48 +762,10 @@ describe('Directive tests on TreeToGraphQL', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-              args: [
-                createParserField({
-                  name: Value.ObjectValue,
-                  type: {
-                    fieldType: {
-                      name: Value.ObjectValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.ObjectValue,
-                  },
-                  args: [
-                    createParserField({
-                      name: 'age',
-                      type: {
-                        fieldType: {
-                          name: 'age',
-                          type: Options.name,
-                        },
-                      },
-                      data: {
-                        type: Instances.Argument,
-                      },
-                      args: [
-                        createParserField({
-                          name: '2010',
-                          type: {
-                            fieldType: {
-                              name: Value.IntValue,
-                              type: Options.name,
-                            },
-                          },
-                          data: {
-                            type: Value.IntValue,
-                          },
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-              ],
+              value: {
+                type: Value.ObjectValue,
+                value: `{age:2010}`,
+              },
             }),
           ],
         }),
@@ -875,7 +773,7 @@ describe('Directive tests on TreeToGraphQL', () => {
     };
 
     const graphql = trimGraphQL(TreeToGraphQL.parse(treeMock));
-    expect(graphql).toContain(`@model( address: Address = { age: 2010})`);
-    expect(graphql).toContain(`@model( address: { name: \"Artur\",weight: 22.3})`);
+    expect(graphql).toContain(`@model( address: Address = {age:2010})`);
+    expect(graphql).toContain(`@model( address: {name:"Arturo", weight:22.3})`);
   });
 });

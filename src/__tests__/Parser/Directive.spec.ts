@@ -702,12 +702,9 @@ describe('Directive tests on parser', () => {
   test(`${TypeSystemDefinition.DirectiveDefinition} - directive keyword on ${Directive.OBJECT} with input arguments`, () => {
     const schema = `
     directive @model(
-      address: Address = { age: 2010 }
+      address: Address = {age:2010}
     ) on ${Directive.OBJECT}
-    type Person @model(address:{
-      name: "Artur",
-      weight: 22.3
-    })
+    type Person @model(address: {name:"Arturo",weight:22.3})
     input Address{
       name: ${ScalarTypes.String}
       age: ${ScalarTypes.Int}
@@ -804,80 +801,10 @@ describe('Directive tests on parser', () => {
                   data: {
                     type: Instances.Argument,
                   },
-
-                  args: [
-                    createParserField({
-                      name: Value.ObjectValue,
-
-                      args: [
-                        createParserField({
-                          name: 'name',
-                          type: {
-                            fieldType: {
-                              name: 'name',
-                              type: Options.name,
-                            },
-                          },
-
-                          data: {
-                            type: Instances.Argument,
-                          },
-                          args: [
-                            createParserField({
-                              name: 'Artur',
-
-                              type: {
-                                fieldType: {
-                                  name: Value.StringValue,
-                                  type: Options.name,
-                                },
-                              },
-                              data: {
-                                type: Value.StringValue,
-                              },
-                            }),
-                          ],
-                        }),
-                        createParserField({
-                          name: 'weight',
-                          type: {
-                            fieldType: {
-                              name: 'weight',
-                              type: Options.name,
-                            },
-                          },
-
-                          data: {
-                            type: Instances.Argument,
-                          },
-                          args: [
-                            createParserField({
-                              name: '22.3',
-                              type: {
-                                fieldType: {
-                                  name: Value.FloatValue,
-                                  type: Options.name,
-                                },
-                              },
-
-                              data: {
-                                type: Value.FloatValue,
-                              },
-                            }),
-                          ],
-                        }),
-                      ],
-                      data: {
-                        type: Value.ObjectValue,
-                      },
-                      type: {
-                        fieldType: {
-                          name: Value.ObjectValue,
-                          type: Options.name,
-                        },
-                      },
-                    }),
-                  ],
+                  value: {
+                    type: Value.ObjectValue,
+                    value: `{name:"Arturo",weight:22.3}`,
+                  },
                 }),
               ],
             }),
@@ -908,56 +835,20 @@ describe('Directive tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: Value.ObjectValue,
-                  type: {
-                    fieldType: {
-                      name: Value.ObjectValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.ObjectValue,
-                  },
-
-                  args: [
-                    createParserField({
-                      name: 'age',
-                      type: {
-                        fieldType: {
-                          name: 'age',
-                          type: Options.name,
-                        },
-                      },
-                      data: {
-                        type: Instances.Argument,
-                      },
-
-                      args: [
-                        createParserField({
-                          name: '2010',
-                          type: {
-                            fieldType: {
-                              name: Value.IntValue,
-                              type: Options.name,
-                            },
-                          },
-                          data: {
-                            type: Value.IntValue,
-                          },
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-              ],
+              value: {
+                type: Value.ObjectValue,
+                value: `{age:2010}`,
+              },
             }),
           ],
         }),
       ],
     };
-    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
+    const modelNode = tree.nodes.find((n) => n.name === 'model');
+    const personNode = tree.nodes.find((n) => n.name === 'Person');
+    const addressNode = tree.nodes.find((n) => n.name === 'Address');
+    expect(modelNode).toEqual(treeMock.nodes[2]);
+    expect(personNode).toEqual(treeMock.nodes[1]);
+    expect(addressNode).toEqual(treeMock.nodes[0]);
   });
 });

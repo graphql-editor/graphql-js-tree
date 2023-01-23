@@ -1,6 +1,5 @@
 import { createParserField } from '@/shared';
 import {
-  Instances,
   ParserTree,
   ScalarTypes,
   TypeDefinition,
@@ -278,9 +277,9 @@ describe('Input Values tests on parser', () => {
   test(`Default ScalarTypes values - ${Object.keys(ScalarTypes).join(', ')}`, () => {
     const schema = `input Person{
         id: ${ScalarTypes.ID} = "abcdef"
-        name: ${ScalarTypes.String} = "Artur"
-        emptyName: ${ScalarTypes.String} = ""
-        emptyArray: [${ScalarTypes.String}] = []
+        name: ${ScalarTypes.String} = "Arturo"
+        emptyName: ${ScalarTypes.String}
+        emptyArray: [${ScalarTypes.String}]
         age: ${ScalarTypes.Int} = 28
         weight: ${ScalarTypes.Float} = 73.0
         verified: ${ScalarTypes.Boolean} = true
@@ -313,22 +312,10 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: 'abcdef',
-
-                  type: {
-                    fieldType: {
-                      name: Value.StringValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.StringValue,
-                  },
-                }),
-              ],
+              value: {
+                type: Value.StringValue,
+                value: 'abcdef',
+              },
             }),
             createParserField({
               name: 'name',
@@ -341,22 +328,10 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: 'Artur',
-
-                  type: {
-                    fieldType: {
-                      name: Value.StringValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.StringValue,
-                  },
-                }),
-              ],
+              value: {
+                type: Value.StringValue,
+                value: 'Arturo',
+              },
             }),
             createParserField({
               name: 'emptyName',
@@ -369,22 +344,6 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: '',
-
-                  type: {
-                    fieldType: {
-                      name: Value.StringValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.StringValue,
-                  },
-                }),
-              ],
             }),
             createParserField({
               name: 'emptyArray',
@@ -400,17 +359,7 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  data: { type: Value.ListValue },
-
-                  name: Value.ListValue,
-                  type: { fieldType: { name: Value.ListValue, type: Options.name } },
-                }),
-              ],
             }),
-
             createParserField({
               name: 'age',
               type: {
@@ -422,21 +371,10 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: '28',
-                  type: {
-                    fieldType: {
-                      name: Value.IntValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.IntValue,
-                  },
-                }),
-              ],
+              value: {
+                type: Value.IntValue,
+                value: '28',
+              },
             }),
             createParserField({
               name: 'weight',
@@ -449,21 +387,10 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: '73.0',
-                  type: {
-                    fieldType: {
-                      name: Value.FloatValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.FloatValue,
-                  },
-                }),
-              ],
+              value: {
+                type: Value.FloatValue,
+                value: '73.0',
+              },
             }),
             createParserField({
               name: 'verified',
@@ -476,31 +403,20 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: 'true',
-                  type: {
-                    fieldType: {
-                      name: Value.BooleanValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.BooleanValue,
-                  },
-                }),
-              ],
+              value: {
+                type: Value.BooleanValue,
+                value: 'true',
+              },
             }),
           ],
         }),
       ],
     };
-    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
+    expect(tree.nodes).toEqual(treeMock.nodes);
   });
   test(`Default ScalarTypes values - ${Object.keys(ScalarTypes).join(', ')}`, () => {
     const schema = `input Person{
-        names: [${ScalarTypes.String}] = ["Artur","A","B"]
+        names: [${ScalarTypes.String}] = ["Arturo","A","B"]
     }`;
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
@@ -533,63 +449,10 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: Value.ListValue,
-                  type: {
-                    fieldType: {
-                      name: Value.ListValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.ListValue,
-                  },
-
-                  args: [
-                    createParserField({
-                      name: 'Artur',
-
-                      type: {
-                        fieldType: {
-                          name: Value.StringValue,
-                          type: Options.name,
-                        },
-                      },
-                      data: {
-                        type: Value.StringValue,
-                      },
-                    }),
-                    createParserField({
-                      name: 'A',
-
-                      type: {
-                        fieldType: {
-                          name: Value.StringValue,
-                          type: Options.name,
-                        },
-                      },
-                      data: {
-                        type: Value.StringValue,
-                      },
-                    }),
-                    createParserField({
-                      name: 'B',
-
-                      type: {
-                        fieldType: {
-                          name: Value.StringValue,
-                          type: Options.name,
-                        },
-                      },
-                      data: {
-                        type: Value.StringValue,
-                      },
-                    }),
-                  ],
-                }),
-              ],
+              value: {
+                value: `["Arturo","A","B"]`,
+                type: Value.ListValue,
+              },
             }),
           ],
         }),
@@ -604,9 +467,7 @@ describe('Input Values tests on parser', () => {
         year:Int
     }
     input Person{
-        car: Car = {
-            year: 2010
-        }
+        car: Car = {year: 2010}
     }`;
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
@@ -663,51 +524,10 @@ describe('Input Values tests on parser', () => {
                 type: ValueDefinition.InputValueDefinition,
               },
 
-              args: [
-                createParserField({
-                  name: Value.ObjectValue,
-                  type: {
-                    fieldType: {
-                      name: Value.ObjectValue,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.ObjectValue,
-                  },
-
-                  args: [
-                    createParserField({
-                      name: 'year',
-                      type: {
-                        fieldType: {
-                          name: 'year',
-                          type: Options.name,
-                        },
-                      },
-                      data: {
-                        type: Instances.Argument,
-                      },
-
-                      args: [
-                        createParserField({
-                          name: '2010',
-
-                          type: {
-                            fieldType: {
-                              name: Value.IntValue,
-                              type: Options.name,
-                            },
-                          },
-                          data: {
-                            type: Value.IntValue,
-                          },
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-              ],
+              value: {
+                type: Value.ObjectValue,
+                value: `{year: 2010}`,
+              },
             }),
           ],
         }),
@@ -790,21 +610,10 @@ describe('Input Values tests on parser', () => {
               data: {
                 type: ValueDefinition.InputValueDefinition,
               },
-
-              args: [
-                createParserField({
-                  name: 'HONDA',
-                  type: {
-                    fieldType: {
-                      name: 'HONDA',
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Value.EnumValue,
-                  },
-                }),
-              ],
+              value: {
+                type: Value.EnumValue,
+                value: 'HONDA',
+              },
             }),
           ],
         }),
