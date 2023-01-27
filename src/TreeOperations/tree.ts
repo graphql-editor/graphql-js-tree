@@ -124,7 +124,7 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
         const parentDirective = parent.directives.find((d) => d.args.some((a) => a === node));
         if (parentDirective) {
           const indexInDirective = parentDirective.args.indexOf(node);
-          deleteFieldFromNode(parent, indexInDirective);
+          deleteFieldFromNode(parentDirective, indexInDirective);
         }
       }
       return;

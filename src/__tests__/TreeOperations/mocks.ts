@@ -8,6 +8,7 @@ import {
   createPlainDirectiveImplementation,
   createPlainArgument,
   createPlainEnumValue,
+  createUnionMember,
 } from '@/shared';
 
 const mainMock: ParserTree = {
@@ -119,6 +120,15 @@ const mainMock: ParserTree = {
         createPlainEnumValue({
           name: 'WORLD',
         }),
+      ],
+    }),
+    createRootField({
+      name: 'AnUnion',
+      type: TypeDefinition.UnionTypeDefinition,
+      args: [
+        createUnionMember({ name: 'Car' }),
+        createUnionMember({ name: 'Ship' }),
+        createUnionMember({ name: 'Plane' }),
       ],
     }),
     createRootDirectiveField({

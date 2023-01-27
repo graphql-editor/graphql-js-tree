@@ -50,13 +50,20 @@ describe('Tree Operations - node removal tests', () => {
   });
   test('Delete argument node from Directive Instance', () => {
     const treeMock = createMock();
-    const oldFieldId = treeMock.nodes[1].args[1].id;
-    const oldQueryId = treeMock.nodes[1].id;
-    const oldInputValue = JSON.parse(JSON.stringify(treeMock.nodes[1].args[1].args[0]));
-    mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[1].args[1].args[0]);
-
-    expect(treeMock.nodes[1].args[1].args).not.toContainEqual(oldInputValue);
-    expect(treeMock.nodes[1].args[1].id).not.toEqual(oldFieldId);
-    expect(treeMock.nodes[1].id).not.toEqual(oldQueryId);
+    const oldArgument = JSON.parse(JSON.stringify(treeMock.nodes[0].directives[0].args[0]));
+    mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[0].directives[0].args[0]);
+    expect(treeMock.nodes[0].directives[0].args).not.toContainEqual(oldArgument);
+  });
+  test('Delete union member from union node', () => {
+    const treeMock = createMock();
+    const oldArgument = JSON.parse(JSON.stringify(treeMock.nodes[4].args[0]));
+    mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[4].args[0]);
+    expect(treeMock.nodes[3].args).not.toContainEqual(oldArgument);
+  });
+  test('Delete enum value from enum node', () => {
+    const treeMock = createMock();
+    const oldArgument = JSON.parse(JSON.stringify(treeMock.nodes[3].args[0]));
+    mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[3].args[0]);
+    expect(treeMock.nodes[3].args).not.toContainEqual(oldArgument);
   });
 });
