@@ -1,4 +1,4 @@
-import { createParserField } from '@/shared';
+import { createParserField, createPlainEnumValue, createPlainInputValue } from '@/shared';
 import {
   ParserTree,
   ScalarTypes,
@@ -35,65 +35,25 @@ describe('Input Values tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'id',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.ID,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.ID,
             }),
-            createParserField({
+            createPlainInputValue({
               name: 'name',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.String,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.String,
             }),
-            createParserField({
+            createPlainInputValue({
               name: 'age',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.Int,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.Int,
             }),
-            createParserField({
+            createPlainInputValue({
               name: 'weight',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.Float,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.Float,
             }),
-            createParserField({
+            createPlainInputValue({
               name: 'verified',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.Boolean,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.Boolean,
             }),
           ],
         }),
@@ -135,17 +95,9 @@ describe('Input Values tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'car',
-              type: {
-                fieldType: {
-                  name: 'Car',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: 'Car',
             }),
           ],
         }),
@@ -177,17 +129,9 @@ describe('Input Values tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'year',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.Int,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.Int,
             }),
           ],
         }),
@@ -204,17 +148,9 @@ describe('Input Values tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'car',
-              type: {
-                fieldType: {
-                  name: 'Car',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: 'Car',
             }),
           ],
         }),
@@ -256,17 +192,9 @@ describe('Input Values tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'car',
-              type: {
-                fieldType: {
-                  name: 'Car',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: 'Car',
             }),
           ],
         }),
@@ -301,49 +229,25 @@ describe('Input Values tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'id',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.ID,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.ID,
               value: {
                 type: Value.StringValue,
                 value: 'abcdef',
               },
             }),
-            createParserField({
+            createPlainInputValue({
               name: 'name',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.String,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.String,
               value: {
                 type: Value.StringValue,
                 value: 'Arturo',
               },
             }),
-            createParserField({
+            createPlainInputValue({
               name: 'emptyName',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.String,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.String,
             }),
             createParserField({
               name: 'emptyArray',
@@ -360,49 +264,25 @@ describe('Input Values tests on parser', () => {
                 type: ValueDefinition.InputValueDefinition,
               },
             }),
-            createParserField({
+            createPlainInputValue({
               name: 'age',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.Int,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.Int,
               value: {
                 type: Value.IntValue,
                 value: '28',
               },
             }),
-            createParserField({
+            createPlainInputValue({
               name: 'weight',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.Float,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.Float,
               value: {
                 type: Value.FloatValue,
                 value: '73.0',
               },
             }),
-            createParserField({
+            createPlainInputValue({
               name: 'verified',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.Boolean,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.Boolean,
               value: {
                 type: Value.BooleanValue,
                 value: 'true',
@@ -485,17 +365,9 @@ describe('Input Values tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'year',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.Int,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.Int,
             }),
           ],
         }),
@@ -512,18 +384,9 @@ describe('Input Values tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'car',
-              type: {
-                fieldType: {
-                  name: 'Car',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
-
+              type: 'Car',
               value: {
                 type: Value.ObjectValue,
                 value: `{year: 2010}`,
@@ -560,29 +423,11 @@ describe('Input Values tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createPlainEnumValue({
               name: 'HONDA',
-              data: {
-                type: ValueDefinition.EnumValueDefinition,
-              },
-              type: {
-                fieldType: {
-                  name: ValueDefinition.EnumValueDefinition,
-                  type: Options.name,
-                },
-              },
             }),
-            createParserField({
+            createPlainEnumValue({
               name: 'YAMAHA',
-              data: {
-                type: ValueDefinition.EnumValueDefinition,
-              },
-              type: {
-                fieldType: {
-                  name: ValueDefinition.EnumValueDefinition,
-                  type: Options.name,
-                },
-              },
             }),
           ],
         }),
@@ -599,17 +444,9 @@ describe('Input Values tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'car',
-              type: {
-                fieldType: {
-                  name: 'Car',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: 'Car',
               value: {
                 type: Value.EnumValue,
                 value: 'HONDA',

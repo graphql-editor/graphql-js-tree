@@ -1,13 +1,5 @@
-import { createParserField } from '@/shared';
-import {
-  Helpers,
-  ParserTree,
-  ScalarTypes,
-  TypeDefinition,
-  TypeDefinitionDisplayStrings,
-  TypeSystemDefinition,
-  Options,
-} from '../../Models';
+import { createParserField, createPlainField, createRootField } from '@/shared';
+import { Helpers, ParserTree, ScalarTypes, TypeDefinition, Options } from '../../Models';
 import { Parser } from '../../Parser';
 
 describe('Comment tests on parser', () => {
@@ -21,32 +13,13 @@ describe('Comment tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        createParserField({
+        createRootField({
           name: 'Person',
-          type: {
-            fieldType: {
-              name: TypeDefinitionDisplayStrings.type,
-              type: Options.name,
-            },
-          },
-          data: {
-            type: TypeDefinition.ObjectTypeDefinition,
-          },
-
+          type: TypeDefinition.ObjectTypeDefinition,
           args: [
-            createParserField({
+            createPlainField({
               name: 'name',
-
-              type: {
-                fieldType: {
-                  name: ScalarTypes.String,
-                  type: Options.name,
-                },
-              },
-
-              data: {
-                type: TypeSystemDefinition.FieldDefinition,
-              },
+              type: ScalarTypes.String,
             }),
           ],
         }),
@@ -80,33 +53,14 @@ type Person{
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        createParserField({
+        createRootField({
           name: 'Person',
-          type: {
-            fieldType: {
-              name: TypeDefinitionDisplayStrings.type,
-              type: Options.name,
-            },
-          },
-          data: {
-            type: TypeDefinition.ObjectTypeDefinition,
-          },
+          type: TypeDefinition.ObjectTypeDefinition,
           description: `# My header`,
-
           args: [
-            createParserField({
+            createPlainField({
               name: 'name',
-
-              type: {
-                fieldType: {
-                  name: ScalarTypes.String,
-                  type: Options.name,
-                },
-              },
-
-              data: {
-                type: TypeSystemDefinition.FieldDefinition,
-              },
+              type: ScalarTypes.String,
             }),
           ],
         }),

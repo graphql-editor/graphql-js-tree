@@ -1,4 +1,4 @@
-import { createParserField } from '@/shared';
+import { createParserField, createUnionMember } from '@/shared';
 import {
   Options,
   ParserTree,
@@ -331,31 +331,11 @@ describe('Fields tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createUnionMember({
               name: 'Car',
-
-              type: {
-                fieldType: {
-                  name: 'Car',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: TypeSystemDefinition.UnionMemberDefinition,
-              },
             }),
-            createParserField({
+            createUnionMember({
               name: 'Plane',
-
-              type: {
-                fieldType: {
-                  name: 'Plane',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: TypeSystemDefinition.UnionMemberDefinition,
-              },
             }),
           ],
         }),

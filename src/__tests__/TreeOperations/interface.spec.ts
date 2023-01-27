@@ -5,9 +5,8 @@ import {
   TypeDefinition,
   ScalarTypes,
   TypeSystemDefinition,
-  ValueDefinition,
 } from '@/Models';
-import { createParserField } from '@/shared';
+import { createParserField, createPlainInputValue } from '@/shared';
 import { _updateNodeByInterfaceAddField } from '@/TreeOperations/interface';
 
 const mainMock: ParserTree = {
@@ -98,16 +97,8 @@ const mainMock: ParserTree = {
             },
           },
           args: [
-            createParserField({
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
-              type: {
-                fieldType: {
-                  type: Options.name,
-                  name: ScalarTypes.String,
-                },
-              },
+            createPlainInputValue({
+              type: ScalarTypes.String,
               name: 'id',
             }),
           ],

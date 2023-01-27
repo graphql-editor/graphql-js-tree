@@ -1,4 +1,16 @@
-import { AllTypes, FieldType, Options, ParserField } from '@/Models';
+import {
+  AllTypes,
+  Directive,
+  FieldType,
+  Instances,
+  Options,
+  ParserField,
+  TypeDefinition,
+  TypeDefinitionDisplayMap,
+  TypeExtension,
+  TypeSystemDefinition,
+  ValueDefinition,
+} from '@/Models';
 
 export const getTypeName = (f: FieldType): string => {
   if (f.type === Options.name) {
@@ -58,7 +70,10 @@ const cyrb53 = (str: string, seed = 0) => {
 };
 
 type NodeCreation = Pick<ParserField, 'data' | 'name' | 'type'> & Partial<Omit<ParserField, 'data' | 'name' | 'type'>>;
-
+type RootNodeCreation = Pick<ParserField, 'name'> &
+  Partial<Omit<ParserField, 'data' | 'name' | 'type'>> & { type: TypeDefinition };
+type ExtensionRootNodeCreation = Pick<ParserField, 'name'> &
+  Partial<Omit<ParserField, 'data' | 'name' | 'type'>> & { type: TypeExtension };
 // Use this function always when you create a parser field to get the right id generated
 export const createParserField = (props: NodeCreation): ParserField => {
   return {
@@ -68,6 +83,167 @@ export const createParserField = (props: NodeCreation): ParserField => {
     id: generateNodeId(props.name, props.data.type, props.args || []),
     ...props,
   };
+};
+
+export const createRootField = ({ name, type, ...props }: RootNodeCreation) => {
+  return createParserField({
+    ...props,
+    name,
+    data: {
+      type,
+    },
+    type: {
+      fieldType: {
+        name: TypeDefinitionDisplayMap[type],
+        type: Options.name,
+      },
+    },
+  });
+};
+export const createRootExtensionField = ({ name, type, ...props }: ExtensionRootNodeCreation) => {
+  return createParserField({
+    ...props,
+    name,
+    data: {
+      type,
+    },
+    type: {
+      fieldType: {
+        name: TypeDefinitionDisplayMap[type],
+        type: Options.name,
+      },
+    },
+  });
+};
+type DirectiveRootNodeCreation = Pick<ParserField, 'name'> &
+  Partial<Omit<ParserField, 'data' | 'name' | 'type'>> & { directiveOptions?: Directive[] };
+
+export const createRootDirectiveField = ({
+  name,
+  directiveOptions = [Directive.OBJECT],
+  ...props
+}: DirectiveRootNodeCreation) => {
+  return createParserField({
+    ...props,
+    name,
+    data: {
+      type: TypeSystemDefinition.DirectiveDefinition,
+    },
+    type: {
+      fieldType: {
+        name: TypeDefinitionDisplayMap[TypeSystemDefinition.DirectiveDefinition],
+        type: Options.name,
+      },
+      directiveOptions,
+    },
+  });
+};
+
+type FieldCreation = Pick<ParserField, 'name'> &
+  Partial<Omit<ParserField, 'data' | 'name' | 'type'>> & { type: string };
+
+export const createPlainField = ({ name, type, ...props }: FieldCreation) => {
+  return createParserField({
+    ...props,
+    name,
+    data: {
+      type: TypeSystemDefinition.FieldDefinition,
+    },
+    type: {
+      fieldType: {
+        name: type,
+        type: Options.name,
+      },
+    },
+  });
+};
+
+type InputValueCreation = Pick<ParserField, 'name'> &
+  Partial<Omit<ParserField, 'data' | 'name' | 'type'>> & { type: string };
+
+export const createPlainInputValue = ({ name, type, ...props }: InputValueCreation) => {
+  return createParserField({
+    ...props,
+    name,
+    data: {
+      type: ValueDefinition.InputValueDefinition,
+    },
+    type: {
+      fieldType: {
+        name: type,
+        type: Options.name,
+      },
+    },
+  });
+};
+type EnumValueCreation = Pick<ParserField, 'name'> & Partial<Omit<ParserField, 'data' | 'name' | 'type'>>;
+
+export const createPlainEnumValue = ({ name, ...props }: EnumValueCreation) => {
+  return createParserField({
+    ...props,
+    name,
+    data: {
+      type: ValueDefinition.EnumValueDefinition,
+    },
+    type: {
+      fieldType: {
+        name: ValueDefinition.EnumValueDefinition,
+        type: Options.name,
+      },
+    },
+  });
+};
+type UnionMemberCreation = Pick<ParserField, 'name'> & Partial<Omit<ParserField, 'data' | 'name' | 'type'>>;
+
+export const createUnionMember = ({ name, ...props }: UnionMemberCreation) => {
+  return createParserField({
+    ...props,
+    name,
+    data: {
+      type: TypeSystemDefinition.UnionMemberDefinition,
+    },
+    type: {
+      fieldType: {
+        name,
+        type: Options.name,
+      },
+    },
+  });
+};
+
+type DirectiveInstanceCreation = Pick<ParserField, 'name'> & Partial<Omit<ParserField, 'data' | 'name' | 'type'>>;
+
+export const createPlainDirectiveImplementation = ({ name, ...props }: DirectiveInstanceCreation) => {
+  return createParserField({
+    ...props,
+    name,
+    data: {
+      type: Instances.Directive,
+    },
+    type: {
+      fieldType: {
+        name,
+        type: Options.name,
+      },
+    },
+  });
+};
+type ArgumentCreation = Pick<ParserField, 'name'> & Partial<Omit<ParserField, 'data' | 'name' | 'type'>>;
+
+export const createPlainArgument = ({ name, ...props }: ArgumentCreation) => {
+  return createParserField({
+    ...props,
+    name,
+    data: {
+      type: Instances.Argument,
+    },
+    type: {
+      fieldType: {
+        name,
+        type: Options.name,
+      },
+    },
+  });
 };
 
 export const compareParserFields = (f1: ParserField) => (f2: ParserField) => f1.id === f2.id;

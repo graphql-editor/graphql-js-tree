@@ -1,4 +1,4 @@
-import { createParserField } from '@/shared';
+import { createParserField, createPlainDirectiveImplementation, createUnionMember } from '@/shared';
 import {
   ParserTree,
   ScalarTypes,
@@ -8,7 +8,6 @@ import {
   TypeSystemDefinition,
   Options,
   Directive,
-  Instances,
 } from '../../Models';
 import { TreeToGraphQL } from '../../TreeToGraphQL';
 
@@ -172,17 +171,8 @@ describe('Extend tests on TreeToGraphQL', () => {
           },
           description: '',
           args: [
-            createParserField({
+            createUnionMember({
               name: 'Kid',
-              type: {
-                fieldType: {
-                  name: 'Kid',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: TypeSystemDefinition.UnionMemberDefinition,
-              },
             }),
           ],
         }),
@@ -199,29 +189,11 @@ describe('Extend tests on TreeToGraphQL', () => {
           },
           description: '',
           args: [
-            createParserField({
+            createUnionMember({
               name: 'Man',
-              type: {
-                fieldType: {
-                  name: 'Man',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: TypeSystemDefinition.UnionMemberDefinition,
-              },
             }),
-            createParserField({
+            createUnionMember({
               name: 'Woman',
-              type: {
-                fieldType: {
-                  name: 'Woman',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: TypeSystemDefinition.UnionMemberDefinition,
-              },
             }),
           ],
         }),
@@ -268,17 +240,8 @@ describe('Extend tests on TreeToGraphQL', () => {
             },
           },
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'forScalar',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  type: Options.name,
-                  name: 'forScalar',
-                },
-              },
             }),
           ],
           data: {

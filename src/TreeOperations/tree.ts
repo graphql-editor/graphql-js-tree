@@ -6,6 +6,8 @@ import {
   ParserTree,
   Value,
   ScalarTypes,
+  Instances,
+  ValueDefinition,
 } from '@/Models';
 import { getTypeName } from '@/shared';
 import {
@@ -33,8 +35,8 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     }
   };
   const deleteFieldFromNode = (n: ParserField, i: number) => {
-    const argName = n.args[i].name;
     if (n.data.type === TypeDefinition.InterfaceTypeDefinition) {
+      const argName = n.args[i].name;
       tree.nodes
         .filter((filterNode) => filterNode.interfaces.includes(n.name))
         .forEach((nodeWithThisInterface) => {
@@ -74,7 +76,7 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     regenerateId(node);
     mutateParentIfField(node);
   };
-  const renameNode = (node: ParserField, newName: string) => {
+  const renameRootNode = (node: ParserField, newName: string) => {
     const isError = allNodes.map((n) => n.name).includes(newName);
     if (isError) {
       return;
@@ -100,6 +102,56 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     regenerateId(node);
   };
   const removeNode = (node: ParserField) => {
+    if (node.data.type === TypeSystemDefinition.FieldDefinition) {
+      const parent = allNodes.find((parentNode) => parentNode.args.includes(node));
+      if (parent) {
+        const index = parent.args.indexOf(node);
+        deleteFieldFromNode(parent, index);
+      }
+      return;
+    }
+    if (node.data.type === TypeSystemDefinition.UnionMemberDefinition) {
+      const parent = allNodes.find((parentNode) => parentNode.args.includes(node));
+      if (parent) {
+        const index = parent.args.indexOf(node);
+        deleteFieldFromNode(parent, index);
+      }
+      return;
+    }
+    if (node.data.type === Instances.Argument) {
+      const parent = allNodes.find((p) => p.directives.some((a) => a.args.includes(node)));
+      if (parent) {
+        const parentDirective = parent.directives.find((d) => d.args.some((a) => a === node));
+        if (parentDirective) {
+          const indexInDirective = parentDirective.args.indexOf(node);
+          deleteFieldFromNode(parent, indexInDirective);
+        }
+      }
+      return;
+    }
+    if (node.data.type === ValueDefinition.InputValueDefinition) {
+      const parent = allNodes.find((parentNode) => parentNode.args.includes(node));
+      if (parent) {
+        const index = parent.args.indexOf(node);
+        deleteFieldFromNode(parent, index);
+      } else {
+        const parent = allNodes.find((p) => p.args.some((a) => a.args.includes(node)));
+        const field = parent?.args.find((a) => a.args.includes(node));
+        if (field) {
+          const fieldIndex = field.args.findIndex((f) => f === node);
+          deleteFieldFromNode(field, fieldIndex);
+        }
+      }
+      return;
+    }
+    if (node.data.type === ValueDefinition.EnumValueDefinition) {
+      const parent = allNodes.find((parentNode) => parentNode.args.includes(node));
+      if (parent) {
+        const index = parent.args.indexOf(node);
+        deleteFieldFromNode(parent, index);
+      }
+      return;
+    }
     const deletedNode = tree.nodes.findIndex((n) => n === node);
     if (deletedNode === -1) throw new Error('Error deleting a node');
     // co jak usuwamy extension interface
@@ -167,10 +219,9 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     };
   };
   return {
-    deleteFieldFromNode,
     updateFieldOnNode,
     addFieldToNode,
-    renameNode,
+    renameRootNode,
     removeNode,
     implementInterface,
     deImplementInterface,

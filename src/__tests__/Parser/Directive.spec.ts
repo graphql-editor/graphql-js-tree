@@ -1,15 +1,22 @@
-import { createParserField } from '@/shared';
+import {
+  createParserField,
+  createPlainArgument,
+  createPlainDirectiveImplementation,
+  createPlainEnumValue,
+  createPlainField,
+  createPlainInputValue,
+  createRootDirectiveField,
+  createRootField,
+  createUnionMember,
+} from '@/shared';
 import {
   Directive,
-  Instances,
   ParserTree,
   ScalarTypes,
   TypeDefinition,
   TypeDefinitionDisplayStrings,
   TypeSystemDefinition,
-  TypeSystemDefinitionDisplayStrings,
   Value,
-  ValueDefinition,
   Options,
 } from '../../Models';
 import { Parser } from '../../Parser';
@@ -26,47 +33,18 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        createParserField({
+        createRootField({
           name: 'Person',
-          type: {
-            fieldType: {
-              name: TypeDefinitionDisplayStrings.type,
-              type: Options.name,
-            },
-          },
-          data: {
-            type: TypeDefinition.ObjectTypeDefinition,
-          },
-
+          type: TypeDefinition.ObjectTypeDefinition,
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
             }),
           ],
         }),
-        createParserField({
+        createRootDirectiveField({
           name: 'model',
-
-          type: {
-            fieldType: {
-              name: TypeSystemDefinitionDisplayStrings.directive,
-              type: Options.name,
-            },
-            directiveOptions: [Directive.OBJECT],
-          },
-          data: {
-            type: TypeSystemDefinition.DirectiveDefinition,
-          },
+          directiveOptions: [Directive.OBJECT],
         }),
       ],
     };
@@ -82,61 +60,24 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        createParserField({
+        createRootField({
           name: 'Person',
-          type: {
-            fieldType: {
-              name: TypeDefinitionDisplayStrings.type,
-              type: Options.name,
-            },
-          },
-          data: {
-            type: TypeDefinition.ObjectTypeDefinition,
-          },
-
+          type: TypeDefinition.ObjectTypeDefinition,
           args: [
-            createParserField({
+            createPlainField({
               name: 'name',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.String,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: TypeSystemDefinition.FieldDefinition,
-              },
-
+              type: ScalarTypes.String,
               directives: [
-                createParserField({
+                createPlainDirectiveImplementation({
                   name: 'model',
-                  data: {
-                    type: Instances.Directive,
-                  },
-                  type: {
-                    fieldType: {
-                      name: 'model',
-                      type: Options.name,
-                    },
-                  },
                 }),
               ],
             }),
           ],
         }),
-        createParserField({
+        createRootDirectiveField({
           name: 'model',
-
-          type: {
-            fieldType: {
-              name: TypeSystemDefinitionDisplayStrings.directive,
-              type: Options.name,
-            },
-            directiveOptions: [Directive.FIELD_DEFINITION],
-          },
-          data: {
-            type: TypeSystemDefinition.DirectiveDefinition,
-          },
+          directiveOptions: [Directive.FIELD_DEFINITION],
         }),
       ],
     };
@@ -152,76 +93,30 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        createParserField({
+        createRootField({
           name: 'Person',
-          type: {
-            fieldType: {
-              name: TypeDefinitionDisplayStrings.type,
-              type: Options.name,
-            },
-          },
-          data: {
-            type: TypeDefinition.ObjectTypeDefinition,
-          },
-
+          type: TypeDefinition.ObjectTypeDefinition,
           args: [
-            createParserField({
+            createPlainField({
               name: 'name',
-
               args: [
-                createParserField({
+                createPlainInputValue({
                   name: 'override',
-                  type: {
-                    fieldType: {
-                      name: ScalarTypes.String,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: ValueDefinition.InputValueDefinition,
-                  },
-
+                  type: ScalarTypes.String,
                   directives: [
-                    createParserField({
+                    createPlainDirectiveImplementation({
                       name: 'model',
-                      data: {
-                        type: Instances.Directive,
-                      },
-                      type: {
-                        fieldType: {
-                          name: 'model',
-                          type: Options.name,
-                        },
-                      },
                     }),
                   ],
                 }),
               ],
-              type: {
-                fieldType: {
-                  name: ScalarTypes.String,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: TypeSystemDefinition.FieldDefinition,
-              },
+              type: ScalarTypes.String,
             }),
           ],
         }),
-        createParserField({
+        createRootDirectiveField({
           name: 'model',
-
-          type: {
-            fieldType: {
-              name: TypeSystemDefinitionDisplayStrings.directive,
-              type: Options.name,
-            },
-            directiveOptions: [Directive.ARGUMENT_DEFINITION],
-          },
-          data: {
-            type: TypeSystemDefinition.DirectiveDefinition,
-          },
+          directiveOptions: [Directive.ARGUMENT_DEFINITION],
         }),
       ],
     };
@@ -235,46 +130,18 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        createParserField({
+        createRootField({
           name: 'Person',
-          type: {
-            fieldType: {
-              name: TypeDefinitionDisplayStrings.interface,
-              type: Options.name,
-            },
-          },
-          data: {
-            type: TypeDefinition.InterfaceTypeDefinition,
-          },
-
+          type: TypeDefinition.InterfaceTypeDefinition,
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
             }),
           ],
         }),
-        createParserField({
+        createRootDirectiveField({
           name: 'model',
-
-          type: {
-            fieldType: {
-              name: TypeSystemDefinitionDisplayStrings.directive,
-              type: Options.name,
-            },
-            directiveOptions: [Directive.INTERFACE],
-          },
-          data: {
-            type: TypeSystemDefinition.DirectiveDefinition,
-          },
+          directiveOptions: [Directive.INTERFACE],
         }),
       ],
     };
@@ -290,96 +157,32 @@ describe('Directive tests on parser', () => {
     const tree = Parser.parse(schema);
     const treeMock: ParserTree = {
       nodes: [
-        createParserField({
+        createRootDirectiveField({
           name: 'model',
-
-          type: {
-            fieldType: {
-              name: TypeSystemDefinitionDisplayStrings.directive,
-              type: Options.name,
-            },
-            directiveOptions: [Directive.UNION],
-          },
-          data: {
-            type: TypeSystemDefinition.DirectiveDefinition,
-          },
+          directiveOptions: [Directive.UNION],
         }),
-        createParserField({
+        createRootField({
           name: 'Car',
-          type: {
-            fieldType: {
-              name: TypeDefinitionDisplayStrings.type,
-              type: Options.name,
-            },
-          },
-          data: {
-            type: TypeDefinition.ObjectTypeDefinition,
-          },
+          type: TypeDefinition.ObjectTypeDefinition,
         }),
-        createParserField({
+        createRootField({
           name: 'Plane',
-          type: {
-            fieldType: {
-              name: TypeDefinitionDisplayStrings.type,
-              type: Options.name,
-            },
-          },
-          data: {
-            type: TypeDefinition.ObjectTypeDefinition,
-          },
+          type: TypeDefinition.ObjectTypeDefinition,
         }),
-        createParserField({
+        createRootField({
           name: 'Machine',
-
-          type: {
-            fieldType: {
-              name: TypeDefinitionDisplayStrings.union,
-              type: Options.name,
-            },
-          },
-          data: {
-            type: TypeDefinition.UnionTypeDefinition,
-          },
+          type: TypeDefinition.UnionTypeDefinition,
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
             }),
           ],
           args: [
-            createParserField({
+            createUnionMember({
               name: 'Car',
-
-              type: {
-                fieldType: {
-                  name: 'Car',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: TypeSystemDefinition.UnionMemberDefinition,
-              },
             }),
-            createParserField({
+            createUnionMember({
               name: 'Plane',
-
-              type: {
-                fieldType: {
-                  name: 'Plane',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: TypeSystemDefinition.UnionMemberDefinition,
-              },
             }),
           ],
         }),
@@ -408,34 +211,14 @@ describe('Directive tests on parser', () => {
           },
 
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
             }),
           ],
         }),
-        createParserField({
+        createRootDirectiveField({
           name: 'model',
-
-          type: {
-            fieldType: {
-              name: TypeSystemDefinitionDisplayStrings.directive,
-              type: Options.name,
-            },
-            directiveOptions: [Directive.ENUM],
-          },
-          data: {
-            type: TypeSystemDefinition.DirectiveDefinition,
-          },
+          directiveOptions: [Directive.ENUM],
         }),
       ],
     };
@@ -465,61 +248,22 @@ describe('Directive tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createPlainEnumValue({
               name: 'SMART',
-
-              type: {
-                fieldType: {
-                  name: ValueDefinition.EnumValueDefinition,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.EnumValueDefinition,
-              },
               directives: [
-                createParserField({
+                createPlainDirectiveImplementation({
                   name: 'model',
-                  data: {
-                    type: Instances.Directive,
-                  },
-                  type: {
-                    fieldType: {
-                      name: 'model',
-                      type: Options.name,
-                    },
-                  },
                 }),
               ],
             }),
-            createParserField({
+            createPlainEnumValue({
               name: 'DUMB',
-
-              type: {
-                fieldType: {
-                  name: ValueDefinition.EnumValueDefinition,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.EnumValueDefinition,
-              },
             }),
           ],
         }),
-        createParserField({
+        createRootDirectiveField({
           name: 'model',
-
-          type: {
-            fieldType: {
-              name: TypeSystemDefinitionDisplayStrings.directive,
-              type: Options.name,
-            },
-            directiveOptions: [Directive.ENUM_VALUE],
-          },
-          data: {
-            type: TypeSystemDefinition.DirectiveDefinition,
-          },
+          directiveOptions: [Directive.ENUM_VALUE],
         }),
       ],
     };
@@ -546,32 +290,14 @@ describe('Directive tests on parser', () => {
           },
 
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
             }),
           ],
         }),
-        createParserField({
+        createRootDirectiveField({
           name: 'model',
-          type: {
-            fieldType: {
-              name: TypeSystemDefinitionDisplayStrings.directive,
-              type: Options.name,
-            },
-            directiveOptions: [Directive.INPUT_OBJECT],
-          },
-          data: {
-            type: TypeSystemDefinition.DirectiveDefinition,
-          },
+          directiveOptions: [Directive.INPUT_OBJECT],
         }),
       ],
     };
@@ -600,48 +326,20 @@ describe('Directive tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'name',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.String,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
-
+              type: ScalarTypes.String,
               directives: [
-                createParserField({
+                createPlainDirectiveImplementation({
                   name: 'model',
-                  data: {
-                    type: Instances.Directive,
-                  },
-                  type: {
-                    fieldType: {
-                      name: 'model',
-                      type: Options.name,
-                    },
-                  },
                 }),
               ],
             }),
           ],
         }),
-        createParserField({
+        createRootDirectiveField({
           name: 'model',
-
-          type: {
-            fieldType: {
-              name: TypeSystemDefinitionDisplayStrings.directive,
-              type: Options.name,
-            },
-            directiveOptions: [Directive.INPUT_FIELD_DEFINITION],
-          },
-          data: {
-            type: TypeSystemDefinition.DirectiveDefinition,
-          },
+          directiveOptions: [Directive.INPUT_FIELD_DEFINITION],
         }),
       ],
     };
@@ -668,32 +366,14 @@ describe('Directive tests on parser', () => {
             type: TypeDefinition.ScalarTypeDefinition,
           },
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
             }),
           ],
         }),
-        createParserField({
+        createRootDirectiveField({
           name: 'model',
-          type: {
-            fieldType: {
-              name: TypeSystemDefinitionDisplayStrings.directive,
-              type: Options.name,
-            },
-            directiveOptions: [Directive.SCALAR],
-          },
-          data: {
-            type: TypeSystemDefinition.DirectiveDefinition,
-          },
+          directiveOptions: [Directive.SCALAR],
         }),
       ],
     };
@@ -726,41 +406,17 @@ describe('Directive tests on parser', () => {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'name',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.String,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.String,
             }),
-            createParserField({
+            createPlainInputValue({
               name: 'age',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.Int,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.Int,
             }),
-            createParserField({
+            createPlainInputValue({
               name: 'weight',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.Float,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.Float,
             }),
           ],
         }),
@@ -777,30 +433,11 @@ describe('Directive tests on parser', () => {
           },
 
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
-
               args: [
-                createParserField({
+                createPlainArgument({
                   name: 'address',
-                  type: {
-                    fieldType: {
-                      name: 'address',
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Instances.Argument,
-                  },
                   value: {
                     type: Value.ObjectValue,
                     value: `{name:"Arturo",weight:22.3}`,
@@ -810,31 +447,13 @@ describe('Directive tests on parser', () => {
             }),
           ],
         }),
-        createParserField({
+        createRootDirectiveField({
           name: 'model',
-          type: {
-            fieldType: {
-              name: TypeSystemDefinitionDisplayStrings.directive,
-              type: Options.name,
-            },
-            directiveOptions: [Directive.OBJECT],
-          },
-          data: {
-            type: TypeSystemDefinition.DirectiveDefinition,
-          },
-
+          directiveOptions: [Directive.OBJECT],
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'address',
-              type: {
-                fieldType: {
-                  name: 'Address',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: 'Address',
               value: {
                 type: Value.ObjectValue,
                 value: `{age:2010}`,

@@ -7,11 +7,10 @@ import {
   TypeExtension,
   TypeSystemDefinition,
   Options,
-  Instances,
   Directive,
 } from '../../Models';
 import { Parser } from '../../Parser';
-import { createParserField } from '@/shared';
+import { createParserField, createPlainDirectiveImplementation, createUnionMember } from '@/shared';
 
 describe('Extend tests on parser', () => {
   it('Extends Person type', () => {
@@ -142,29 +141,11 @@ describe('Extend tests on parser', () => {
             type: TypeDefinition.UnionTypeDefinition,
           },
           args: [
-            createParserField({
+            createUnionMember({
               name: 'Man',
-              type: {
-                fieldType: {
-                  name: 'Man',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: TypeSystemDefinition.UnionMemberDefinition,
-              },
             }),
-            createParserField({
+            createUnionMember({
               name: 'Woman',
-              type: {
-                fieldType: {
-                  name: 'Woman',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: TypeSystemDefinition.UnionMemberDefinition,
-              },
             }),
           ],
         }),
@@ -181,18 +162,8 @@ describe('Extend tests on parser', () => {
           },
 
           args: [
-            createParserField({
+            createUnionMember({
               name: 'Kid',
-              type: {
-                fieldType: {
-                  name: 'Kid',
-                  type: Options.name,
-                },
-              },
-
-              data: {
-                type: TypeSystemDefinition.UnionMemberDefinition,
-              },
             }),
           ],
         }),
@@ -260,17 +231,8 @@ describe('Extend tests on parser', () => {
             type: TypeExtension.ScalarTypeExtension,
           },
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'forScalar',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'forScalar',
-                  type: Options.name,
-                },
-              },
             }),
           ],
         }),

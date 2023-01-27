@@ -1,7 +1,13 @@
-import { createParserField } from '@/shared';
+import {
+  createParserField,
+  createPlainArgument,
+  createPlainDirectiveImplementation,
+  createPlainEnumValue,
+  createPlainInputValue,
+  createUnionMember,
+} from '@/shared';
 import {
   Directive,
-  Instances,
   ParserTree,
   ScalarTypes,
   TypeDefinition,
@@ -9,7 +15,6 @@ import {
   TypeSystemDefinition,
   TypeSystemDefinitionDisplayStrings,
   Value,
-  ValueDefinition,
   Options,
 } from '../../Models';
 import { TreeToGraphQL } from '../../TreeToGraphQL';
@@ -34,17 +39,8 @@ describe('Directive tests on TreeToGraphQL', () => {
             type: TypeDefinition.ObjectTypeDefinition,
           },
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
             }),
           ],
         }),
@@ -95,17 +91,8 @@ describe('Directive tests on TreeToGraphQL', () => {
                 type: TypeSystemDefinition.FieldDefinition,
               },
               directives: [
-                createParserField({
+                createPlainDirectiveImplementation({
                   name: 'model',
-                  data: {
-                    type: Instances.Directive,
-                  },
-                  type: {
-                    fieldType: {
-                      name: 'model',
-                      type: Options.name,
-                    },
-                  },
                 }),
               ],
             }),
@@ -149,29 +136,12 @@ describe('Directive tests on TreeToGraphQL', () => {
             createParserField({
               name: 'name',
               args: [
-                createParserField({
+                createPlainInputValue({
                   name: 'override',
-                  type: {
-                    fieldType: {
-                      name: ScalarTypes.String,
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: ValueDefinition.InputValueDefinition,
-                  },
+                  type: ScalarTypes.String,
                   directives: [
-                    createParserField({
+                    createPlainDirectiveImplementation({
                       name: 'model',
-                      data: {
-                        type: Instances.Directive,
-                      },
-                      type: {
-                        fieldType: {
-                          name: 'model',
-                          type: Options.name,
-                        },
-                      },
                     }),
                   ],
                 }),
@@ -223,17 +193,8 @@ describe('Directive tests on TreeToGraphQL', () => {
             type: TypeDefinition.InterfaceTypeDefinition,
           },
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
             }),
           ],
         }),
@@ -309,43 +270,16 @@ describe('Directive tests on TreeToGraphQL', () => {
             type: TypeDefinition.UnionTypeDefinition,
           },
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
             }),
           ],
           args: [
-            createParserField({
+            createUnionMember({
               name: 'Car',
-              type: {
-                fieldType: {
-                  name: 'Car',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: TypeSystemDefinition.UnionMemberDefinition,
-              },
             }),
-            createParserField({
+            createUnionMember({
               name: 'Plane',
-              type: {
-                fieldType: {
-                  name: 'Plane',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: TypeSystemDefinition.UnionMemberDefinition,
-              },
             }),
           ],
         }),
@@ -371,17 +305,8 @@ describe('Directive tests on TreeToGraphQL', () => {
             type: TypeDefinition.EnumTypeDefinition,
           },
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
             }),
           ],
         }),
@@ -420,43 +345,16 @@ describe('Directive tests on TreeToGraphQL', () => {
             type: TypeDefinition.EnumTypeDefinition,
           },
           args: [
-            createParserField({
+            createPlainEnumValue({
               name: 'SMART',
-              type: {
-                fieldType: {
-                  name: ValueDefinition.EnumValueDefinition,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.EnumValueDefinition,
-              },
               directives: [
-                createParserField({
+                createPlainDirectiveImplementation({
                   name: 'model',
-                  data: {
-                    type: Instances.Directive,
-                  },
-                  type: {
-                    fieldType: {
-                      name: 'model',
-                      type: Options.name,
-                    },
-                  },
                 }),
               ],
             }),
-            createParserField({
+            createPlainEnumValue({
               name: 'DUMB',
-              type: {
-                fieldType: {
-                  name: ValueDefinition.EnumValueDefinition,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.EnumValueDefinition,
-              },
             }),
           ],
         }),
@@ -495,17 +393,8 @@ describe('Directive tests on TreeToGraphQL', () => {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
             }),
           ],
         }),
@@ -544,29 +433,12 @@ describe('Directive tests on TreeToGraphQL', () => {
             type: TypeDefinition.InputObjectTypeDefinition,
           },
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'name',
-              type: {
-                fieldType: {
-                  name: ScalarTypes.String,
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: ScalarTypes.String,
               directives: [
-                createParserField({
+                createPlainDirectiveImplementation({
                   name: 'model',
-                  data: {
-                    type: Instances.Directive,
-                  },
-                  type: {
-                    fieldType: {
-                      name: 'model',
-                      type: Options.name,
-                    },
-                  },
                 }),
               ],
             }),
@@ -607,17 +479,8 @@ describe('Directive tests on TreeToGraphQL', () => {
             type: TypeDefinition.ScalarTypeDefinition,
           },
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
             }),
           ],
         }),
@@ -706,29 +569,11 @@ describe('Directive tests on TreeToGraphQL', () => {
             type: TypeDefinition.ObjectTypeDefinition,
           },
           directives: [
-            createParserField({
+            createPlainDirectiveImplementation({
               name: 'model',
-              data: {
-                type: Instances.Directive,
-              },
-              type: {
-                fieldType: {
-                  name: 'model',
-                  type: Options.name,
-                },
-              },
               args: [
-                createParserField({
+                createPlainArgument({
                   name: 'address',
-                  type: {
-                    fieldType: {
-                      name: 'address',
-                      type: Options.name,
-                    },
-                  },
-                  data: {
-                    type: Instances.Argument,
-                  },
                   value: {
                     type: Value.ObjectValue,
                     value: `{name:"Arturo", weight:22.3}`,
@@ -751,17 +596,9 @@ describe('Directive tests on TreeToGraphQL', () => {
             type: TypeSystemDefinition.DirectiveDefinition,
           },
           args: [
-            createParserField({
+            createPlainInputValue({
               name: 'address',
-              type: {
-                fieldType: {
-                  name: 'Address',
-                  type: Options.name,
-                },
-              },
-              data: {
-                type: ValueDefinition.InputValueDefinition,
-              },
+              type: 'Address',
               value: {
                 type: Value.ObjectValue,
                 value: `{age:2010}`,
