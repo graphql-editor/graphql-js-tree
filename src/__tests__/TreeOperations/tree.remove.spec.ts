@@ -19,6 +19,13 @@ describe('Tree Operations - node removal tests', () => {
     expect(treeMock.nodes[0].interfaces).not.toContainEqual('Node');
     expect(treeMock.nodes[0].args).not.toContainEqual(copyOfArg);
   });
+  test('Delete directive node from tree', () => {
+    const treeMock = createMock();
+    const directiveNode = JSON.parse(JSON.stringify(treeMock.nodes[5]));
+    mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[5]);
+    expect(treeMock.nodes).not.toContainEqual(directiveNode);
+    expect(treeMock.nodes[0].directives).toHaveLength(0);
+  });
   test('Delete field from root node', () => {
     const treeMock = createMock();
     const oldPersonNodeId = treeMock.nodes[0].id;
@@ -67,5 +74,12 @@ describe('Tree Operations - node removal tests', () => {
     const oldArgument = JSON.parse(JSON.stringify(treeMock.nodes[3].args[0]));
     mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[3].args[0]);
     expect(treeMock.nodes[3].args).not.toContainEqual(oldArgument);
+  });
+  test('Delete directive field from directive definition node', () => {
+    const treeMock = createMock();
+    const oldArgument = JSON.parse(JSON.stringify(treeMock.nodes[5].args[0]));
+    mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[5].args[0]);
+    expect(treeMock.nodes[5].args).not.toContainEqual(oldArgument);
+    expect(treeMock.nodes[0].directives[0].args).toHaveLength(0);
   });
 });

@@ -11,6 +11,12 @@ import {
 } from '@/Models';
 import { getTypeName } from '@/shared';
 import {
+  recursivelyDeleteDirectiveArgument,
+  recursivelyDeleteDirectiveNodes,
+  recursivelyRenameDirectiveNodes,
+  recursivelyUpdateDirectiveArgument,
+} from '@/TreeOperations/directive';
+import {
   changeInterfaceField,
   updateInterfaceNodeAddField,
   _getAllConnectedInterfaces,
@@ -59,6 +65,10 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
 
   const updateFieldOnNode = (node: ParserField, i: number, updatedField: ParserField) => {
     regenerateId(updatedField);
+    if (node.data.type === TypeSystemDefinition.DirectiveDefinition) {
+      const oldField: ParserField = JSON.parse(JSON.stringify(node.args[i]));
+      recursivelyUpdateDirectiveArgument(allNodes, node.name, oldField, updatedField, allNodes);
+    }
     if (node.data.type === TypeDefinition.InterfaceTypeDefinition) {
       const oldField: ParserField = JSON.parse(JSON.stringify(node.args[i]));
       changeInterfaceField(tree.nodes, node, oldField, updatedField);
@@ -80,6 +90,9 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     const isError = allNodes.map((n) => n.name).includes(newName);
     if (isError) {
       return;
+    }
+    if (node.data.type === TypeSystemDefinition.DirectiveDefinition) {
+      recursivelyRenameDirectiveNodes(allNodes, node.name, newName);
     }
     if (node.data.type === TypeDefinition.InterfaceTypeDefinition) {
       const oldName = node.name;
@@ -121,6 +134,9 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     if (node.data.type === ValueDefinition.InputValueDefinition) {
       const parent = allNodes.find((parentNode) => parentNode.args.includes(node));
       if (parent) {
+        if (parent.data.type === TypeSystemDefinition.DirectiveDefinition) {
+          recursivelyDeleteDirectiveArgument(allNodes, parent.name, node);
+        }
         const index = parent.args.indexOf(node);
         deleteFieldFromNode(parent, index);
       } else {
@@ -142,10 +158,13 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
       return;
     }
     if (node.data.type === Instances.Directive) {
-      throw new Error('Directives should be removed on node directly not using this function');
+      throw new Error('Directive Instances should be removed on node directly not using this function');
     }
     if (node.data.type === Instances.Argument) {
-      throw new Error('Directive Arguments should be removed on node directly not using this function');
+      throw new Error('Directive Instance Arguments should be removed on node directly not using this function');
+    }
+    if (node.data.type === TypeSystemDefinition.DirectiveDefinition) {
+      recursivelyDeleteDirectiveNodes(allNodes, node.name);
     }
     const deletedNode = tree.nodes.findIndex((n) => n === node);
     if (deletedNode === -1) throw new Error('Error deleting a node');
@@ -224,7 +243,7 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
   };
 };
 
-const checkValueType = (node: ParserField, nodes: ParserField[]) => {
+export const checkValueType = (node: ParserField, nodes: ParserField[]) => {
   const isArray = isArrayType(node.type.fieldType);
   if (isArray) return Value.ListValue;
   const tName = getTypeName(node.type.fieldType);
