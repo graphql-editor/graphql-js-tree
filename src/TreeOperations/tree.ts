@@ -118,17 +118,6 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
       }
       return;
     }
-    if (node.data.type === Instances.Argument) {
-      const parent = allNodes.find((p) => p.directives.some((a) => a.args.includes(node)));
-      if (parent) {
-        const parentDirective = parent.directives.find((d) => d.args.some((a) => a === node));
-        if (parentDirective) {
-          const indexInDirective = parentDirective.args.indexOf(node);
-          deleteFieldFromNode(parentDirective, indexInDirective);
-        }
-      }
-      return;
-    }
     if (node.data.type === ValueDefinition.InputValueDefinition) {
       const parent = allNodes.find((parentNode) => parentNode.args.includes(node));
       if (parent) {
@@ -151,6 +140,12 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
         deleteFieldFromNode(parent, index);
       }
       return;
+    }
+    if (node.data.type === Instances.Directive) {
+      throw new Error('Directives should be removed on node directly not using this function');
+    }
+    if (node.data.type === Instances.Argument) {
+      throw new Error('Directive Arguments should be removed on node directly not using this function');
     }
     const deletedNode = tree.nodes.findIndex((n) => n === node);
     if (deletedNode === -1) throw new Error('Error deleting a node');

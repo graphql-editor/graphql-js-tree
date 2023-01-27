@@ -48,11 +48,13 @@ describe('Tree Operations - node removal tests', () => {
     expect(treeMock.nodes[1].args[1].id).not.toEqual(oldFieldId);
     expect(treeMock.nodes[1].id).not.toEqual(oldQueryId);
   });
+  test('Delete directive from node', () => {
+    const treeMock = createMock();
+    expect(() => mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[0].directives[0])).toThrowError();
+  });
   test('Delete argument node from Directive Instance', () => {
     const treeMock = createMock();
-    const oldArgument = JSON.parse(JSON.stringify(treeMock.nodes[0].directives[0].args[0]));
-    mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[0].directives[0].args[0]);
-    expect(treeMock.nodes[0].directives[0].args).not.toContainEqual(oldArgument);
+    expect(() => mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[0].directives[0].args[0])).toThrowError();
   });
   test('Delete union member from union node', () => {
     const treeMock = createMock();
