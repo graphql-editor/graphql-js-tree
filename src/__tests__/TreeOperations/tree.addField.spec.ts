@@ -6,7 +6,6 @@ import { createMock, createInterfaceMock } from '@/__tests__/TreeOperations/mock
 describe('Tree Operations tests - adding fields', () => {
   test('Add field to root node', () => {
     const treeMock = createMock();
-    const oldPersonNodeId = treeMock.nodes[0].id;
     const lastNameNode = createPlainField({
       type: ScalarTypes.String,
       name: 'lastName',
@@ -14,7 +13,6 @@ describe('Tree Operations tests - adding fields', () => {
 
     mutate(treeMock, treeMock.nodes).addFieldToNode(treeMock.nodes[0], lastNameNode);
 
-    expect(treeMock.nodes[0].id).not.toEqual(oldPersonNodeId);
     expect(treeMock.nodes[0].args).toContainEqual(lastNameNode);
   });
   test('Add field to interface node', () => {
@@ -32,8 +30,6 @@ describe('Tree Operations tests - adding fields', () => {
   });
   test('Add field to field node', () => {
     const treeMock = createMock();
-    const oldPersonNodeId = treeMock.nodes[0].id;
-    const oldFriendsNodeId = treeMock.nodes[0].args[2].id;
     const limitNode = createPlainInputValue({
       type: ScalarTypes.Int,
       name: 'limit',
@@ -41,8 +37,6 @@ describe('Tree Operations tests - adding fields', () => {
 
     mutate(treeMock, treeMock.nodes).addFieldToNode(treeMock.nodes[0].args[2], limitNode);
 
-    expect(treeMock.nodes[0].id).not.toEqual(oldPersonNodeId);
-    expect(treeMock.nodes[0].args[2].id).not.toEqual(oldFriendsNodeId);
     expect(treeMock.nodes[0].args[2].args).toContainEqual(limitNode);
   });
 });

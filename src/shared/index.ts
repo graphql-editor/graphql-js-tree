@@ -11,6 +11,7 @@ import {
   TypeSystemDefinition,
   ValueDefinition,
 } from '@/Models';
+import { isExtensionNode } from '@/TreeOperations/shared';
 
 export const getTypeName = (f: FieldType): string => {
   if (f.type === Options.name) {
@@ -51,7 +52,7 @@ export const decompileType = (typeName: string): FieldType => {
 };
 
 export const generateNodeId = (name: string, dataType: AllTypes, args: ParserField[]) => {
-  const s = [name, dataType, args.map((a) => a.id).join('-')].join('-');
+  const s = [name, dataType, isExtensionNode(dataType) ? args.map((a) => a.id).join('-') : ''].join('-');
   return cyrb53(s);
 };
 const cyrb53 = (str: string, seed = 0) => {
