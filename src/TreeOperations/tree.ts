@@ -28,6 +28,7 @@ import {
   isExtensionNode,
   isScalarArgument,
   regenerateId,
+  RemoveRelatedExtensionNodes,
 } from '@/TreeOperations/shared';
 
 export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
@@ -172,6 +173,7 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     if (node.data.type === TypeExtension.InterfaceTypeExtension) {
     }
     tree.nodes.splice(deletedNode, 1);
+    RemoveRelatedExtensionNodes({ node, tree });
     tree.nodes.forEach((n) => {
       n.args = n.args
         .filter((a) => {

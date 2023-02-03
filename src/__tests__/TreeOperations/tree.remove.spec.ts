@@ -74,4 +74,12 @@ describe('Tree Operations - node removal tests', () => {
     expect(treeMock.nodes[5].args).not.toContainEqual(oldArgument);
     expect(treeMock.nodes[0].directives[0].args).toHaveLength(0);
   });
+  test('Delete node extensions when node is removed', () => {
+    const treeMock = createMock();
+    const oldExtendNode = JSON.parse(JSON.stringify(treeMock.nodes[6]));
+    const oldExtendNode2 = JSON.parse(JSON.stringify(treeMock.nodes[7]));
+    mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[0]);
+    expect(treeMock.nodes).not.toContainEqual(oldExtendNode);
+    expect(treeMock.nodes).not.toContainEqual(oldExtendNode2);
+  });
 });

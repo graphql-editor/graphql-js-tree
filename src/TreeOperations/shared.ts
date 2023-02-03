@@ -1,4 +1,13 @@
-import { AllTypes, FieldType, Options, ParserField, ScalarTypes, TypeExtension } from '@/Models';
+import {
+  AllTypes,
+  FieldType,
+  Options,
+  ParserField,
+  ParserTree,
+  ScalarTypes,
+  TypeDefinition,
+  TypeExtension,
+} from '@/Models';
 import { generateNodeId, getTypeName } from '@/shared';
 
 export function filterNotNull<T>(t: T | null): t is T {
@@ -101,6 +110,26 @@ export const ChangeAllRelatedNodes = ({
   newName: string;
 }) => {
   nodes.forEach((n) => ChangeRelatedNode({ oldName, newName, node: n }));
+};
+export const RemoveRelatedExtensionNodes = ({ node, tree }: { tree: ParserTree; node: ParserField }) => {
+  const {
+    data: { type },
+  } = node;
+  if (
+    type === TypeDefinition.EnumTypeDefinition ||
+    type === TypeDefinition.InputObjectTypeDefinition ||
+    type === TypeDefinition.InterfaceTypeDefinition ||
+    type === TypeDefinition.ObjectTypeDefinition ||
+    type === TypeDefinition.ScalarTypeDefinition ||
+    type === TypeDefinition.UnionTypeDefinition
+  ) {
+    [...tree.nodes].forEach((n) => {
+      if (n.name === node.name) {
+        const nodeToBeRemoved = tree.nodes.findIndex((fn) => fn.id === n.id);
+        tree.nodes.splice(nodeToBeRemoved, 1);
+      }
+    });
+  }
 };
 
 export const isScalarArgument = (field: ParserField, scalarTypes: string[]) => {

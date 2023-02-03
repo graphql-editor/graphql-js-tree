@@ -1,4 +1,4 @@
-import { ParserTree, TypeDefinition, ScalarTypes, ValueDefinition, Options, Value } from '@/Models';
+import { ParserTree, TypeDefinition, ScalarTypes, ValueDefinition, Options, Value, TypeExtension } from '@/Models';
 import {
   createRootField,
   createPlainField,
@@ -9,6 +9,7 @@ import {
   createPlainArgument,
   createPlainEnumValue,
   createUnionMember,
+  createRootExtensionField,
 } from '@/shared';
 
 const mainMock: ParserTree = {
@@ -134,6 +135,26 @@ const mainMock: ParserTree = {
     createRootDirectiveField({
       name: 'model',
       args: [createPlainInputValue({ name: 'maxAge', type: ScalarTypes.Int })],
+    }),
+    createRootExtensionField({
+      name: 'Person',
+      type: TypeExtension.ObjectTypeExtension,
+      args: [
+        createPlainField({
+          name: 'extendedName',
+          type: ScalarTypes.String,
+        }),
+      ],
+    }),
+    createRootExtensionField({
+      name: 'Person',
+      type: TypeExtension.ObjectTypeExtension,
+      args: [
+        createPlainField({
+          name: 'extendedName2',
+          type: ScalarTypes.String,
+        }),
+      ],
     }),
   ],
 };
