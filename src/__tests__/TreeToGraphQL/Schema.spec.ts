@@ -47,7 +47,7 @@ describe('Schema base operations in TreeToGraphQL', () => {
     };
 
     const graphql = trimGraphQL(TreeToGraphQL.parse(treeMock));
-    expect(graphql).toContain(`schema{ query: Query}`);
+    expect(graphql).toContain(trimGraphQL(`schema{ query: Query}`));
   });
   test(`empty query`, () => {
     const treeMock: ParserTree = {
@@ -69,6 +69,6 @@ describe('Schema base operations in TreeToGraphQL', () => {
     };
 
     const graphql = trimGraphQL(TreeToGraphQL.parse(treeMock));
-    expect(graphql).toContain(`schema{ query: Query}`);
+    expect(graphql).toContain(trimGraphQL(`schema{ query: Query}`));
   });
 });

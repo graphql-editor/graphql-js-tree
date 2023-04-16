@@ -610,7 +610,7 @@ describe('Directive tests on TreeToGraphQL', () => {
     };
 
     const graphql = trimGraphQL(TreeToGraphQL.parse(treeMock));
-    expect(graphql).toContain(`@model( address: Address = {age:2010})`);
-    expect(graphql).toContain(`@model( address: {name:"Arturo", weight:22.3})`);
+    expect(graphql).toContain(trimGraphQL(`@model( address: Address = {age:2010})`));
+    expect(graphql).toContain(trimGraphQL(`@model( address: {name:"Arturo", weight:22.3})`));
   });
 });
