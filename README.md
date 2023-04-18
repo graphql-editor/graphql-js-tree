@@ -6,6 +6,8 @@ Simplier approach to GraphQL parsing. Using graphql-js library and parsing AST t
 
 ## How it works
 
+### SDL GraphQL
+
 It creates very simple `ParserTree` from GraphQL schema
 
 ```js
@@ -27,9 +29,38 @@ const parsedSchema = Parser.parse(schemaFileContents);
 const graphqlString = TreeToGraphQL.parse(parsedSchema);
 ```
 
+### GQL
+
+```js
+import { parseGql } from 'graphql-js-tree';
+
+const schemaFileContents = `
+type Query{
+    hello: String!
+}
+schema{
+    query: Query
+}
+`;
+
+const gqlQuery = `
+    query MyQuery{
+        hello
+    }
+`;
+
+const parsedTrees = parseGql(gqlQuery, schemaFileContents);
+
+// Backwards
+
+const gqlString = parseGqlTrees(parsedTrees);
+```
+
 ## Table of contents
 
 - [How it works](#how-it-works)
+  - [SDL GraphQL](#sdl-graphql)
+  - [GQL](#gql)
 - [Table of contents](#table-of-contents)
 - [License](#license)
 - [Support](#support)

@@ -38,6 +38,8 @@ export type GqlParserTree = {
   arguments?: GqlParserTree[];
   directives?: GqlParserTree[];
   fragment?: boolean;
+  fragmentSpread?: boolean;
+  inlineFragment?: boolean;
   value?: ValueNodeWithoutLoc;
   operation?: OperationType;
   variableDefinitions?: VariableDefinitionWithoutLoc[];

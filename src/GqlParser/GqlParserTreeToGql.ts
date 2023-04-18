@@ -1,14 +1,23 @@
+import { parseGql } from '@/GqlParser';
 import { getValueAsGqlStringNode } from '@/GqlParser/valueNode';
 import { Instances, TypeSystemDefinition } from '@/Models';
 import { GqlParserTree, VariableDefinitionWithoutLoc } from '@/Models/GqlParserTree';
 import { compileType } from '@/shared';
-export const GqlParserTreeToGql = (mainTree: GqlParserTree) => {
+export const parseGqlTree = (mainTree: GqlParserTree) => {
   const generateName = (tree: GqlParserTree): string => {
-    return `${
-      tree.operation
-        ? `${tree.operation}${tree.name ? ` ${tree.name}` : ''}${generateVariableDefinitions(tree)}`
-        : tree.name
-    }`;
+    if (tree.operation) {
+      return `${tree.operation}${tree.name ? ` ${tree.name}` : ''}${generateVariableDefinitions(tree)}`;
+    }
+    if (tree.fragment) {
+      return `fragment ${tree.name} on ${tree.node.name}`;
+    }
+    if (tree.fragmentSpread) {
+      return `...${tree.name}`;
+    }
+    if (tree.inlineFragment) {
+      return `...${tree.name ? ` on ${tree.name}` : ''}`;
+    }
+    return tree.name || '';
   };
   const generateChildren = (tree: GqlParserTree): string => {
     return `${tree.children ? `{\n ${tree.children.map(generateGql).join('\n ')}\n}` : ''}`;
@@ -30,6 +39,10 @@ export const GqlParserTreeToGql = (mainTree: GqlParserTree) => {
     }`;
   };
   return generateGql(mainTree);
+};
+
+export const parseGqlTrees = (trees: GqlParserTree[]) => {
+  return trees.map(parseGqlTree).join('\n');
 };
 
 export const enrichFieldNodeWithVariables = (
@@ -91,4 +104,9 @@ export const enrichWholeTreeWithVars = (mainTree: GqlParserTree): GqlParserTree 
     );
   };
   return { ...recursiveEnrich(mainTree), variableDefinitions };
+};
+
+export const enrichGqlQueryWithAllVars = (query: string, schema: string) => {
+  const trees = parseGql(query, schema);
+  return parseGqlTrees(trees.map(enrichWholeTreeWithVars));
 };
