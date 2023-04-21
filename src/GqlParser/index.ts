@@ -18,7 +18,7 @@ import {
   InlineFragmentNode,
 } from 'graphql';
 export const parseGql = (gql: string, schema: string) => {
-  const { definitions } = parse(schema + '\n' + gql);
+  const { definitions } = parse(schema + '\n' + gql, { noLocation: true });
   const ops = definitions.filter(onlyOperations);
   const frags = definitions.filter(onlyFragments);
   const { nodes } = Parser.parse(schema);

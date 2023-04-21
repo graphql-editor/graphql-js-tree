@@ -20,13 +20,13 @@ export const parseGqlTree = (mainTree: GqlParserTree) => {
     return tree.name || '';
   };
   const generateChildren = (tree: GqlParserTree): string => {
-    return `${tree.children ? `{\n ${tree.children.map(generateGql).join('\n ')}\n}` : ''}`;
+    return `${tree.children?.length ? `{\n ${tree.children.map(generateGql).join('\n ')}\n}` : ''}`;
   };
   const generateValue = (tree: GqlParserTree): string => {
     return `${tree.value ? `: ${getValueAsGqlStringNode(tree.value)}` : ''}`;
   };
   const generateArguments = (tree: GqlParserTree): string => {
-    return `${tree.arguments ? `(\n ${tree.arguments.map((a) => generateGql(a)).join(', ')})` : ''}`;
+    return `${tree.arguments?.length ? `(\n ${tree.arguments.map((a) => generateGql(a)).join(', ')})` : ''}`;
   };
   const generateGql = (tree: GqlParserTree): string => {
     return `${generateName(tree)}${generateValue(tree)}${generateArguments(tree)}${generateChildren(tree)}`;
@@ -57,25 +57,29 @@ export const enrichFieldNodeWithVariables = (
   ) {
     return {
       ...fieldTree,
-      arguments: fieldTree.node.args.map((a) => {
-        const VarName = `${fieldTree.name}_${a.name}`;
-        const VarNode: GqlParserTree = {
-          name: a.name,
-          node: a,
-          value: {
-            kind: 'Variable',
-            value: VarName,
-          },
-        };
-        variableDefinitionsUpdate((variableDefinitions) => [
-          ...variableDefinitions,
-          {
-            name: VarName,
-            type: compileType(a.type.fieldType),
-          },
-        ]);
-        return VarNode;
-      }),
+      ...(fieldTree.node.args.length
+        ? {
+            arguments: fieldTree.node.args.map((a) => {
+              const VarName = `${fieldTree.name}_${a.name}`;
+              const VarNode: GqlParserTree = {
+                name: a.name,
+                node: a,
+                value: {
+                  kind: 'Variable',
+                  value: VarName,
+                },
+              };
+              variableDefinitionsUpdate((variableDefinitions) => [
+                ...variableDefinitions,
+                {
+                  name: VarName,
+                  type: compileType(a.type.fieldType),
+                },
+              ]);
+              return VarNode;
+            }),
+          }
+        : {}),
     };
   }
   return fieldTree;
