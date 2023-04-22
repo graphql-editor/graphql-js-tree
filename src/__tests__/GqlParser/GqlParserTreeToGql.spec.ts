@@ -224,6 +224,38 @@ describe('Test generation of gql strings from the GqlParserTree', () => {
     const gqlParserResultVars = enrichGqlQueryWithAllVars(mockStartingQuery, mockSchema);
     expectTrimmedEqual(gqlParserResultVars, mockQueryVars);
   });
+
+  it('Works with __typename', () => {
+    const mockQueryFragment = `
+    query MyQuery {
+      user{
+        __typename
+      }
+    }`;
+    const GqlTreeMockWithFragments: GqlParserTree[] = [
+      {
+        name: 'MyQuery',
+        node: queryNode,
+        operation: OperationType.query,
+        children: [
+          {
+            name: 'user',
+            node: queryNode.args[1],
+            children: [
+              {
+                name: '__typename',
+                node: createPlainField({ name: '__typename', type: 'String!' }),
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const gqlParserResult = parseGqlTrees(GqlTreeMockWithFragments);
+    expectTrimmedEqual(gqlParserResult, mockQueryFragment);
+  });
+
   it('Works with fragments and fragment spreads', () => {
     const mockQueryFragment = `
     fragment Full on User{
@@ -292,6 +324,7 @@ describe('Test generation of gql strings from the GqlParserTree', () => {
     const gqlParserResult = parseGqlTrees(GqlTreeMockWithFragments);
     expectTrimmedEqual(gqlParserResult, mockQueryFragment);
   });
+
   it('works with inline fragments', () => {
     const mockQueryInline = `query MyQuery {
       namings{

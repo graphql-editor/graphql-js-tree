@@ -3,7 +3,7 @@ import { OperationType, ParserField, TypeDefinition } from '@/Models';
 import { GqlParserTree, VariableDefinitionWithoutLoc } from '@/Models/GqlParserTree';
 import { Parser } from '@/Parser';
 import { TypeResolver } from '@/Parser/typeResolver';
-import { compileType, getTypeName } from '@/shared';
+import { compileType, createPlainField, getTypeName } from '@/shared';
 import {
   DefinitionNode,
   parse,
@@ -123,7 +123,13 @@ export const parseGql = (gql: string, schema: string) => {
   };
 
   const composeFieldNode = (s: FieldNode, parentNode: ParserField): GqlParserTree => {
-    const fieldNode = parentNode.args.find((a) => a.name === s.name.value);
+    const fieldNode =
+      s.name.value === '__typename'
+        ? createPlainField({
+            name: '__typename',
+            type: 'String!',
+          })
+        : parentNode.args.find((a) => a.name === s.name.value);
     if (!fieldNode) {
       throw new Error(`Field "${s.name.value}" does not exist in "${parentNode.name}" node`);
     }
