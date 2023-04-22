@@ -5,6 +5,7 @@ import {
   Instances,
   Options,
   ParserField,
+  ScalarTypes,
   TypeDefinition,
   TypeDefinitionDisplayMap,
   TypeExtension,
@@ -154,6 +155,24 @@ export const createPlainField = ({ name, type, ...props }: FieldCreation) => {
       fieldType: {
         name: type,
         type: Options.name,
+      },
+    },
+  });
+};
+export const createTypeNameField = () => {
+  return createParserField({
+    name: '__typename',
+    description: 'The name of the current Object type at runtime.',
+    data: {
+      type: TypeSystemDefinition.FieldDefinition,
+    },
+    type: {
+      fieldType: {
+        type: Options.required,
+        nest: {
+          type: Options.name,
+          name: ScalarTypes.String,
+        },
       },
     },
   });

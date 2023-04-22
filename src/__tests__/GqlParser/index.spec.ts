@@ -1,7 +1,7 @@
 import { parseGql } from '@/GqlParser';
 import { OperationType, TypeDefinition } from '@/Models';
 import { GqlParserTree } from '@/Models/GqlParserTree';
-import { createPlainField, createPlainInputValue, createRootField } from '@/shared';
+import { createPlainField, createPlainInputValue, createRootField, createTypeNameField } from '@/shared';
 
 const mockSchema = `
 type Query { 
@@ -213,7 +213,7 @@ describe('Test generation of GqlParserTrees from gql', () => {
             children: [
               {
                 name: '__typename',
-                node: createPlainField({ name: '__typename', type: 'String!' }),
+                node: createTypeNameField(),
               },
             ],
           },

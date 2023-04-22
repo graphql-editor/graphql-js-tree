@@ -7,7 +7,7 @@ import {
 } from '@/GqlParser/GqlParserTreeToGql';
 import { OperationType, TypeDefinition } from '@/Models';
 import { GqlParserTree } from '@/Models/GqlParserTree';
-import { createPlainField, createPlainInputValue, createRootField } from '@/shared';
+import { createPlainField, createPlainInputValue, createRootField, createTypeNameField } from '@/shared';
 import { expectTrimmedEqual } from '@/__tests__/TestUtils';
 
 const mockSchema = `
@@ -244,7 +244,7 @@ describe('Test generation of gql strings from the GqlParserTree', () => {
             children: [
               {
                 name: '__typename',
-                node: createPlainField({ name: '__typename', type: 'String!' }),
+                node: createTypeNameField(),
               },
             ],
           },
