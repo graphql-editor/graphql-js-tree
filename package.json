@@ -1,6 +1,6 @@
 {
   "name": "graphql-js-tree",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "private": false,
   "license": "MIT",
   "description": "GraphQL Parser providing simplier structure",

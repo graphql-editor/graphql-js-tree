@@ -15,6 +15,7 @@ export interface ParserField {
   directives: ParserField[];
   description?: string;
   fromInterface?: string[];
+  fromLibrary?: boolean;
   value?: {
     type: Value;
     value?: string;

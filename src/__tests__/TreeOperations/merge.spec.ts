@@ -1,4 +1,5 @@
-import { mergeSDLs } from '@/TreeOperations/merge';
+import { Parser } from '@/Parser';
+import { mergeSDLs, mergeTrees } from '@/TreeOperations/merge';
 import { expectTrimmedEqual } from '@/__tests__/TestUtils';
 
 // const mergingErrorSchema = `
@@ -80,6 +81,37 @@ describe('Merging GraphQL Schemas', () => {
         age: String
     }`,
     );
+  });
+  it('Tree test - Should merge interfaces and implementation of both nodes matching library fields.', () => {
+    const baseSchema = `
+    type Person implements Node{
+        firstName: String
+        health: String
+        _id: String
+    }
+    interface Node {
+        _id: String
+    }
+    `;
+
+    const mergingSchema = `
+    type Person implements Dateable{
+        lastName: String
+        createdAt: String
+    }
+    interface Dateable {
+        createdAt: String
+    }
+    `;
+    const baseTree = Parser.parse(baseSchema);
+    const libraryTree = Parser.parse(mergingSchema);
+    const mergedTree = mergeTrees(baseTree, libraryTree);
+    if (mergedTree.__typename === 'error') throw new Error('Invalid parse');
+    const PersonNode = mergedTree.nodes.find((n) => n.name === 'Person');
+    const lastNameField = PersonNode?.args.find((a) => a.name === 'lastName');
+    const createdAtField = PersonNode?.args.find((a) => a.name === 'createdAt');
+    expect(lastNameField?.fromLibrary).toBeTruthy();
+    expect(createdAtField?.fromLibrary).toBeTruthy();
   });
   it('Should merge interfaces and implementation of both nodes', () => {
     const baseSchema = `
