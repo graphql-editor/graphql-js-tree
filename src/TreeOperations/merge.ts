@@ -74,7 +74,9 @@ export const mergeTrees = (tree1: ParserTree, tree2: ParserTree) => {
     };
   }
   const t1Nodes = tree1.nodes.filter((t1n) => !mergedNodesT1.find((mtn1) => mtn1 === t1n));
-  const t2Nodes = tree2.nodes.filter((t2n) => !mergedNodesT2.find((mtn2) => mtn2 === t2n));
+  const t2Nodes = tree2.nodes
+    .filter((t2n) => !mergedNodesT2.find((mtn2) => mtn2 === t2n))
+    .map((n) => ({ ...n, fromLibrary: true }));
   return {
     __typename: 'success' as const,
     nodes: [...t1Nodes, ...mergeResultNodes, ...t2Nodes],
