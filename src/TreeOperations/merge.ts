@@ -2,6 +2,7 @@ import { ParserField, ParserTree } from '@/Models';
 import { Parser } from '@/Parser';
 import { isExtensionNode } from '@/TreeOperations/shared';
 import { TreeToGraphQL } from '@/TreeToGraphQL';
+import { generateNodeId } from '@/shared';
 
 const addFromLibrary = (n: ParserField): ParserField => ({ ...n, fromLibrary: true });
 
@@ -12,6 +13,7 @@ const mergeNode = (n1: ParserField, n2: ParserField) => {
     directives: [...n1.directives, ...n2.directives.map(addFromLibrary)],
     interfaces: [...n1.interfaces, ...n2.interfaces],
   } as ParserField;
+  mergedNode.id = generateNodeId(mergeNode.name, mergedNode.data.type, mergedNode.args);
   //dedupe
   mergedNode.args = mergedNode.args.filter((a, i) => mergedNode.args.findIndex((aa) => aa.name === a.name) === i);
   mergedNode.directives = mergedNode.directives.filter(
