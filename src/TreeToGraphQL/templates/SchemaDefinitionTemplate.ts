@@ -7,16 +7,16 @@ import { getTypeName } from '@/shared';
  */
 export class SchemaDefinitionTemplate {
   static resolve(f: ParserField): string {
-    return `schema${TemplateUtils.resolveDirectives(f.directives)}{${f.args.map(
-      (a) => `${a.name}: ${getTypeName(a.type.fieldType)}`,
-    )}}`;
+    return `schema${TemplateUtils.resolveDirectives(f.directives)}{${f.args
+      .map((a) => `\n\t${a.name}: ${getTypeName(a.type.fieldType)}`)
+      .join('')}\n}`;
   }
 }
 
 export class SchemaExtensionTemplate {
   static resolve(f: ParserField): string {
     return `extend schema${TemplateUtils.resolveDirectives(f.directives)}${
-      f.args.length ? `{${f.args.map((a) => `\n\t${a.name}: ${getTypeName(a.type.fieldType)}`)}}` : ''
+      f.args.length ? `{${f.args.map((a) => `\n\t${a.name}: ${getTypeName(a.type.fieldType)}`).join('')}\n}` : ''
     }`;
   }
 }
