@@ -3,6 +3,7 @@ import {
   Directive,
   FieldType,
   Instances,
+  OperationType,
   Options,
   ParserField,
   ScalarTypes,
@@ -10,6 +11,7 @@ import {
   TypeDefinitionDisplayMap,
   TypeExtension,
   TypeSystemDefinition,
+  TypeSystemExtension,
   ValueDefinition,
 } from '@/Models';
 import { isExtensionNode } from '@/TreeOperations/shared';
@@ -267,3 +269,76 @@ export const createPlainArgument = ({ name, ...props }: ArgumentCreation) => {
 };
 
 export const compareParserFields = (f1: ParserField) => (f2: ParserField) => f1.id === f2.id;
+
+type SchemaCreationProps = {
+  operations?: {
+    [OperationType.query]?: string;
+    [OperationType.mutation]?: string;
+    [OperationType.subscription]?: string;
+  };
+  directives?: ParserField[];
+};
+
+export const createSchemaDefinition = (options: SchemaCreationProps) => {
+  return createParserField({
+    name: 'schema',
+    data: {
+      type: TypeSystemDefinition.SchemaDefinition,
+    },
+    type: {
+      fieldType: {
+        type: Options.name,
+        name: 'schema',
+      },
+    },
+    directives: options?.directives || [],
+    args: options?.operations
+      ? Object.entries(options?.operations).map(([k, v]) =>
+          createParserField({
+            name: k,
+            data: {
+              type: TypeSystemDefinition.FieldDefinition,
+            },
+            type: {
+              fieldType: {
+                type: Options.name,
+                name: v,
+              },
+            },
+          }),
+        )
+      : [],
+  });
+};
+
+export const createSchemaExtension = (options: SchemaCreationProps) => {
+  return createParserField({
+    name: 'schema',
+    data: {
+      type: TypeSystemExtension.SchemaExtension,
+    },
+    directives: options?.directives || [],
+    type: {
+      fieldType: {
+        type: Options.name,
+        name: 'schema',
+      },
+    },
+    args: options?.operations
+      ? Object.entries(options?.operations).map(([k, v]) =>
+          createParserField({
+            name: k,
+            data: {
+              type: TypeSystemDefinition.FieldDefinition,
+            },
+            type: {
+              fieldType: {
+                type: Options.name,
+                name: v,
+              },
+            },
+          }),
+        )
+      : [],
+  });
+};

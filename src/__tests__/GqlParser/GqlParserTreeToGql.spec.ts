@@ -60,7 +60,6 @@ const queryNode = createRootField({
     }),
   ],
 });
-queryNode.type.operations = [OperationType.query];
 
 const personNode = createRootField({
   name: 'Person',

@@ -5,6 +5,7 @@ import {
   TypeDefinition,
   TypeExtension,
   TypeSystemDefinition,
+  TypeSystemExtension,
   ValueDefinition,
 } from '@/Models';
 import { compileType } from '@/shared';
@@ -17,6 +18,7 @@ import { FieldTemplate } from './FieldTemplate';
 import { InputValueTemplate } from './InputValueTemplate';
 import { TypeDefinitionsTemplates } from './TypeDefinitionsTemplates';
 import { UnionMemberTemplate } from './UnionMemberTemplate';
+import { SchemaDefinitionTemplate, SchemaExtensionTemplate } from '@/TreeToGraphQL/templates/SchemaDefinitionTemplate';
 
 const dedent = new RegExp('\n([\t ]*)', 'gm');
 
@@ -103,6 +105,10 @@ export class TemplateUtils {
         return TypeDefinitionsTemplates.resolve(f);
       }
       switch (type) {
+        case TypeSystemDefinition.SchemaDefinition:
+          return SchemaDefinitionTemplate.resolve(f);
+        case TypeSystemExtension.SchemaExtension:
+          return SchemaExtensionTemplate.resolve(f);
         case TypeSystemDefinition.FieldDefinition:
           return FieldTemplate.resolve(f, prefix);
         case TypeSystemDefinition.DirectiveDefinition:

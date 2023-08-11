@@ -4,6 +4,7 @@ import {
   FieldDefinitionNode,
   InputValueDefinitionNode,
   ObjectFieldNode,
+  SchemaDefinitionNode,
   TypeDefinitionNode,
   TypeNode,
   TypeSystemDefinitionNode,
@@ -266,7 +267,9 @@ export class TypeResolver {
     return fields;
   }
 
-  static resolveFieldsFromDefinition(n: TypeSystemDefinitionNode | TypeSystemExtensionNode): ParserField[] {
+  static resolveFieldsFromDefinition(
+    n: TypeSystemDefinitionNode | TypeSystemExtensionNode | SchemaDefinitionNode,
+  ): ParserField[] {
     if ('values' in n && n.values) {
       return n.values.map((v) => ({
         name: v.name.value,

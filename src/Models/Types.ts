@@ -7,6 +7,7 @@ import {
   TypeDefinition,
   TypeExtension,
   TypeSystemDefinition,
+  TypeSystemExtension,
   Value,
   ValueDefinition,
 } from './Spec';
@@ -25,6 +26,7 @@ export type AllTypes =
   | TypeSystemDefinition
   | TypeSystemDefinitionDisplayStrings
   | TypeExtension
+  | TypeSystemExtension
   | Instances
   | Helpers
   | Type;

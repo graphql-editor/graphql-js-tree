@@ -1,5 +1,5 @@
 import { getValueWithoutLoc } from '@/GqlParser/valueNode';
-import { OperationType, ParserField, TypeDefinition } from '@/Models';
+import { OperationType, ParserField, TypeDefinition, TypeSystemDefinition } from '@/Models';
 import { GqlParserTree, VariableDefinitionWithoutLoc } from '@/Models/GqlParserTree';
 import { Parser } from '@/Parser';
 import { TypeResolver } from '@/Parser/typeResolver';
@@ -24,9 +24,16 @@ export const parseGql = (gql: string, schema: string) => {
   const { nodes } = Parser.parse(schema);
 
   const composeDefinition = (d: OperationDefinitionNode): GqlParserTree => {
-    const node = nodes.find((n) => n.type.operations?.includes(d.operation as OperationType));
+    const schemaNode = nodes.find((n) => n.data.type === TypeSystemDefinition.SchemaDefinition);
+    const operationField = schemaNode?.args.find((a) => a.name === d.operation);
+    if (!operationField) {
+      console.log(JSON.stringify(schemaNode, null, 2));
+      throw new Error(`Operation ${d.name?.value} does not exist in schema`);
+    }
+    const operationType = getTypeName(operationField.type.fieldType);
+    const node = nodes.find((n) => n.name === operationType);
     if (!node) {
-      throw new Error(`Operation ${d.name} does not exist in schema`);
+      throw new Error(`Operation ${d.name?.value} does not exist in schema`);
     }
     return {
       name: d.name?.value,
