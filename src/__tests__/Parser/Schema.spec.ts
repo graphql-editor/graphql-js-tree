@@ -1,6 +1,7 @@
 import {
   createParserField,
   createPlainDirectiveImplementation,
+  createPlainField,
   createRootDirectiveField,
   createSchemaDefinition,
   createSchemaExtension,
@@ -268,6 +269,69 @@ describe('Schema base operations', () => {
         createSchemaDefinition({
           operations: {
             query: 'Query',
+          },
+        }),
+      ],
+    };
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
+  });
+  test(`don't override base DDD type with Query`, () => {
+    const schema = `type Query{
+          status: ${ScalarTypes.String}
+      }
+      type DDD {
+        name: String
+      }
+      schema{
+          query: DDD
+      }
+      `;
+    const tree = Parser.parse(schema);
+    const treeMock: ParserTree = {
+      nodes: [
+        createParserField({
+          name: 'Query',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+
+          args: [
+            createParserField({
+              name: 'status',
+              type: {
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            }),
+          ],
+        }),
+        createParserField({
+          name: 'DDD',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+          args: [createPlainField({ name: 'name', type: 'String' })],
+        }),
+        createSchemaDefinition({
+          operations: {
+            query: 'DDD',
           },
         }),
       ],

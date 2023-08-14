@@ -1,4 +1,4 @@
-import { ParserField, ParserTree } from '@/Models';
+import { ParserField, ParserTree, TypeSystemDefinition } from '@/Models';
 import { Parser } from '@/Parser';
 import { isExtensionNode } from '@/TreeOperations/shared';
 import { TreeToGraphQL } from '@/TreeToGraphQL';
@@ -86,7 +86,9 @@ export const mergeTrees = (tree1: ParserTree, tree2: ParserTree) => {
 export const mergeSDLs = (sdl1: string, sdl2: string) => {
   const t1 = Parser.parse(sdl1);
   const t2 = Parser.parse(sdl2);
-  const mergeResult = mergeTrees(t1, t2);
+  const mergeResult = mergeTrees(t1, {
+    nodes: t2.nodes.filter((n) => n.data.type !== TypeSystemDefinition.SchemaDefinition),
+  });
   if (mergeResult.__typename === 'success') {
     const sdl = TreeToGraphQL.parse(mergeResult);
     return {

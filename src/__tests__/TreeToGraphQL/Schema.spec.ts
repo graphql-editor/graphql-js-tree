@@ -1,6 +1,7 @@
 import {
   createParserField,
   createPlainDirectiveImplementation,
+  createPlainField,
   createRootDirectiveField,
   createSchemaDefinition,
 } from '@/shared';
@@ -55,6 +56,58 @@ describe('Schema base operations in TreeToGraphQL', () => {
     };
     const graphql = trimGraphQL(TreeToGraphQL.parse(treeMock));
     expect(graphql).toContain(trimGraphQL(`schema{ query: Query}`));
+  });
+  test(`query with different name and 'Query' named node`, () => {
+    const treeMock: ParserTree = {
+      nodes: [
+        createParserField({
+          name: 'Query',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+          args: [
+            createParserField({
+              name: 'status',
+              type: {
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            }),
+          ],
+        }),
+        createParserField({
+          name: 'DDD',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+          args: [createPlainField({ name: 'name', type: 'String' })],
+        }),
+        createSchemaDefinition({
+          operations: {
+            query: 'DDD',
+          },
+        }),
+      ],
+    };
+    const graphql = trimGraphQL(TreeToGraphQL.parse(treeMock));
+    expect(graphql).toContain(trimGraphQL(`schema{ query: DDD}`));
   });
   test(`query with directives`, () => {
     const treeMock: ParserTree = {
