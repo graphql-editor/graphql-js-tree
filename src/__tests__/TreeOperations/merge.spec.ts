@@ -189,4 +189,44 @@ describe('Merging GraphQL Schemas', () => {
       `,
     );
   });
+  it('Should merge schemas but maintain original schema node', () => {
+    const baseSchema = `
+    type DDD{
+        firstName: String
+        health: String
+    }
+    schema{
+        query: DDD
+    }
+    `;
+
+    const mergingSchema = `
+    type Query{
+        lastName: String
+    }
+    type Mutation{
+        ddd: String
+    }
+    `;
+    const t1 = mergeSDLs(baseSchema, mergingSchema);
+    if (t1.__typename === 'error') throw new Error('Invalid parse');
+    expectTrimmedEqual(
+      t1.sdl,
+      `
+      type DDD{
+          firstName: String
+          health: String
+      }
+      schema{
+          query: DDD
+      }
+      type Query{
+        lastName: String
+    }
+    type Mutation{
+        ddd: String
+    }
+      `,
+    );
+  });
 });

@@ -32,7 +32,9 @@ export const mergeTrees = (tree1: ParserTree, tree2: ParserTree) => {
   const errors: Array<{ conflictingNode: string; conflictingField: string }> = [];
   // merge nodes
   tree1.nodes.forEach((t1n) => {
-    const matchingNode = tree2.nodes.find((t2n) => t2n.name === t1n.name && t1n.data.type === t2n.data.type);
+    const matchingNode = tree2.nodes
+      .filter((t) => t.data.type !== TypeSystemDefinition.SchemaDefinition)
+      .find((t2n) => t2n.name === t1n.name && t1n.data.type === t2n.data.type);
     if (matchingNode) {
       if (isExtensionNode(matchingNode.data.type)) {
         t1n.args.forEach((t1nA) => {
