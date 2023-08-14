@@ -30,11 +30,10 @@ export const mergeTrees = (tree1: ParserTree, tree2: ParserTree) => {
   const mergedNodesT2: ParserField[] = [];
   const mergeResultNodes: ParserField[] = [];
   const errors: Array<{ conflictingNode: string; conflictingField: string }> = [];
+  const filteredTree2Nodes = tree2.nodes.filter((t) => t.data.type !== TypeSystemDefinition.SchemaDefinition);
   // merge nodes
   tree1.nodes.forEach((t1n) => {
-    const matchingNode = tree2.nodes
-      .filter((t) => t.data.type !== TypeSystemDefinition.SchemaDefinition)
-      .find((t2n) => t2n.name === t1n.name && t1n.data.type === t2n.data.type);
+    const matchingNode = filteredTree2Nodes.find((t2n) => t2n.name === t1n.name && t1n.data.type === t2n.data.type);
     if (matchingNode) {
       if (isExtensionNode(matchingNode.data.type)) {
         t1n.args.forEach((t1nA) => {
@@ -76,7 +75,7 @@ export const mergeTrees = (tree1: ParserTree, tree2: ParserTree) => {
     };
   }
   const t1Nodes = tree1.nodes.filter((t1n) => !mergedNodesT1.find((mtn1) => mtn1 === t1n));
-  const t2Nodes = tree2.nodes
+  const t2Nodes = filteredTree2Nodes
     .filter((t2n) => !mergedNodesT2.find((mtn2) => mtn2 === t2n))
     .map((n) => ({ ...n, fromLibrary: true }));
   return {
