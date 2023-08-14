@@ -170,6 +170,110 @@ describe('Schema base operations', () => {
     };
     expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
   });
+  test(`Detect Query only`, () => {
+    const schema = `type Query{
+          status: ${ScalarTypes.String}
+      }
+      type Mutation2222{
+        updateStatus: ${ScalarTypes.String}
+      }
+      type Subscription333{
+        watchStatus: ${ScalarTypes.String}
+      }
+      `;
+    const tree = Parser.parse(schema);
+    const treeMock: ParserTree = {
+      nodes: [
+        createParserField({
+          name: 'Query',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+
+          args: [
+            createParserField({
+              name: 'status',
+              type: {
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            }),
+          ],
+        }),
+        createParserField({
+          name: 'Mutation2222',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+
+          args: [
+            createParserField({
+              name: 'updateStatus',
+              type: {
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            }),
+          ],
+        }),
+        createParserField({
+          name: 'Subscription333',
+          type: {
+            fieldType: {
+              name: TypeDefinitionDisplayStrings.type,
+              type: Options.name,
+            },
+          },
+          data: {
+            type: TypeDefinition.ObjectTypeDefinition,
+          },
+
+          args: [
+            createParserField({
+              name: 'watchStatus',
+              type: {
+                fieldType: {
+                  name: ScalarTypes.String,
+                  type: Options.name,
+                },
+              },
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
+              },
+            }),
+          ],
+        }),
+        createSchemaDefinition({
+          operations: {
+            query: 'Query',
+          },
+        }),
+      ],
+    };
+    expect(tree.nodes).toEqual(expect.arrayContaining(treeMock.nodes));
+  });
   test(`empty query`, () => {
     const schema = `
       type Query

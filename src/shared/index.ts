@@ -293,20 +293,22 @@ export const createSchemaDefinition = (options: SchemaCreationProps) => {
     },
     directives: options?.directives || [],
     args: options?.operations
-      ? Object.entries(options?.operations).map(([k, v]) =>
-          createParserField({
-            name: k,
-            data: {
-              type: TypeSystemDefinition.FieldDefinition,
-            },
-            type: {
-              fieldType: {
-                type: Options.name,
-                name: v,
+      ? Object.entries(options?.operations)
+          .filter(([, v]) => !!v)
+          .map(([k, v]) =>
+            createParserField({
+              name: k,
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
               },
-            },
-          }),
-        )
+              type: {
+                fieldType: {
+                  type: Options.name,
+                  name: v,
+                },
+              },
+            }),
+          )
       : [],
   });
 };
@@ -325,20 +327,22 @@ export const createSchemaExtension = (options: SchemaCreationProps) => {
       },
     },
     args: options?.operations
-      ? Object.entries(options?.operations).map(([k, v]) =>
-          createParserField({
-            name: k,
-            data: {
-              type: TypeSystemDefinition.FieldDefinition,
-            },
-            type: {
-              fieldType: {
-                type: Options.name,
-                name: v,
+      ? Object.entries(options?.operations)
+          .filter(([, v]) => !!v)
+          .map(([k, v]) =>
+            createParserField({
+              name: k,
+              data: {
+                type: TypeSystemDefinition.FieldDefinition,
               },
-            },
-          }),
-        )
+              type: {
+                fieldType: {
+                  type: Options.name,
+                  name: v,
+                },
+              },
+            }),
+          )
       : [],
   });
 };
