@@ -11,6 +11,7 @@ import {
 } from '@/Models';
 import { getTypeName } from '@/shared';
 import {
+  recursivelyDeleteAllDirectiveNodes,
   recursivelyDeleteDirectiveArgument,
   recursivelyDeleteDirectiveNodes,
   recursivelyRenameDirectiveNodes,
@@ -234,6 +235,9 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
       type: checkValueType(node, allNodes),
     };
   };
+  const removeAllDirectives = () => {
+    recursivelyDeleteAllDirectiveNodes(allNodes);
+  };
   return {
     updateFieldOnNode,
     addFieldToNode,
@@ -242,6 +246,7 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     implementInterface,
     deImplementInterface,
     setValueNode,
+    removeAllDirectives,
   };
 };
 

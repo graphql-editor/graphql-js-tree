@@ -1,4 +1,4 @@
-import { Options, ParserField } from '@/Models';
+import { Options, ParserField, TypeSystemDefinition } from '@/Models';
 import { checkValueType } from '@/TreeOperations/tree';
 
 export const recursivelyDeleteDirectiveNodes = (nodes: ParserField[], directiveName: string) => {
@@ -7,6 +7,22 @@ export const recursivelyDeleteDirectiveNodes = (nodes: ParserField[], directiveN
       n.directives = n.directives.filter((d) => d.name !== directiveName);
     }
     recursivelyDeleteDirectiveNodes(n.args, directiveName);
+  });
+};
+export const recursivelyDeleteAllDirectiveNodes = (nodes: ParserField[]) => {
+  const indexesToRemove: number[] = [];
+  nodes.forEach((n, i) => {
+    if (n.data.type === TypeSystemDefinition.DirectiveDefinition) {
+      indexesToRemove.push(i);
+    }
+    if (n.directives) {
+      n.directives = [];
+    }
+    recursivelyDeleteAllDirectiveNodes(n.args);
+  });
+  indexesToRemove.reverse();
+  indexesToRemove.forEach((itr) => {
+    nodes.splice(itr, 1);
   });
 };
 
