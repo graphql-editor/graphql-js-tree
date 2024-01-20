@@ -20,6 +20,7 @@ type Query {
 type User implements Nameable{
   name: String
   age: Int
+  lastName: String
   friend: User
 }
 type Person implements Nameable{
@@ -79,6 +80,11 @@ const userNode = createRootField({
     createPlainField({ name: 'age', type: 'Int' }),
     createPlainField({ name: 'friend', type: 'User' }),
   ],
+});
+const nameableNode = createRootField({
+  name: 'Nameable',
+  type: TypeDefinition.InterfaceTypeDefinition,
+  args: [createPlainField({ name: 'name', type: 'String' })],
 });
 
 describe('Test generation of gql strings from the GqlParserTree', () => {
@@ -327,11 +333,13 @@ describe('Test generation of gql strings from the GqlParserTree', () => {
   it('works with inline fragments', () => {
     const mockQueryInline = `query MyQuery {
       namings{
+        name
         ... on Person {
           index
         }
         ... on User{
           age
+          lastName
         }
       }
     }`;
@@ -344,6 +352,10 @@ describe('Test generation of gql strings from the GqlParserTree', () => {
           name: 'namings',
           node: queryNode.args[2],
           children: [
+            {
+              node: nameableNode.args[0],
+              name: 'name',
+            },
             {
               inlineFragment: true,
               node: personNode,
@@ -363,6 +375,10 @@ describe('Test generation of gql strings from the GqlParserTree', () => {
                 {
                   name: 'age',
                   node: userNode.args[1],
+                },
+                {
+                  name: 'lastName',
+                  node: userNode.args[2],
                 },
               ],
             },

@@ -9,6 +9,26 @@ import { expectTrimmedEqual } from '@/__tests__/TestUtils';
 // `;
 
 describe('Merging GraphQL Schemas', () => {
+  it('Should merge scalars', () => {
+    const baseSchema = `
+    scalar URL
+    scalar JSON
+    `;
+
+    const mergingSchema = `
+    scalar URL
+    scalar DATE
+    `;
+    const t1 = mergeSDLs(baseSchema, mergingSchema);
+    if (t1.__typename === 'error') throw new Error('Invalid parse');
+    expectTrimmedEqual(
+      t1.sdl,
+      `
+      scalar JSON
+      scalar URL
+      scalar DATE`,
+    );
+  });
   it('Should merge fields of both nodes', () => {
     const baseSchema = `
     type Person{
@@ -136,6 +156,11 @@ describe('Merging GraphQL Schemas', () => {
     `;
     const t1 = mergeSDLs(baseSchema, mergingSchema);
     if (t1.__typename === 'error') throw new Error('Invalid parse');
+    expect(
+      t1.nodes.every((n, i) => {
+        return i === t1.nodes.findIndex((t1n) => t1n.id === n.id);
+      }),
+    ).toBeTruthy();
     expectTrimmedEqual(
       t1.sdl,
       `

@@ -7,9 +7,11 @@ import { generateNodeId } from '@/shared';
 const addFromLibrary = (n: ParserField): ParserField => ({ ...n, fromLibrary: true });
 
 const mergeNode = (n1: ParserField, n2: ParserField) => {
+  const args = [...n1.args, ...n2.args.map(addFromLibrary)];
   const mergedNode = {
     ...n1,
-    args: [...n1.args, ...n2.args.map(addFromLibrary)],
+    id: generateNodeId(n1.name, n1.data.type, args),
+    args,
     directives: [...n1.directives, ...n2.directives.map(addFromLibrary)],
     interfaces: [...n1.interfaces, ...n2.interfaces],
   } as ParserField;
