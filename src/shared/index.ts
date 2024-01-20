@@ -55,8 +55,10 @@ export const decompileType = (typeName: string): FieldType => {
 };
 
 export const generateNodeId = (name: string, dataType: AllTypes, args: ParserField[]) => {
-  const s = [name, dataType, isExtensionNode(dataType) ? args.map((a) => a.id).join('-') : ''].join('-');
-  return cyrb53(s);
+  const s = isExtensionNode(dataType)
+    ? `${name}-extend-${cyrb53(JSON.stringify(args.map((a) => a.name + a.id)))}`
+    : name;
+  return s;
 };
 const cyrb53 = (str: string, seed = 0) => {
   let h1 = 0xdeadbeef ^ seed,
