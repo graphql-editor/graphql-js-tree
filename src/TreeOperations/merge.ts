@@ -10,11 +10,11 @@ const mergeNode = (n1: ParserField, n2: ParserField) => {
   const args = [...n1.args, ...n2.args.map(addFromLibrary)];
   const mergedNode = {
     ...n1,
+    id: generateNodeId(n1.name, n1.data.type, args),
     args,
     directives: [...n1.directives, ...n2.directives.map(addFromLibrary)],
     interfaces: [...n1.interfaces, ...n2.interfaces],
   } as ParserField;
-  mergedNode.id = generateNodeId(mergeNode.name, mergedNode.data.type, mergedNode.args);
   //dedupe
   mergedNode.args = mergedNode.args.filter((a, i) => mergedNode.args.findIndex((aa) => aa.name === a.name) === i);
   mergedNode.directives = mergedNode.directives.filter(
