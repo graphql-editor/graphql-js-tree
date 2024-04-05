@@ -1,5 +1,5 @@
 import { ValueNodeWithoutLoc } from '@/Models/GqlParserTree';
-import { ValueNode } from 'graphql';
+import { Kind, ValueNode } from 'graphql';
 
 export const getValueAsGqlStringNode = (v: ValueNodeWithoutLoc): string => {
   if (v.kind === 'ListValue') {
@@ -41,7 +41,7 @@ export const getValueWithoutLoc = (v: ValueNode): ValueNodeWithoutLoc => {
     return {
       kind: v.kind,
       fields: v.fields.map((f) => ({
-        kind: 'ObjectField',
+        kind: Kind.OBJECT_FIELD,
         name: f.name.value,
         value: getValueWithoutLoc(f.value),
       })),

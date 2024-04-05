@@ -9,6 +9,7 @@ import { OperationType, TypeDefinition } from '@/Models';
 import { GqlParserTree } from '@/Models/GqlParserTree';
 import { createPlainField, createPlainInputValue, createRootField, createTypeNameField } from '@/shared';
 import { expectTrimmedEqual } from '@/__tests__/TestUtils';
+import { Kind } from 'graphql';
 
 const mockSchema = `
 type Query { 
@@ -113,7 +114,7 @@ describe('Test generation of gql strings from the GqlParserTree', () => {
               name: 'maxValue',
               node: queryNode.args[0].args[0],
               value: {
-                kind: 'IntValue',
+                kind: Kind.INT,
                 value: '100',
               },
             },
@@ -121,21 +122,21 @@ describe('Test generation of gql strings from the GqlParserTree', () => {
               name: 'score',
               node: queryNode.args[0].args[1],
               value: {
-                kind: 'ObjectValue',
+                kind: Kind.OBJECT,
                 fields: [
                   {
-                    kind: 'ObjectField',
+                    kind: Kind.OBJECT_FIELD,
                     name: 'value',
                     value: {
-                      kind: 'FloatValue',
+                      kind: Kind.FLOAT,
                       value: '1.0',
                     },
                   },
                   {
-                    kind: 'ObjectField',
+                    kind: Kind.OBJECT_FIELD,
                     name: 'name',
                     value: {
-                      kind: 'StringValue',
+                      kind: Kind.STRING,
                       value: 'Hello',
                     },
                   },

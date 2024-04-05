@@ -3,6 +3,7 @@ import { getValueAsGqlStringNode } from '@/GqlParser/valueNode';
 import { Instances, TypeSystemDefinition } from '@/Models';
 import { GqlParserTree, VariableDefinitionWithoutLoc } from '@/Models/GqlParserTree';
 import { compileType } from '@/shared';
+import { Kind } from 'graphql';
 export const parseGqlTree = (mainTree: GqlParserTree) => {
   const generateName = (tree: GqlParserTree): string => {
     if (tree.operation) {
@@ -65,7 +66,7 @@ export const enrichFieldNodeWithVariables = (
                 name: a.name,
                 node: a,
                 value: {
-                  kind: 'Variable',
+                  kind: Kind.VARIABLE,
                   value: VarName,
                 },
               };

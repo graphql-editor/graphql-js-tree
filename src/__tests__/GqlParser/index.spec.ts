@@ -2,6 +2,7 @@ import { parseGql } from '@/GqlParser';
 import { OperationType, TypeDefinition } from '@/Models';
 import { GqlParserTree } from '@/Models/GqlParserTree';
 import { createPlainField, createPlainInputValue, createRootField, createTypeNameField } from '@/shared';
+import { Kind } from 'graphql';
 
 const mockSchema = `
 type Query { 
@@ -107,7 +108,7 @@ describe('Test generation of GqlParserTrees from gql', () => {
               name: 'maxValue',
               node: queryNode.args[0].args[0],
               value: {
-                kind: 'IntValue',
+                kind: Kind.INT,
                 value: '100',
               },
             },
@@ -115,21 +116,21 @@ describe('Test generation of GqlParserTrees from gql', () => {
               name: 'score',
               node: queryNode.args[0].args[1],
               value: {
-                kind: 'ObjectValue',
+                kind: Kind.OBJECT,
                 fields: [
                   {
-                    kind: 'ObjectField',
+                    kind: Kind.OBJECT_FIELD,
                     name: 'value',
                     value: {
-                      kind: 'FloatValue',
+                      kind: Kind.FLOAT,
                       value: '1.0',
                     },
                   },
                   {
-                    kind: 'ObjectField',
+                    kind: Kind.OBJECT_FIELD,
                     name: 'name',
                     value: {
-                      kind: 'StringValue',
+                      kind: Kind.STRING,
                       value: 'Hello',
                     },
                   },
@@ -173,7 +174,7 @@ describe('Test generation of GqlParserTrees from gql', () => {
               name: 'maxValue',
               node: queryNode.args[0].args[0],
               value: {
-                kind: 'Variable',
+                kind: Kind.VARIABLE,
                 value: 'maxValue',
               },
             },
@@ -181,7 +182,7 @@ describe('Test generation of GqlParserTrees from gql', () => {
               name: 'score',
               node: queryNode.args[0].args[1],
               value: {
-                kind: 'Variable',
+                kind: Kind.VARIABLE,
                 value: 'score',
               },
             },
