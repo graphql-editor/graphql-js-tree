@@ -44,6 +44,16 @@ const mainMock: ParserTree = {
           name: 'friends',
           type: ScalarTypes.String,
         }),
+        createPlainField({
+          name: 'testUpdate',
+          type: ScalarTypes.Boolean,
+          args: [
+            createPlainInputValue({
+              name: 'firstName',
+              type: ScalarTypes.String,
+            }),
+          ],
+        }),
       ],
     }),
     createRootField({
@@ -105,9 +115,15 @@ const mainMock: ParserTree = {
       name: 'AnInput',
       type: TypeDefinition.InputObjectTypeDefinition,
       args: [
-        createPlainInputValue({
-          name: 'firstName',
-          type: ScalarTypes.String,
+        createPlainField({
+          name: 'testUpdate',
+          type: ScalarTypes.Boolean,
+          args: [
+            createPlainInputValue({
+              name: 'firstName',
+              type: ScalarTypes.String,
+            }),
+          ],
         }),
       ],
     }),
