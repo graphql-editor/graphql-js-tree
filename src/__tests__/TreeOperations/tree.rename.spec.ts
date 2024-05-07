@@ -55,6 +55,23 @@ describe('Tree Operations tests - rename operations', () => {
       fromInterface: [treeMock.nodes[0].name],
     });
   });
+  test('Update field on input definition inside node args', () => {
+    const treeMock = createMock();
+    const oldField = treeMock.nodes[2].args[0].args[0];
+    const updatedField = {
+      ...oldField,
+      name: 'secondName',
+    };
+
+    mutate(treeMock, treeMock.nodes).updateFieldOnNode(
+      treeMock.nodes[2].args[0],
+      0,
+      updatedField,
+      treeMock.nodes[2].id,
+    );
+    expect(treeMock.nodes[2].args[0].args).toContainEqual(updatedField);
+    expect(treeMock.nodes[0].args[3].args).not.toContainEqual(updatedField);
+  });
   test('Update field name on directive definition', () => {
     const treeMock = createMock();
     const updatedField = createParserField({

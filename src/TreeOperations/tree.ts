@@ -33,12 +33,14 @@ import {
 } from '@/TreeOperations/shared';
 
 export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
-  const mutateParentIfField = (node: ParserField) => {
+  const mutateParentIfField = (node: ParserField, parentNode?: string) => {
     if (node.data.type === TypeSystemDefinition.FieldDefinition) {
-      const parentNode = allNodes.find((an) => an.args.some((a) => a.id === node.id));
-      if (!parentNode) throw new Error('Invalid field definition');
-      const fieldIndex = parentNode.args.findIndex((a) => a.id == node.id);
-      updateFieldOnNode(parentNode, fieldIndex, node);
+      const findParentNode = parentNode
+        ? allNodes.find((n) => n.id === parentNode)
+        : allNodes.find((an) => an.args.some((a) => a.id === node.id));
+      if (!findParentNode) throw new Error('Invalid field definition');
+      const fieldIndex = findParentNode.args.findIndex((a) => a.id == node.id);
+      updateFieldOnNode(findParentNode, fieldIndex, node);
       return;
     }
   };
@@ -65,7 +67,7 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     mutateParentIfField(n);
   };
 
-  const updateFieldOnNode = (node: ParserField, i: number, updatedField: ParserField) => {
+  const updateFieldOnNode = (node: ParserField, i: number, updatedField: ParserField, parentNode?: string) => {
     regenerateId(updatedField);
     if (node.data.type === TypeSystemDefinition.DirectiveDefinition) {
       const oldField: ParserField = JSON.parse(JSON.stringify(node.args[i]));
@@ -77,7 +79,7 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     }
     node.args[i] = updatedField;
     regenerateId(node);
-    mutateParentIfField(node);
+    mutateParentIfField(node, parentNode);
   };
 
   const addFieldToNode = (node: ParserField, f: ParserField) => {
