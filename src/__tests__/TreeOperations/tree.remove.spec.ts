@@ -85,10 +85,8 @@ describe('Tree Operations - node removal tests', () => {
   test('Delete field with args that exists in other type', () => {
     const treeMock = createMock();
     const oldField = treeMock.nodes[2].args[0].args[0];
-    console.log(oldField);
 
     mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[2].args[0].args[0]);
-    console.log(treeMock.nodes[2].args[0], treeMock.nodes[0].args[3]);
     expect(treeMock.nodes[2].args[0].args).not.toContainEqual(oldField);
     expect(treeMock.nodes[0].args[3].args).toContainEqual(oldField);
   });
