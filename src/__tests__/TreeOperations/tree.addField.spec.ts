@@ -39,4 +39,16 @@ describe('Tree Operations tests - adding fields', () => {
 
     expect(treeMock.nodes[0].args[2].args).toContainEqual(limitNode);
   });
+  test('Add field with args to node that exists in other type', () => {
+    const treeMock = createMock();
+    const oldField = treeMock.nodes[2].args[0].args[0];
+    const newField = {
+      ...oldField,
+      name: 'secondName',
+    };
+
+    mutate(treeMock, treeMock.nodes).addFieldToNode(treeMock.nodes[2].args[0], newField, treeMock.nodes[2].id);
+    expect(treeMock.nodes[2].args[0].args).toContainEqual(newField);
+    expect(treeMock.nodes[0].args[3].args).not.toContainEqual(newField);
+  });
 });

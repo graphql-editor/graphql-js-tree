@@ -44,7 +44,7 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
       return;
     }
   };
-  const deleteFieldFromNode = (n: ParserField, i: number) => {
+  const deleteFieldFromNode = (n: ParserField, i: number, parentNode?: string) => {
     if (n.data.type === TypeDefinition.InterfaceTypeDefinition) {
       const argName = n.args[i].name;
       tree.nodes
@@ -64,7 +64,7 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     }
     n.args.splice(i, 1);
     regenerateId(n);
-    mutateParentIfField(n);
+    mutateParentIfField(n, parentNode);
   };
 
   const updateFieldOnNode = (node: ParserField, i: number, updatedField: ParserField, parentNode?: string) => {
@@ -82,13 +82,13 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     mutateParentIfField(node, parentNode);
   };
 
-  const addFieldToNode = (node: ParserField, f: ParserField) => {
+  const addFieldToNode = (node: ParserField, f: ParserField, parentNode?: string) => {
     node.args?.push({ ...f });
     if (node.data.type === TypeDefinition.InterfaceTypeDefinition) {
       updateInterfaceNodeAddField(tree.nodes, node);
     }
     regenerateId(node);
-    mutateParentIfField(node);
+    mutateParentIfField(node, parentNode);
   };
   const renameRootNode = (node: ParserField, newName: string) => {
     const isError = allNodes.map((n) => n.name).includes(newName);
@@ -118,12 +118,12 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
     node.name = newName;
     regenerateId(node);
   };
-  const removeNode = (node: ParserField) => {
+  const removeNode = (node: ParserField, parentNode?: string) => {
     if (node.data.type === TypeSystemDefinition.FieldDefinition) {
       const parent = allNodes.find((parentNode) => parentNode.args.includes(node));
       if (parent) {
         const index = parent.args.indexOf(node);
-        deleteFieldFromNode(parent, index);
+        deleteFieldFromNode(parent, index, parentNode);
       }
       return;
     }
@@ -131,7 +131,7 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
       const parent = allNodes.find((parentNode) => parentNode.args.includes(node));
       if (parent) {
         const index = parent.args.indexOf(node);
-        deleteFieldFromNode(parent, index);
+        deleteFieldFromNode(parent, index, parentNode);
       }
       return;
     }
@@ -142,13 +142,13 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
           recursivelyDeleteDirectiveArgument(allNodes, parent.name, node);
         }
         const index = parent.args.indexOf(node);
-        deleteFieldFromNode(parent, index);
+        deleteFieldFromNode(parent, index, parentNode);
       } else {
         const parent = allNodes.find((p) => p.args.some((a) => a.args.includes(node)));
         const field = parent?.args.find((a) => a.args.includes(node));
         if (field) {
           const fieldIndex = field.args.findIndex((f) => f === node);
-          deleteFieldFromNode(field, fieldIndex);
+          deleteFieldFromNode(field, fieldIndex, parentNode);
         }
       }
       return;
@@ -157,7 +157,7 @@ export const mutate = (tree: ParserTree, allNodes: ParserField[]) => {
       const parent = allNodes.find((parentNode) => parentNode.args.includes(node));
       if (parent) {
         const index = parent.args.indexOf(node);
-        deleteFieldFromNode(parent, index);
+        deleteFieldFromNode(parent, index, parentNode);
       }
       return;
     }
