@@ -86,7 +86,7 @@ describe('Tree Operations - node removal tests', () => {
     const treeMock = createMock();
     const oldField = treeMock.nodes[2].args[0].args[0];
 
-    mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[2].args[0].args[0]);
+    mutate(treeMock, treeMock.nodes).removeNode(treeMock.nodes[2].args[0].args[0], treeMock.nodes[2].id);
     expect(treeMock.nodes[2].args[0].args).not.toContainEqual(oldField);
     expect(treeMock.nodes[0].args[3].args).toContainEqual(oldField);
   });
