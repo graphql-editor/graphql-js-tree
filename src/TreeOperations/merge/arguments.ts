@@ -24,6 +24,7 @@ export const mergeArguments = (parentName: string, args1: ParserField[], args2: 
       if (!equivalentA2) return;
       if (a1.type.fieldType.type === Options.required) return a1;
       if (equivalentA2.type.fieldType.type === Options.required) return equivalentA2;
+      if (a1.type.fieldType.type === equivalentA2.type.fieldType.type) return a1;
     })
     .filter(<T>(v: T | undefined): v is T => !!v);
 };

@@ -26,6 +26,33 @@ describe('Merging GraphQL Inputs and field arguments', () => {
       }`,
     );
   });
+  it('Should merge inputs leaving common fields both required and not', () => {
+    const baseSchema = `
+    input UserInput {
+      name: String!
+      list: Boolean
+      age: Int # Not in Subgraph B
+    }
+    `;
+
+    const mergingSchema = `
+    input UserInput {
+      name: String!
+      list: Boolean
+      email: String # Not in Subgraph A
+    }
+    `;
+    const t1 = mergeSDLs(baseSchema, mergingSchema);
+    if (t1.__typename === 'error') throw new Error('Invalid parse');
+    expectTrimmedEqual(
+      t1.sdl,
+      `
+      input UserInput{
+        name: String!
+        list: Boolean
+      }`,
+    );
+  });
   it('Should merge inputs marking fields required.', () => {
     const baseSchema = `
     input UserInput {
