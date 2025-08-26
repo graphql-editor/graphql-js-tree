@@ -1,10 +1,10 @@
-import { ParserField, ParserTree, TypeDefinition, TypeSystemDefinition } from '@/Models';
+import { Options, ParserField, ParserTree, TypeDefinition, TypeSystemDefinition } from '@/Models';
 import { Parser } from '@/Parser';
 import { mergeArguments } from '@/TreeOperations/merge/arguments';
 import { MergeError, ErrorConflict } from '@/TreeOperations/merge/common';
 import { isExtensionNode } from '@/TreeOperations/shared';
 import { TreeToGraphQL } from '@/TreeToGraphQL';
-import { generateNodeId, getTypeName } from '@/shared';
+import { createSchemaDefinition, generateNodeId, getTypeName } from '@/shared';
 
 const detectConflictOnBaseNode = (n1: ParserField, n2: ParserField) => {
   if (n1.data.type !== n2.data.type)
@@ -116,22 +116,142 @@ export const mergeTrees = (tree1: ParserTree, tree2: ParserTree) => {
       errors,
     };
   }
-  const t1Nodes = tree1.nodes.filter((t1n) => !mergedNodesT1.find((mtn1) => mtn1 === t1n));
+  const t1Nodes = tree1.nodes
+    .filter((t1n) => !mergedNodesT1.find((mtn1) => mtn1 === t1n))
+    .filter((t) => t.data.type !== TypeSystemDefinition.SchemaDefinition);
   const t2Nodes = filteredTree2Nodes
     .filter((t2n) => !mergedNodesT2.find((mtn2) => mtn2 === t2n))
-    .map((n) => ({ ...n, fromLibrary: true }));
+    .map((n) => ({ ...n, fromLibrary: true }))
+    .filter((t) => t.data.type !== TypeSystemDefinition.SchemaDefinition);
+
+  const schemaDefinitionT1Query = tree1.nodes
+    .find((n) => n.data.type === TypeSystemDefinition.SchemaDefinition)
+    ?.args.find((a) => a.name === 'query');
+  const schemaDefinitionT1QueryName =
+    schemaDefinitionT1Query?.type.fieldType.type === Options.name && schemaDefinitionT1Query?.type.fieldType.name;
+  const queryNodeT1 =
+    schemaDefinitionT1QueryName ||
+    tree1.nodes.find((n) => n.data.type === TypeDefinition.ObjectTypeDefinition && n.name === 'Query')?.name;
+
+  const schemaDefinitionT2Query = tree2.nodes
+    .find((n) => n.data.type === TypeSystemDefinition.SchemaDefinition)
+    ?.args.find((a) => a.name === 'query');
+  const schemaDefinitionT2QueryName =
+    schemaDefinitionT2Query?.type.fieldType.type === Options.name && schemaDefinitionT2Query?.type.fieldType.name;
+  const queryNodeT2 =
+    schemaDefinitionT2QueryName ||
+    tree2.nodes.find((n) => n.data.type === TypeDefinition.ObjectTypeDefinition && n.name === 'Query')?.name;
+
+  const schemaDefinitionT1Mutation = tree1.nodes
+    .find((n) => n.data.type === TypeSystemDefinition.SchemaDefinition)
+    ?.args.find((a) => a.name === 'mutation');
+  const schemaDefinitionT1MutationName =
+    schemaDefinitionT1Mutation?.type.fieldType.type === Options.name && schemaDefinitionT1Mutation?.type.fieldType.name;
+  const mutationNodeT1 =
+    schemaDefinitionT1MutationName ||
+    tree1.nodes.find((n) => n.data.type === TypeDefinition.ObjectTypeDefinition && n.name === 'Mutation')?.name;
+
+  const schemaDefinitionT2Mutation = tree2.nodes
+    .find((n) => n.data.type === TypeSystemDefinition.SchemaDefinition)
+    ?.args.find((a) => a.name === 'mutation');
+  const schemaDefinitionT2MutationName =
+    schemaDefinitionT2Mutation?.type.fieldType.type === Options.name && schemaDefinitionT2Mutation?.type.fieldType.name;
+  const mutationNodeT2 =
+    schemaDefinitionT2MutationName ||
+    tree2.nodes.find((n) => n.data.type === TypeDefinition.ObjectTypeDefinition && n.name === 'Mutation')?.name;
+
+  const schemaDefinitionT1Subscription = tree1.nodes
+    .find((n) => n.data.type === TypeSystemDefinition.SchemaDefinition)
+    ?.args.find((a) => a.name === 'subscription');
+  const schemaDefinitionT1SubscriptionName =
+    schemaDefinitionT1Subscription?.type.fieldType.type === Options.name &&
+    schemaDefinitionT1Subscription?.type.fieldType.name;
+  const subscriptionNodeT1 =
+    schemaDefinitionT1SubscriptionName ||
+    tree1.nodes.find((n) => n.data.type === TypeDefinition.ObjectTypeDefinition && n.name === 'Subscription')?.name;
+
+  const schemaDefinitionT2Subscription = tree2.nodes
+    .find((n) => n.data.type === TypeSystemDefinition.SchemaDefinition)
+    ?.args.find((a) => a.name === 'subscription');
+  const schemaDefinitionT2SubscriptionName =
+    schemaDefinitionT2Subscription?.type.fieldType.type === Options.name &&
+    schemaDefinitionT2Subscription?.type.fieldType.name;
+  const subscriptionNodeT2 =
+    schemaDefinitionT2SubscriptionName ||
+    tree2.nodes.find((n) => n.data.type === TypeDefinition.ObjectTypeDefinition && n.name === 'Subscription')?.name;
+
+  if (queryNodeT1 && queryNodeT2) {
+    if (queryNodeT1 !== queryNodeT2) {
+      return {
+        __typename: 'error' as const,
+        errors: [
+          {
+            conflictingNode: 'Schema',
+            conflictingField: 'query',
+          },
+        ],
+      };
+    }
+  }
+  if (mutationNodeT1 && mutationNodeT2) {
+    if (mutationNodeT1 !== mutationNodeT2) {
+      return {
+        __typename: 'error' as const,
+        errors: [
+          {
+            conflictingNode: 'Schema',
+            conflictingField: 'mutation',
+          },
+        ],
+      };
+    }
+  }
+  if (subscriptionNodeT1 && subscriptionNodeT2) {
+    if (subscriptionNodeT1 !== subscriptionNodeT2) {
+      return {
+        __typename: 'error' as const,
+        errors: [
+          {
+            conflictingNode: 'Schema',
+            conflictingField: 'subscription',
+          },
+        ],
+      };
+    }
+  }
+  const resultSchemaDefinitionNode: ParserField = createSchemaDefinition({
+    operations: {
+      ...(queryNodeT1 && { query: queryNodeT1 }),
+      ...(mutationNodeT1 && { mutation: mutationNodeT1 }),
+      ...(subscriptionNodeT1 && { subscription: subscriptionNodeT1 }),
+      ...(queryNodeT2 && { query: queryNodeT2 }),
+      ...(mutationNodeT2 && { mutation: mutationNodeT2 }),
+      ...(subscriptionNodeT2 && { subscription: subscriptionNodeT2 }),
+    },
+  });
   return {
     __typename: 'success' as const,
-    nodes: [...t1Nodes, ...mergeResultNodes, ...t2Nodes],
+    nodes: [
+      ...t1Nodes,
+      ...mergeResultNodes.filter((t) => t.data.type !== TypeSystemDefinition.SchemaDefinition),
+      ...t2Nodes,
+      ...(resultSchemaDefinitionNode.args.length ? [resultSchemaDefinitionNode] : []),
+    ],
   };
 };
 
 export const mergeSDLs = (sdl1: string, sdl2: string) => {
   const t1 = Parser.parse(sdl1);
   const t2 = Parser.parse(sdl2);
-  const mergeResult = mergeTrees(t1, {
-    nodes: t2.nodes.filter((n) => n.data.type !== TypeSystemDefinition.SchemaDefinition),
-  });
+  // find query node in t1
+  const mergeResult = mergeTrees(
+    {
+      nodes: [...t1.nodes],
+    },
+    {
+      nodes: [...t2.nodes],
+    },
+  );
   if (mergeResult.__typename === 'success') {
     const sdl = TreeToGraphQL.parse(mergeResult);
     return {
