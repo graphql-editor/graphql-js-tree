@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "declaration": false,
+    "removeComments": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "outDir": "./esm",
+    "lib": ["es6", "es7", "esnext", "dom"],
+    "rootDir": "./src",
+    "baseUrl": "./src/",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      }
+    ]
+  },
+  "exclude": ["lib", "esm", "node_modules", "docs", "**/__tests__", "generated", "examples", "**/*.spec.ts"]
+}
+

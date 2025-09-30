@@ -1,14 +1,15 @@
 {
   "name": "graphql-js-tree",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "private": false,
   "license": "MIT",
   "description": "GraphQL Parser providing simplier structure",
   "homepage": "https://graphqleditor.com",
   "main": "lib/index.js",
+  "module": "esm/index.mjs",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tspc --build tsconfig.build.json",
+    "build": "tspc --build tsconfig.build.json && tspc --build tsconfig.build.esm.json && node scripts/fix-esm-extensions.js",
     "start": "tspc --build tsconfig.build.json --watch",
     "test": "jest",
     "lint": "tspc  && eslint \"./src/**/*.{ts,js}\" --quiet --fix"
@@ -41,5 +42,12 @@
   },
   "peerDependencies": {
     "graphql": "^16.0.0 || ^17.0.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "require": "./lib/index.js",
+      "import": "./esm/index.mjs"
+    }
   }
 }
